@@ -3,31 +3,17 @@ package com.bakerystudios.sound;
 import java.applet.Applet;
 import java.applet.AudioClip;
 
-import com.bakerystudios.engine.TimeCounter;
-
 @SuppressWarnings("deprecation")
 public abstract class Audio {
 
 	private AudioClip clip;
-	private boolean playing;
-	private TimeCounter tc;
 	
-	public Audio(String name, long condition) {
+	public Audio(String name) {
 		try {
 			clip = Applet.newAudioClip(Audio.class.getResource(name));
-			tc = new TimeCounter(condition);
-			playing = false;
 		}catch(Throwable e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public boolean end() {
-		if(tc.satisfied()) {
-			playing = false;
-			return true;
-		}
-		return false;
 	}
 	
 	public void stop() {
@@ -52,8 +38,6 @@ public abstract class Audio {
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
-		tc.count();
-		playing = true;
 	}
 	
 	public void loop() {
@@ -66,30 +50,10 @@ public abstract class Audio {
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
-		playing = true;
 	}
 
 	public AudioClip getClip() {
 		return clip;
 	}
 
-	public void setClip(AudioClip clip) {
-		this.clip = clip;
-	}
-
-	public boolean isPlaying() {
-		return playing;
-	}
-
-	public void setPlaying(boolean playing) {
-		this.playing = playing;
-	}
-
-	public TimeCounter getTc() {
-		return tc;
-	}
-
-	public void setTc(TimeCounter tc) {
-		this.tc = tc;
-	}
 }

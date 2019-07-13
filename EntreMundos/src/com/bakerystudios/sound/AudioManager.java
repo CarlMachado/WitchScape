@@ -8,24 +8,18 @@ public class AudioManager implements Updateble {
 	private boolean sound = true;
 	
 	private Audio musicBackground;
+	private boolean playingBk = false;
 	
 	public AudioManager() {
-		musicBackground = new Music("/audios/music.wav", 45000);
+		musicBackground = new Music("/audios/music.wav");
 	}
 	
-	private void newBackground() {
-		// TODO: criar a logica de troca de background
-		musicBackground = new Music("/audios/music.wav", 45000);
-	}
-
 	@Override
 	public void update() {
 		if(music) {
-			if(!musicBackground.isPlaying()) {
-				musicBackground.play();
-			}
-			if(musicBackground.end()) {
-				newBackground();
+			if(!playingBk) {
+				musicBackground.loop();
+				playingBk = true;
 			}
 		}
 		if(sound) {
