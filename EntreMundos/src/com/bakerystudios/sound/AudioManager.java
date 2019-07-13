@@ -13,7 +13,7 @@ public class AudioManager implements Updateble {
 	public AudioManager() {
 		musicBackground = new Music("/audios/music.wav");
 	}
-	
+
 	@Override
 	public void update() {
 		if(music) {
