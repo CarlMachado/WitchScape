@@ -13,12 +13,13 @@ import com.bakerystudios.game.input.Input;
 
 public class Screen extends Canvas implements Updateble {
 
+	// UNICA CLASSE QUE NÃO UTILIZA DE TILE.SIZE POR MOTIVOS DE INSTANCIAÇÃO
 	/**
 	 * Default serialVersionUID
 	 */
 	private static final long serialVersionUID = -8027725672170867390L;
 	
-	public static int SCALE = 4;
+	public static int SCALE = 5;
 	public static int WIDTH = 1280;
 	public static int HEIGHT = WIDTH / 16 * 9;
 	public static int SCALE_WIDTH = WIDTH * SCALE;

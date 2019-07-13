@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
-import com.bakerystudios.engine.World;
 import com.bakerystudios.engine.graphics.Spritesheet;
+import com.bakerystudios.engine.graphics.Tile;
+import com.bakerystudios.engine.world.World;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.input.Input;
 import com.bakerystudios.game.input.MenuInput;
+import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
 import com.bakerystudios.sound.AudioManager;
-import com.bakerystudios.engine.Renderable;
 
 public class Game implements Runnable, Renderable, Updateble {
 
@@ -32,9 +34,12 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	private BufferedImage frame;
 	private GraphicUserInterface gui;
-	private Spritesheet spritesheet;
+
 	private AudioManager audio;
 
+	private static Player player;
+
+	public static Spritesheet spritesheet;
 	public static World world;
 	public static List<Entity> entities;
 
@@ -42,17 +47,18 @@ public class Game implements Runnable, Renderable, Updateble {
 		// Object instantiation
 		inputs = new ArrayList<>();
 		inputs.add(new MenuInput());
+		inputs.add(new PlayerInput());
 		screen = new Screen(inputs);
 		rand = new Random();
 		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/spritesheet.png");
 		audio = new AudioManager();
+		setPlayer(new Player(16, 16, Tile.tileSize, Tile.tileSize, null));
 
 		entities = new ArrayList<Entity>();
-		// exemplo de adição de entidade
+		entities.add(getPlayer());
 		world = new World("/level1.png");
-
 	}
 
 	public synchronized void start() {
@@ -89,19 +95,14 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui.render(g);
 
 		if (GameState.state == GameState.PLAYING) {
-			g.setColor(Color.GREEN);
-			g.fillOval(60, 60, 50, 50);
-
+    
 		} else if (GameState.state == GameState.OVER) {
 
 		}
 	}
 
 	private void pixelatedRender(Graphics g) {
-
 		if (GameState.state == GameState.PLAYING) {
-			g.setColor(Color.BLUE);
-			g.fillOval(0, 0, 50, 50);
 
 			world.render(g);
 			for (Entity e : entities)
@@ -163,6 +164,15 @@ public class Game implements Runnable, Renderable, Updateble {
 	}
 
 	public void setSpritesheet(Spritesheet spritesheet) {
-		this.spritesheet = spritesheet;
+		Game.spritesheet = spritesheet;
 	}
+
+	public static Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		Game.player = player;
+	}
+
 }
