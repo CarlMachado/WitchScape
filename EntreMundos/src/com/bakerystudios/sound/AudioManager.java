@@ -7,9 +7,14 @@ public class AudioManager implements Updateble {
 	private boolean music = true;
 	private boolean sound = true;
 	
-	private final Audio musicBackground;
+	private Audio musicBackground;
 	
 	public AudioManager() {
+		musicBackground = new Music("/music.wav", 1000);
+	}
+	
+	private void newBackground() {
+		// TODO: criar a logica de troca de background
 		musicBackground = new Music("/music.wav", 1000);
 	}
 
@@ -19,9 +24,8 @@ public class AudioManager implements Updateble {
 			if(!musicBackground.isPlaying()) {
 				musicBackground.play();
 			}
-			musicBackground.getTc().count();
-			if(musicBackground.getTc().satisfied()) {
-				System.out.println("deu o tempo");
+			if(musicBackground.end()) {
+				newBackground();
 			}
 		}
 		if(sound) {

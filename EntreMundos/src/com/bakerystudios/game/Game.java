@@ -95,8 +95,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui.render(g);
 
 		if (GameState.state == GameState.PLAYING) {
-			g.setColor(Color.GREEN);
-
+    
 		} else if (GameState.state == GameState.OVER) {
 
 		}
@@ -104,7 +103,6 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	private void pixelatedRender(Graphics g) {
 		if (GameState.state == GameState.PLAYING) {
-			g.setColor(Color.BLUE);
 
 			world.render(g);
 			for (Entity e : entities)
