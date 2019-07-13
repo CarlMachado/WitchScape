@@ -46,12 +46,12 @@ public class Game implements Runnable, Renderable, Updateble {
 		rand = new Random();
 		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
-		spritesheet = new Spritesheet("/spritesheet.png");
+		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		audio = new AudioManager();
 
 		entities = new ArrayList<Entity>();
 		// exemplo de adição de entidade
-		world = new World("/level1.png");
+		world = new World("/levels/level1.png");
 
 	}
 

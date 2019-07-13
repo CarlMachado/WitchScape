@@ -10,12 +10,12 @@ public class AudioManager implements Updateble {
 	private Audio musicBackground;
 	
 	public AudioManager() {
-		musicBackground = new Music("/music.wav", 1000);
+		musicBackground = new Music("/audios/music.wav", 45000);
 	}
 	
 	private void newBackground() {
 		// TODO: criar a logica de troca de background
-		musicBackground = new Music("/music.wav", 1000);
+		musicBackground = new Music("/audios/music.wav", 45000);
 	}
 
 	@Override
