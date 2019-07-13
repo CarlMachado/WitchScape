@@ -51,7 +51,6 @@ public class Game implements Runnable, Renderable, Updateble {
 
 		entities = new ArrayList<Entity>();
 		// exemplo de adição de entidade
-		entities.add(new Player(100, 100, 16, 16, spritesheet.getSprite(0, 0, 160, 160)));
 		world = new World("/level1.png");
 
 	}
