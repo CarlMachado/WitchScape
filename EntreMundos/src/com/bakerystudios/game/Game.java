@@ -20,6 +20,7 @@ import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
+import com.bakerystudios.sound.AudioManager;
 
 public class Game implements Runnable, Renderable, Updateble {
 
