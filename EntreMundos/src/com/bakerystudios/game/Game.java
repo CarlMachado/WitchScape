@@ -34,7 +34,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	private BufferedImage frame;
 	private GraphicUserInterface gui;
 
-	//private AudioManager audio;
+	private AudioManager audio;
 
 	private static Player player;
 
@@ -78,7 +78,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public void update() {
 		gui.update();
 		screen.update();
-		//audio.update();
+		audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
 			for (int i = 0; i < entities.size(); i++) {
