@@ -1,0 +1,29 @@
+Cena 1:
+	Local:
+	Descrição: Imagem de um homem com a mão na cabeça
+	Modo: Expectador
+	Objetivo: 
+	Texto: Ai minha cabeça!
+
+Cena 2:
+	Local: Área inicial
+	Descrição: 
+	Modo: Expectador
+	Objetivo: 
+	Texto: Que lugar estranho, onde eu estou? E o mais importante, quem eu sou? Não me lembro de nada.
+
+Cena 3:
+	Local: Área inicial
+	Descrição: 
+	Modo: Jogabilidade
+	Objetivo: 
+		Ideia 1: Procurar algo no mapa
+		Ideia 2: Tentar encontrar uma saida
+	Texto: Ai minha cabeça!
+
+Cena 4:
+	Local: 
+	Descrição: 
+	Modo: 
+	Objetivo: 
+	Texto: 
