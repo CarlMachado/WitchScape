@@ -20,7 +20,6 @@ import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
-import com.bakerystudios.sound.AudioManager;
 
 public class Game implements Runnable, Renderable, Updateble {
 
@@ -35,7 +34,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	private BufferedImage frame;
 	private GraphicUserInterface gui;
 
-	private AudioManager audio;
+	//private AudioManager audio;
 
 	private static Player player;
 
@@ -52,13 +51,13 @@ public class Game implements Runnable, Renderable, Updateble {
 		rand = new Random();
 		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
-		spritesheet = new Spritesheet("/spritesheet.png");
-		audio = new AudioManager();
+		spritesheet = new Spritesheet("/sprites/spritesheet.png");
+		//audio = new AudioManager();
 		setPlayer(new Player(16, 16, Tile.tileSize, Tile.tileSize, null));
 
 		entities = new ArrayList<Entity>();
 		entities.add(getPlayer());
-		world = new World("/level1.png");
+		world = new World("/levels/level1.png");
 	}
 
 	public synchronized void start() {
@@ -79,7 +78,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public void update() {
 		gui.update();
 		screen.update();
-		audio.update();
+		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
 			for (int i = 0; i < entities.size(); i++) {
