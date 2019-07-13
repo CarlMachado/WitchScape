@@ -4,10 +4,9 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 
 import com.bakerystudios.engine.TimeCounter;
-import com.bakerystudios.engine.Updateble;
 
-//@SuppressWarnings("deprecation")
-public abstract class Audio implements Updateble {
+@SuppressWarnings("deprecation")
+public abstract class Audio {
 
 	private AudioClip clip;
 	private boolean playing;
@@ -23,10 +22,12 @@ public abstract class Audio implements Updateble {
 		}
 	}
 	
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
+	public boolean end() {
+		if(tc.satisfied()) {
+			playing = false;
+			return true;
+		}
+		return false;
 	}
 	
 	public void stop() {
@@ -51,6 +52,7 @@ public abstract class Audio implements Updateble {
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
+		tc.count();
 		playing = true;
 	}
 	
