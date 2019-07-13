@@ -52,11 +52,11 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
-		//audio = new AudioManager();
-		setPlayer(new Player(16, 16, Tile.tileSize, Tile.tileSize, null));
+		audio = new AudioManager();
+		player = new Player(16, 16, Tile.tileSize, Tile.tileSize, null);
 
 		entities = new ArrayList<Entity>();
-		entities.add(getPlayer());
+		entities.add(player);
 		world = new World("/levels/level1.png");
 	}
 
