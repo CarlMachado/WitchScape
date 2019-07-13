@@ -3,7 +3,6 @@ package com.bakerystudios.engine;
 public class TimeCounter {
 
 	private long start;
-	private long elapsed = 0;
 	private long condition;
 	
 	public TimeCounter(long condition) {
@@ -16,14 +15,11 @@ public class TimeCounter {
 			start = System.currentTimeMillis();
 			return;
 		}
-		elapsed += System.currentTimeMillis() - start;
-		//System.out.println(elapsed);
 	}
 	
 	public boolean satisfied() {
-		if(elapsed >= condition) {
+		if(System.currentTimeMillis() - start >= condition) {
 			start = -1;
-			elapsed = 0;
 			return true;
 		}
 		return false;
