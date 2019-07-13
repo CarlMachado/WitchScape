@@ -12,19 +12,18 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.World;
 import com.bakerystudios.engine.graphics.Spritesheet;
 import com.bakerystudios.entities.Entity;
-import com.bakerystudios.entities.EntityExemple;
+import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.input.Input;
 import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
 import com.bakerystudios.sound.AudioManager;
-import com.bakerystudios.sound.Music;
 import com.bakerystudios.engine.Renderable;
 
 public class Game implements Runnable, Renderable, Updateble {
 
 	private boolean isRunning;
-	
+
 	private Thread thread;
 	private Screen screen;
 	private List<Input> inputs = new ArrayList<>();
@@ -38,8 +37,8 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	public static World world;
 	public static List<Entity> entities;
-	
-	public Game(){
+
+	public Game() {
 		// Object instantiation
 		inputs = new ArrayList<>();
 		inputs.add(new MenuInput());
@@ -52,19 +51,17 @@ public class Game implements Runnable, Renderable, Updateble {
 
 		entities = new ArrayList<Entity>();
 		// exemplo de adição de entidade
-		entities.add(new EntityExemple(100, 100, 16, 16, spritesheet.getSprite(0, 0, 160, 160)));
 		world = new World("/level1.png");
 
-		
 	}
-	
-	public synchronized void start(){
+
+	public synchronized void start() {
 		thread = new Thread(this);
 		isRunning = true;
 		thread.start();
 	}
-	
-	public synchronized void stop(){
+
+	public synchronized void stop() {
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
@@ -73,68 +70,68 @@ public class Game implements Runnable, Renderable, Updateble {
 	}
 
 	@Override
-	public void update(){
+	public void update() {
 		gui.update();
 		screen.update();
 		audio.update();
-		
-		if(GameState.state == GameState.PLAYING) {
-			for(int i = 0; i < entities.size(); i++) {
+
+		if (GameState.state == GameState.PLAYING) {
+			for (int i = 0; i < entities.size(); i++) {
 				Entity e = entities.get(i);
 				e.update();
 			}
-		} else if(GameState.state == GameState.OVER) {
-			
+		} else if (GameState.state == GameState.OVER) {
+
 		}
 	}
-	
+
 	private void nonPixelatedRender(Graphics g) {
 		gui.render(g);
-		
-		if(GameState.state == GameState.PLAYING) {
+
+		if (GameState.state == GameState.PLAYING) {
 			g.setColor(Color.GREEN);
 			g.fillOval(60, 60, 50, 50);
-			
-		} else if(GameState.state == GameState.OVER) {
-			
+
+		} else if (GameState.state == GameState.OVER) {
+
 		}
 	}
-	
+
 	private void pixelatedRender(Graphics g) {
-		
-		if(GameState.state == GameState.PLAYING) {
+
+		if (GameState.state == GameState.PLAYING) {
 			g.setColor(Color.BLUE);
 			g.fillOval(0, 0, 50, 50);
-			
+
 			world.render(g);
-			for(Entity e : entities)
+			for (Entity e : entities)
 				e.render(g);
-		} else if(GameState.state == GameState.OVER) {
-			
+		} else if (GameState.state == GameState.OVER) {
+
 		}
 	}
 
 	@Override
-	public void render(Graphics g){
+	public void render(Graphics g) {
 		BufferStrategy bs = screen.getBufferStrategy();
-		if(bs == null) {
+		if (bs == null) {
 			screen.createBufferStrategy(3);
 			return;
 		}
-		
+
 		g = frame.getGraphics();
-		
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
 
 		pixelatedRender(g);
-		
+
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT, null);
 
 		nonPixelatedRender(g);
-		
+
 		bs.show();
 	}
 
@@ -146,18 +143,18 @@ public class Game implements Runnable, Renderable, Updateble {
 		long lastTime = System.nanoTime();
 
 		screen.requestFocus();
-		while(isRunning){
+		while (isRunning) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
-			
-			if(delta >= 1) {
+
+			if (delta >= 1) {
 				update();
 				render(null);
 				delta--;
 			}
 		}
-		
+
 		stop();
 	}
 

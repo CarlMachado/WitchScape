@@ -66,6 +66,7 @@ public abstract class Audio {
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
+		playing = true;
 	}
 
 	public AudioClip getClip() {
