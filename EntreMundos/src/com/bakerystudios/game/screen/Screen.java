@@ -44,6 +44,7 @@ public class Screen extends Canvas {
 
 	// pega a resolução do monitor para inicializar
 	// a resolução do jogo
+	@SuppressWarnings("unused")
 	private void initScreenSize() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 	    Dimension d = tk.getScreenSize();

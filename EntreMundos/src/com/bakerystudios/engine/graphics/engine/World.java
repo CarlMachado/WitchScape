@@ -1,8 +1,6 @@
 package com.bakerystudios.engine.graphics.engine;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -71,7 +69,7 @@ public class World {
 	}
 
 	public void render(Graphics g) {
-		Graphics2D g2D = (Graphics2D) g;
+		//Graphics2D g2D = (Graphics2D) g;
 		
 		int xstart = Camera.x >> 4;
 		int ystart = Camera.y >> 4;

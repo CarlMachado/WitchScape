@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
-import com.bakerystudios.engine.graphics.engine.Tile;
 
 public class Entity implements Renderable, Updateble {
 	
