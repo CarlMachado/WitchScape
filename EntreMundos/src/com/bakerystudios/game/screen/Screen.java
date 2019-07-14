@@ -34,6 +34,7 @@ public class Screen extends Canvas {
 		frame = new JFrame("Entre Mundos");
 		frame.add(this);
 		frame.setResizable(false);
+		//frame.setResizable(true);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

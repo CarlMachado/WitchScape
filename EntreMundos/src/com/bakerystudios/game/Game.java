@@ -124,13 +124,13 @@ public class Game implements Runnable, Renderable, Updateble {
 		g = frame.getGraphics();
 
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, Screen.WIDTH, Screen.WIDTH / 16 * 9);
+		g.fillRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
 
 		pixelatedRender(g);
+		
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT, null);
-		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_WIDTH / 16 * 9, null);
 		
 		nonPixelatedRender(g);
 
