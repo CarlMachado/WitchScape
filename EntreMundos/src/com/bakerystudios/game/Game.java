@@ -10,10 +10,16 @@ import java.util.Random;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+<<<<<<< HEAD
 import com.bakerystudios.engine.graphics.Spritesheet;
 import com.bakerystudios.engine.graphics.Tile;
 import com.bakerystudios.engine.world.World;
 import com.bakerystudios.entities.Anotacao;
+=======
+import com.bakerystudios.engine.graphics.engine.Spritesheet;
+import com.bakerystudios.engine.graphics.engine.Tile;
+import com.bakerystudios.engine.graphics.engine.World;
+>>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.input.Input;
@@ -41,6 +47,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	private static Player player;
 
 	public static Spritesheet spritesheet;
+	public static Spritesheet characters;
 	public static World world;
 	public static List<Entity> entities;
 
@@ -54,12 +61,18 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
+<<<<<<< HEAD
 		// audio = new AudioManager();
 		player = new Player(16, 16, Tile.tileSize, Tile.tileSize, null);
+=======
+		characters = new Spritesheet("/sprites/characters.png");
+		audio = new AudioManager();
+		player = new Player(16, 192, Tile.SIZE, Tile.SIZE, null);
+>>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
 
 		entities = new ArrayList<Entity>();
 		entities.add(player);
-		world = new World("/levels/level1.png");
+		world = new World("/levels/map1.png", "/levels/map1_collisionmap.png");
 	}
 
 	public synchronized void start() {
@@ -79,8 +92,12 @@ public class Game implements Runnable, Renderable, Updateble {
 	@Override
 	public void update() {
 		gui.update();
+<<<<<<< HEAD
 		screen.update();
 		// audio.update();
+=======
+		audio.update();
+>>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
 
 		if (GameState.state == GameState.PLAYING) {
 			for (int i = 0; i < entities.size(); i++) {
@@ -130,16 +147,9 @@ public class Game implements Runnable, Renderable, Updateble {
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT, null);
+		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_WIDTH / 16 * 9, null);
+		
 		nonPixelatedRender(g);
-
-		/*
-		 * List<String> teste = new ArrayList<String>();
-		 * teste.add("teste, teste, teste, teste, teste, teste, teste, teste, teste");
-		 * teste.add("teste, teste, teste, teste, teste, teste, teste, teste, teste");
-		 * teste.add("teste, teste, teste, teste, teste, teste, teste, teste, teste");
-		 * Anotacao anotacao = new Anotacao(100, 100, 0, 0, null, true, teste);
-		 * anotacao.eventoAnotacao(g);
-		 */
 
 		bs.show();
 	}
