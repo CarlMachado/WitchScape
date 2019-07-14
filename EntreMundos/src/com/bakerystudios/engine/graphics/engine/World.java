@@ -89,7 +89,7 @@ public class World {
 		}
 		
 		//g2D.drawImage(map, xstart - Camera.x, ystart - Camera.y, new Color(0, 0, 0, 200), null);
-		g.drawImage(map, xstart - Camera.x, ystart - Camera.y, null);
+		//g.drawImage(map, xstart - Camera.x, ystart - Camera.y, null);
 	}
 
 }
