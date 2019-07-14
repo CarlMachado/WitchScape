@@ -1,29 +1,36 @@
-Cena 1:
-	Local:
-	Descrição: Imagem de um homem com a mão na cabeça
-	Modo: Expectador
-	Objetivo: 
-	Texto: Ai minha cabeça!
+um caçador em uma cidade matando monstros no formato de mini missões (10),
+a cada missão larga um pedaço da história, na ultima missão descobre-se
+que os monstros são pessoas sendo vitima de um experimento do governo. 
+Obs: Em nenhum momento o jogador sai de uma área pré-determinada, possui
+npcs bloqueando (podemos exibir uma grade e no lado de fora uma rua).
 
-Cena 2:
-	Local: Área inicial
-	Descrição: 
-	Modo: Expectador
-	Objetivo: 
-	Texto: Que lugar estranho, onde eu estou? E o mais importante, quem eu sou? Não me lembro de nada.
+Estabelecimentos:
+1.	farmácia
+2.	mercado
+3.	loja de munição
+4.	hotel
+5.	hospital
+6.	residências (3)
+7.	restaurante
+8.	guarda da cidade
+9.	madeireira
+10.	edifício em construção
 
-Cena 3:
-	Local: Área inicial
-	Descrição: 
-	Modo: Jogabilidade
-	Objetivo: 
-		Ideia 1: Procurar algo no mapa
-		Ideia 2: Tentar encontrar uma saida
-	Texto: Ai minha cabeça!
+A cada missão começa a desaparecer pessoas da cidade, e seus
+estabelecimentos
+começam a se fechar. Deixando o jogo mais difícil.
 
-Cena 4:
-	Local: 
-	Descrição: 
-	Modo: 
-	Objetivo: 
-	Texto: 
+Exemplo: Nas missões finais desaparece hospital e loja de munição.
+Ideias:
+Mini missões extras separadas.
+Exemplo: Livros/anotações escondidas pelo mapa, que revelam detalhes ou um
+easter egg.
+Encontrar uma chave, ou ganhar uma chave quando conversar com um npc, para
+assim prosseguir a história.
+Missão extra escondida
+
+Final:
+Jogador em uma ultima missão matando monstros, por acidente  (ou não),
+acaba destruindo a grade de proteção e fugindo. Ao sair da proteção o
+jogador se depara com policiais mandados pelo governo, matando os policiais
+ele descobre toda a verdade.
