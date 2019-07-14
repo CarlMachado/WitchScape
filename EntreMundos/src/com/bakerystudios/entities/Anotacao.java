@@ -88,4 +88,12 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 		statusEventoAnotacao = false;
 	}
 
+	public boolean isNextPagina() {
+		return nextPagina;
+	}
+
+	public void setNextPagina(boolean nextPagina) {
+		this.nextPagina = nextPagina;
+	}
+
 }
