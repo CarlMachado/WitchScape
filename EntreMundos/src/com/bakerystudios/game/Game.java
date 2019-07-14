@@ -13,6 +13,7 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.graphics.Spritesheet;
 import com.bakerystudios.engine.graphics.Tile;
 import com.bakerystudios.engine.world.World;
+import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.input.Input;
@@ -53,7 +54,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
-		//audio = new AudioManager();
+		// audio = new AudioManager();
 		player = new Player(16, 16, Tile.tileSize, Tile.tileSize, null);
 
 		entities = new ArrayList<Entity>();
@@ -79,7 +80,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public void update() {
 		gui.update();
 		screen.update();
-		//audio.update();
+		// audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
 			for (int i = 0; i < entities.size(); i++) {
@@ -95,7 +96,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui.render(g);
 
 		if (GameState.state == GameState.PLAYING) {
-    
+
 		} else if (GameState.state == GameState.OVER) {
 
 		}
@@ -126,12 +127,19 @@ public class Game implements Runnable, Renderable, Updateble {
 		g.fillRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
 
 		pixelatedRender(g);
-
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT, null);
-
 		nonPixelatedRender(g);
+
+		/*
+		 * List<String> teste = new ArrayList<String>();
+		 * teste.add("teste, teste, teste, teste, teste, teste, teste, teste, teste");
+		 * teste.add("teste, teste, teste, teste, teste, teste, teste, teste, teste");
+		 * teste.add("teste, teste, teste, teste, teste, teste, teste, teste, teste");
+		 * Anotacao anotacao = new Anotacao(100, 100, 0, 0, null, true, teste);
+		 * anotacao.eventoAnotacao(g);
+		 */
 
 		bs.show();
 	}

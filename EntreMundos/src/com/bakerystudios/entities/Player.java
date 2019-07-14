@@ -8,6 +8,7 @@ import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.Tile;
 import com.bakerystudios.engine.world.World;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
 public class Player extends Entity implements Renderable {
@@ -33,34 +34,57 @@ public class Player extends Entity implements Renderable {
 			y += speed;
 		}
 		updateCamera();
+		checkCollisionAllObjects();
 	}
-	
+
 	public void render(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect((int) x - Camera.x, (int) y - Camera.y, Tile.tileSize, Tile.tileSize);
 	}
-	
+
 	public void updateCamera() {
-		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH/2),0,World.WIDTH*Tile.tileSize - Screen.WIDTH);
-		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT/2),0,World.HEIGHT*Tile.tileSize - Screen.HEIGHT);
+		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, World.WIDTH * Tile.tileSize - Screen.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.tileSize - Screen.HEIGHT);
+	}
+
+	public void checkCollisionAllObjects() {
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if (atual instanceof Porta) {
+				if(Entity.isColidding(this, atual)) {
+					((Porta) atual).setAnimation(true);
+					return;
+				}								
+			} else if (atual instanceof Bau) {
+				if(Entity.isColidding(this, atual)) {
+					((Bau) atual).setAnimation(true);
+					return;	
+				}				
+			} else if (atual instanceof Anotacao) {
+				if(Entity.isColidding(this, atual)) {
+					
+					return;
+				}				
+			}
+		}
 	}
 
 	public boolean isRight() {
 		return right;
 	}
-	
+
 	public static void setUp(boolean up) {
 		Player.up = up;
 	}
-	
+
 	public static void setDown(boolean down) {
 		Player.down = down;
 	}
-	
+
 	public static void setLeft(boolean left) {
 		Player.left = left;
 	}
-	
+
 	public static void setRight(boolean right) {
 		Player.right = right;
 	}
