@@ -3,6 +3,7 @@ package com.bakerystudios.game.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.GameState;
 
@@ -22,7 +23,16 @@ public class PlayerInput extends Input {
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				Player.setDown(true);
 			}
-		}
+			
+			if(Anotacao.statusEventoAnotacao) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Anotacao.nextPaginaSelected = true;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					Anotacao.exitSelected = true;
+				}
+			}
+		}		
 	}
 
 	@Override
@@ -38,6 +48,15 @@ public class PlayerInput extends Input {
 				Player.setUp(false);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				Player.setDown(false);
+			}
+			
+			if(Anotacao.statusEventoAnotacao) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Anotacao.nextPaginaSelected = false;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					Anotacao.exitSelected = false;
+				}
 			}
 		}
 	}

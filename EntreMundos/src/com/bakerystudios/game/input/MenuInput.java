@@ -3,6 +3,7 @@ package com.bakerystudios.game.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.gui.menu.MainMenu;
 import com.bakerystudios.gui.menu.engine.MenuState;
@@ -35,7 +36,7 @@ public class MenuInput extends Input {
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			if(GameState.state == GameState.PLAYING) {
+			if(GameState.state == GameState.PLAYING && !Anotacao.statusEventoAnotacao) {
 				GameState.state = GameState.MENU;
 				MenuState.state = MenuState.PAUSE;
 			}
