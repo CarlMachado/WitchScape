@@ -48,28 +48,32 @@ public class Player extends Entity implements Renderable, Updateble {
 			upPlayer[i] = Game.characters.getSprite(48 + (i*16), 48, 16, 16);
 		}
 	}
+	
+	public void moveRight() {
+		
+	}
 
 	public void update() {
 		moved = false;
 		if(up && World.isFree(this.getX(),(int)(y - speed))){
 			moved = true;
 			dir = upDir;
-			y-=speed;
+			y -= speed;
 		}
 		else if(down && World.isFree(this.getX(), (int)(y + speed))){
 			moved = true;
 			dir = downDir;
-			y+=speed;
+			y += speed;
 		}
 		if(right && World.isFree((int)(x + speed), this.getY())) {
 			moved = true;
 			dir = rightDir;
-			x+=speed;
+			x += speed;
 		}
 		else if(left && World.isFree((int)(x - speed), this.getY())) {
 			moved = true;
 			dir = leftDir;
-			x-=speed;
+			x -= speed;
 		}
 		
 		if(moved) {

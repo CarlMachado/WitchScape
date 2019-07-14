@@ -10,7 +10,7 @@ import com.bakerystudios.game.screen.Screen;
 
 public class FramesPerSecond implements Renderable, Updateble {
 
-	private String FPS = "00";
+	private String FPS = "FPS: 00";
 	private int frames = 0;
 	private double timer;
 	
@@ -22,7 +22,7 @@ public class FramesPerSecond implements Renderable, Updateble {
 	public void update(){
 		frames++;
 		if(System.currentTimeMillis() - timer >= 1000) {
-			FPS = Integer.toString(frames);
+			FPS = "FPS: " + Integer.toString(frames);
 			frames = 0;
 			timer += 1000;
 		}
@@ -31,8 +31,8 @@ public class FramesPerSecond implements Renderable, Updateble {
 	@Override
 	public void render(Graphics g){
 		g.setColor(Color.YELLOW);
-		g.setFont(new Font("Arial", Font.PLAIN, (int) (Screen.SCALE_WIDTH * 0.019)));
-		g.drawString(FPS, Screen.SCALE_WIDTH - (int) (Screen.SCALE_WIDTH * 0.025), (int) (Screen.SCALE_WIDTH * 0.019));
+		g.setFont(new Font("Arial", Font.PLAIN, (int) (Screen.SCALE_WIDTH * 0.012)));
+		g.drawString(FPS, Screen.SCALE_WIDTH - (int) (Screen.SCALE_WIDTH * 0.050), (int) (Screen.SCALE_WIDTH * 0.018));
 	}
 	
 }
