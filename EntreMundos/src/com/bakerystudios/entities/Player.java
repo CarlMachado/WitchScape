@@ -7,8 +7,13 @@ import java.awt.image.BufferedImage;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
+<<<<<<< HEAD
+import com.bakerystudios.engine.graphics.Tile;
+import com.bakerystudios.engine.world.World;
+=======
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
+>>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
@@ -85,8 +90,9 @@ public class Player extends Entity implements Renderable, Updateble {
 		}
 		
 		updateCamera();
+		checkCollisionAllObjects();
 	}
-	
+
 	public void render(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
@@ -105,28 +111,55 @@ public class Player extends Entity implements Renderable, Updateble {
 			
 		}
 	}
-	
+
 	public void updateCamera() {
+<<<<<<< HEAD
+		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, World.WIDTH * Tile.tileSize - Screen.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.tileSize - Screen.HEIGHT);
+	}
+
+	public void checkCollisionAllObjects() {
+		for (int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if (atual instanceof Porta) {
+				if(Entity.isColidding(this, atual)) {
+					((Porta) atual).setAnimation(true);
+					return;
+				}								
+			} else if (atual instanceof Bau) {
+				if(Entity.isColidding(this, atual)) {
+					((Bau) atual).setAnimation(true);
+					return;	
+				}				
+			} else if (atual instanceof Anotacao) {
+				if(Entity.isColidding(this, atual)) {
+					
+					return;
+				}				
+			}
+		}
+=======
 		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH  / 2), 0, World.WIDTH  * Tile.SIZE - Screen.WIDTH);
 		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.SIZE - Screen.HEIGHT);
+>>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
 	}
 
 	public boolean isRight() {
 		return right;
 	}
-	
+
 	public static void setUp(boolean up) {
 		Player.up = up;
 	}
-	
+
 	public static void setDown(boolean down) {
 		Player.down = down;
 	}
-	
+
 	public static void setLeft(boolean left) {
 		Player.left = left;
 	}
-	
+
 	public static void setRight(boolean right) {
 		Player.right = right;
 	}
