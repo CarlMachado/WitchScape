@@ -17,7 +17,7 @@ public class Screen extends Canvas {
 	private static final long serialVersionUID = -8027725672170867390L;
 	
 	public static int SCALE = 5;
-	public static int WIDTH = 1920 / SCALE;
+	public static int WIDTH = 1280 / SCALE;
 	public static int HEIGHT = (WIDTH / 16) * 9;
 	public static int SCALE_WIDTH = WIDTH * SCALE;
 	public static int SCALE_HEIGHT = HEIGHT * SCALE;
@@ -29,17 +29,17 @@ public class Screen extends Canvas {
 			addKeyListener(input);
 			addMouseListener(input);
 		}
-		initScreenSize();
+		//initScreenSize();
 		setPreferredSize(new Dimension(SCALE_WIDTH, SCALE_HEIGHT));
 		frame = new JFrame("Entre Mundos");
 		frame.add(this);
-		frame.setResizable(true);
+		frame.setResizable(false);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-		frame.setResizable(false);
+		//frame.setResizable(false);
 	}
 
 	// pega a resolução do monitor para inicializar

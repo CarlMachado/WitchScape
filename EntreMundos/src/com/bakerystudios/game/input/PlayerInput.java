@@ -8,6 +8,7 @@ import com.bakerystudios.game.GameState;
 
 public class PlayerInput extends Input {
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		if (GameState.state == GameState.PLAYING) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
@@ -24,6 +25,7 @@ public class PlayerInput extends Input {
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		if (GameState.state == GameState.PLAYING) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
@@ -40,22 +42,40 @@ public class PlayerInput extends Input {
 		}
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
-	}
-
+	@Override
 	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
