@@ -3,7 +3,6 @@ package com.bakerystudios.sound;
 import java.applet.Applet;
 import java.applet.AudioClip;
 
-@SuppressWarnings("deprecation")
 public abstract class Audio {
 
 	private AudioClip clip;

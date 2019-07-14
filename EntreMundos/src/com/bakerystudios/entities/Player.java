@@ -7,13 +7,8 @@ import java.awt.image.BufferedImage;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
-<<<<<<< HEAD
-import com.bakerystudios.engine.graphics.Tile;
-import com.bakerystudios.engine.world.World;
-=======
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
->>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
@@ -113,9 +108,8 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void updateCamera() {
-<<<<<<< HEAD
-		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, World.WIDTH * Tile.tileSize - Screen.WIDTH);
-		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.tileSize - Screen.HEIGHT);
+		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, World.WIDTH * Tile.SIZE - Screen.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.SIZE - Screen.HEIGHT);
 	}
 
 	public void checkCollisionAllObjects() {
@@ -138,10 +132,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				}				
 			}
 		}
-=======
-		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH  / 2), 0, World.WIDTH  * Tile.SIZE - Screen.WIDTH);
-		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.SIZE - Screen.HEIGHT);
->>>>>>> branch 'Herikc' of https://github.com/CarlMachado/EntreMundos.git
+		updateCamera();
 	}
 
 	public boolean isRight() {
