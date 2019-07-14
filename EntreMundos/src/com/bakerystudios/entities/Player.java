@@ -14,6 +14,12 @@ import com.bakerystudios.game.screen.Screen;
 
 public class Player extends Entity implements Renderable, Updateble {
 
+	private int movingFrames = 0, maxMovingFrames = 16;
+	private boolean movingRight;
+	private boolean movingLeft;
+	private boolean movingUp;
+	private boolean movingDown;
+	
 	private int frames = 0, maxFrames = 5, index = 0, maxIndex = 2;
 	private boolean moved = false;
 	public int rightDir = 0, leftDir = 1, upDir = 2, downDir = 3;
@@ -49,33 +55,74 @@ public class Player extends Entity implements Renderable, Updateble {
 		}
 	}
 	
-	public void moveRight() {
-		
-	}
-
-	public void update() {
-		moved = false;
-		if(up && World.isFree(this.getX(),(int)(y - speed))){
+	public void movmentChecker() {
+		if(up && World.isFree(this.getX(),(int)(y - speed))
+				&& !movingDown && !movingLeft && !movingRight) {
 			moved = true;
 			dir = upDir;
-			y -= speed;
-		}
-		else if(down && World.isFree(this.getX(), (int)(y + speed))){
+			movingUp = true;
+			//y -= speed;
+		} else if(down && World.isFree(this.getX(), (int)(y + speed))
+				&& !movingUp && !movingLeft && !movingRight) {
 			moved = true;
 			dir = downDir;
-			y += speed;
-		}
-		if(right && World.isFree((int)(x + speed), this.getY())) {
+			movingDown = true;
+			//y += speed;
+		} else if(right && World.isFree((int)(x + speed), this.getY())
+				&& !movingDown && !movingLeft && !movingUp) {
 			moved = true;
 			dir = rightDir;
-			x += speed;
-		}
-		else if(left && World.isFree((int)(x - speed), this.getY())) {
+			movingRight = true;
+			//x += speed;
+		} else if(left && World.isFree((int)(x - speed), this.getY())
+				&& !movingDown && !movingUp && !movingRight) {
 			moved = true;
 			dir = leftDir;
-			x -= speed;
+			movingLeft = true;
+			//x -= speed;
 		}
-		
+	}
+	
+	public void moving() {
+		if(movingRight) {
+			movingFrames++;
+			x += speed;
+			if(movingFrames >= maxMovingFrames) {
+				movingFrames = 0;
+				movingRight = false;
+				moved = false;
+			}
+		}
+		if(movingLeft) {
+			movingFrames++;
+			x -= speed;
+			if(movingFrames >= maxMovingFrames) {
+				movingFrames = 0;
+				movingLeft = false;
+				moved = false;
+			}
+		}
+		if(movingUp) {
+			movingFrames++;
+			y -= speed;
+			if(movingFrames >= maxMovingFrames) {
+				movingFrames = 0;
+				movingUp = false;
+				moved = false;
+			}
+		}
+		if(movingDown) {
+			movingFrames++;
+			y += speed;
+			if(movingFrames >= maxMovingFrames) {
+				movingFrames = 0;
+				movingDown = false;
+				moved = false;
+			}
+		}
+	}
+	
+	public void animation() {
 		if(moved) {
 			frames++;
 			if(frames == maxFrames) {
@@ -87,14 +134,19 @@ public class Player extends Entity implements Renderable, Updateble {
 		} else {
 			index = 1;
 		}
-		
+	}
+
+	public void update() {
+		movmentChecker();
+		moving();
+		animation();
 		updateCamera();
 		checkCollisionAllObjects();
 	}
 
 	public void render(Graphics g) {
-		g.setColor(Color.red);
-		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
+		//g.setColor(Color.red);
+		//g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
 		
 		if(dir == rightDir) {
 			g.drawImage(rightPlayer[index], this.getX() - Camera.x,this.getY() - Camera.y, null);
