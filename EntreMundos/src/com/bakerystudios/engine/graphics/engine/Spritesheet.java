@@ -1,4 +1,4 @@
-package com.bakerystudios.engine.graphics;
+package com.bakerystudios.engine.graphics.engine;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
