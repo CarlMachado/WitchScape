@@ -45,46 +45,52 @@ public class Player extends Entity implements Renderable, Updateble {
 		
 		for(int i = 0; i < 3; i++){
 			downPlayer[i] = Game.characters.getSprite(48 + (i*16), 0, 16, 16);
-		}
-		for(int i = 0; i < 3; i++){
 			leftPlayer[i] = Game.characters.getSprite(48 + (i*16), 16, 16, 16);
-		}
-		for(int i = 0; i < 3; i++){
 			rightPlayer[i] = Game.characters.getSprite(48 + (i*16), 32, 16, 16);
-		}
-		for(int i = 0; i < 3; i++){
 			upPlayer[i] = Game.characters.getSprite(48 + (i*16), 48, 16, 16);
 		}
 	}
 	
 	public void movmentChecker() {
-		if(!nextisDoorUp && up && World.isFree(this.getX(),(int)(y - speed))
-				&& !movingDown && !movingLeft && !movingRight) {
-			moved = true;
-			dir = upDir;
-			movingUp = true;
-			correctCollisionDoor();
+		if(up) {
+			if(!moved)
+				dir = upDir;
+			if(!nextisDoorUp && World.isFree(this.getX(), (int)(y - speed))
+					&& !movingDown && !movingLeft && !movingRight) {
+				moved = true;
+				movingUp = true;
+				correctCollisionDoor();
+			}
 			//y -= speed;
-		} else if(!nextisDoorDown && down && World.isFree(this.getX(), (int)(y + speed))
-				&& !movingUp && !movingLeft && !movingRight) {
-			moved = true;
-			dir = downDir;
-			movingDown = true;
-			correctCollisionDoor();
+		} else if(down) {
+			if(!moved)
+				dir = downDir;
+			if(!nextisDoorDown && World.isFree(this.getX(), (int)(y + speed))
+					&& !movingUp && !movingLeft && !movingRight) {
+				moved = true;
+				movingDown = true;
+				correctCollisionDoor();
+			}
 			//y += speed;
-		} else if(right && World.isFree((int)(x + speed), this.getY())
-				&& !movingDown && !movingLeft && !movingUp) {
-			moved = true;
-			dir = rightDir;
-			movingRight = true;
-			correctCollisionDoor();
+		} else if(right) {
+			if(!moved)
+				dir = rightDir;
+			if(World.isFree((int)(x + speed), this.getY())
+					&& !movingDown && !movingLeft && !movingUp) {
+				moved = true;
+				movingRight = true;
+				correctCollisionDoor();
+			}
 			//x += speed;
-		} else if(left && World.isFree((int)(x - speed), this.getY())
-				&& !movingDown && !movingUp && !movingRight) {
-			moved = true;
-			dir = leftDir;
-			movingLeft = true;
-			correctCollisionDoor();
+		} else if(left) {
+			if(!moved)
+				dir = leftDir;
+			if(World.isFree((int)(x - speed), this.getY())
+					&& !movingDown && !movingUp && !movingRight) {
+				moved = true;
+				movingLeft = true;
+				correctCollisionDoor();
+			}
 			//x -= speed;
 		}
 	}
@@ -194,7 +200,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 	
 	public void collisionDoor(Entity atual) {
-		if(atual.getY() - this.getY() == -16 && atual.getX() - this.getX() == 0) {
+		if(atual.getY() - this.getY() == -16 && atual.getX() - this.getX() == 0 && dir == upDir) {
 			if(!((Door) atual).getAnimation())
 				Game.uiDoor = true;
 			((Door) atual).setTryAnimation(true);
@@ -203,9 +209,9 @@ public class Player extends Entity implements Renderable, Updateble {
 			else
 				nextisDoorUp = false;
 			return;
-		}else 
+		} else 
 			((Door) atual).setTryAnimation(false);
-		if(atual.getY() - this.getY() == 16 && atual.getX() - this.getX() == 0) {
+		if(atual.getY() - this.getY() == 16 && atual.getX() - this.getX() == 0 && dir == downDir) {
 			if(!((Door) atual).getAnimation())
 				Game.uiDoor = true;
 			((Door) atual).setTryAnimation(true);
@@ -214,7 +220,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			else
 				nextisDoorDown = false;
 			return;
-		}else 
+		} else 
 			((Door) atual).setTryAnimation(false);
 	}
 	

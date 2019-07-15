@@ -33,6 +33,7 @@ public class Door extends Entity implements Renderable, Updateble {
 		this.maxAnimacao = sprites.length;
 	}
 
+	@Override
 	public void update() {
 		if (animation) {
 			tryAnimation = false;
@@ -65,6 +66,7 @@ public class Door extends Entity implements Renderable, Updateble {
 		}
 	}
 
+	@Override
 	public void render(Graphics g) {		
 		g.drawImage(sprites[currentAnimacao], this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
