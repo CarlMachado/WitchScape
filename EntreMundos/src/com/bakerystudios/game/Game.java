@@ -41,8 +41,11 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	public static Spritesheet spritesheet;
 	public static Spritesheet characters;
+	public static Spritesheet doors;
 	public static World world;
 	public static List<Entity> entities;
+	
+	public static boolean uiDoor = false;
 
 	public Game() {
 		// Object instantiation
@@ -55,6 +58,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		characters = new Spritesheet("/sprites/characters.png");
+		doors = new Spritesheet("/sprites/doors.png");
 		audio = new AudioManager();
 		player = new Player(16, 192, Tile.SIZE, Tile.SIZE, null);
 
