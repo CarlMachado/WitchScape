@@ -4,7 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.bakerystudios.entities.Anotacao;
+import com.bakerystudios.entities.Door;
+import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 
 public class PlayerInput extends Input {
@@ -23,8 +26,8 @@ public class PlayerInput extends Input {
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				Player.setDown(true);
 			}
-			
-			if(Anotacao.statusEventoAnotacao) {
+
+			if (Anotacao.statusEventoAnotacao) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Anotacao.nextPaginaSelected = true;
 				}
@@ -32,7 +35,19 @@ public class PlayerInput extends Input {
 					Anotacao.exitSelected = true;
 				}
 			}
-		}		
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				for (int i = 0; i < Game.entities.size(); i++) {
+					Entity atual = Game.entities.get(i);
+					if (atual instanceof Door) {
+						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {					
+							((Door) atual).setAnimation(true);
+							Game.uiDoor = false;
+						}
+					}
+				}
+			}
+
+		}
 	}
 
 	@Override
@@ -49,13 +64,22 @@ public class PlayerInput extends Input {
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				Player.setDown(false);
 			}
-			
-			if(Anotacao.statusEventoAnotacao) {
+
+			if (Anotacao.statusEventoAnotacao) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Anotacao.nextPaginaSelected = false;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					Anotacao.exitSelected = false;
+				}
+			}
+			
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				for (int i = 0; i < Game.entities.size(); i++) {
+					Entity atual = Game.entities.get(i);
+					if (atual instanceof Door) 
+						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) 
+								((Door) atual).setAnimation(false);
 				}
 			}
 		}
@@ -64,37 +88,37 @@ public class PlayerInput extends Input {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
