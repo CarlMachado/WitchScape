@@ -31,6 +31,9 @@ public class Player extends Entity implements Renderable, Updateble {
 	private BufferedImage[] leftPlayer;
 	private BufferedImage[] downPlayer;
 	private BufferedImage[] upPlayer;
+	
+	private boolean nextisDoorUp = false;
+	private boolean nextisDoorDown = false;
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -55,29 +58,33 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 	
 	public void movmentChecker() {
-		if(up && World.isFree(this.getX(),(int)(y - speed))
+		if(!nextisDoorUp && up && World.isFree(this.getX(),(int)(y - speed))
 				&& !movingDown && !movingLeft && !movingRight) {
 			moved = true;
 			dir = upDir;
 			movingUp = true;
+			correctCollisionDoor();
 			//y -= speed;
-		} else if(down && World.isFree(this.getX(), (int)(y + speed))
+		} else if(!nextisDoorDown && down && World.isFree(this.getX(), (int)(y + speed))
 				&& !movingUp && !movingLeft && !movingRight) {
 			moved = true;
 			dir = downDir;
 			movingDown = true;
+			correctCollisionDoor();
 			//y += speed;
 		} else if(right && World.isFree((int)(x + speed), this.getY())
 				&& !movingDown && !movingLeft && !movingUp) {
 			moved = true;
 			dir = rightDir;
 			movingRight = true;
+			correctCollisionDoor();
 			//x += speed;
 		} else if(left && World.isFree((int)(x - speed), this.getY())
 				&& !movingDown && !movingUp && !movingRight) {
 			moved = true;
 			dir = leftDir;
 			movingLeft = true;
+			correctCollisionDoor();
 			//x -= speed;
 		}
 	}
@@ -170,11 +177,8 @@ public class Player extends Entity implements Renderable, Updateble {
 	public void checkCollisionAllObjects() {
 		for (int i = 0; i < Game.entities.size(); i++) {
 			Entity atual = Game.entities.get(i);
-			if (atual instanceof Porta) {
-				if(Entity.isColidding(this, atual)) {
-					((Porta) atual).setAnimation(true);
-					return;
-				}								
+			if (atual instanceof Door) {
+				collisionDoor(atual);
 			} else if (atual instanceof Bau) {
 				if(Entity.isColidding(this, atual)) {
 					((Bau) atual).setAnimation(true);
@@ -187,7 +191,39 @@ public class Player extends Entity implements Renderable, Updateble {
 				}				
 			}
 		}
-		updateCamera();
+	}
+	
+	public void collisionDoor(Entity atual) {
+		if(atual.getY() - this.getY() == -16 && atual.getX() - this.getX() == 0) {
+			if(!((Door) atual).getAnimation())
+				Game.uiDoor = true;
+			((Door) atual).setTryAnimation(true);
+			if(!((Door) atual).getOpenDoor())
+				nextisDoorUp = true;
+			else
+				nextisDoorUp = false;
+			return;
+		}else 
+			((Door) atual).setTryAnimation(false);
+		if(atual.getY() - this.getY() == 16 && atual.getX() - this.getX() == 0) {
+			if(!((Door) atual).getAnimation())
+				Game.uiDoor = true;
+			((Door) atual).setTryAnimation(true);
+			if(!((Door) atual).getOpenDoor())
+				nextisDoorDown = true;
+			else
+				nextisDoorDown = false;
+			return;
+		}else 
+			((Door) atual).setTryAnimation(false);
+	}
+	
+	public void correctCollisionDoor() {
+		if(nextisDoorDown)
+			nextisDoorDown = false;
+		if(nextisDoorUp)
+			nextisDoorUp = false;
+		Game.uiDoor = false;
 	}
 
 	public boolean isRight() {

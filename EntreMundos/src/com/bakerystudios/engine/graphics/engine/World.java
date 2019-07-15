@@ -9,12 +9,15 @@ import javax.imageio.ImageIO;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.tiles.FloorTile;
 import com.bakerystudios.engine.graphics.tiles.WallTile;
+import com.bakerystudios.entities.Door;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
 public class World {
 	
 	private final int FLOOR = 0xFF000000;
 	private final int WALL = 0xFFFFFFFF;
+	private final int DOOR = 0xFF7F3300;
 
 	public static BufferedImage map;
 	public static Tile[] tiles;
@@ -40,6 +43,9 @@ public class World {
 					}
 					if (pixelAtual == WALL) {
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_WALL);
+					}
+					if(pixelAtual == DOOR) {
+						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null));
 					}
 				}
 			}
