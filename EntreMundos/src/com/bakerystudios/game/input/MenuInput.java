@@ -4,6 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.bakerystudios.entities.Anotacao;
+import com.bakerystudios.entities.Door;
+import com.bakerystudios.entities.Entity;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.gui.menu.MainMenu;
 import com.bakerystudios.gui.menu.engine.MenuState;
@@ -37,6 +40,16 @@ public class MenuInput extends Input {
 		
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			if(GameState.state == GameState.PLAYING && !Anotacao.statusEventoAnotacao) {
+				for (Entity atual : Game.entities) {
+					if (atual instanceof Door) {
+						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {					
+							((Door) atual).setAnimation(false);
+							((Door) atual).setTryAnimation(false);
+							Game.uiDoor = false;
+							break;
+						}
+					}
+				}
 				GameState.state = GameState.MENU;
 				MenuState.state = MenuState.PAUSE;
 			}

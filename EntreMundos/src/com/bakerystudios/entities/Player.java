@@ -200,10 +200,11 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 	
 	public void collisionDoor(Entity atual) {
-		if(atual.getY() - this.getY() == -16 && atual.getX() - this.getX() == 0 && dir == upDir) {
-			if(!((Door) atual).getAnimation())
+		if(atual.getY() - this.getY() == -16 && atual.getX() - this.getX() == 0) {			
+			if(dir == upDir)
+				((Door) atual).setTryAnimation(true);
+			if(!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
-			((Door) atual).setTryAnimation(true);
 			if(!((Door) atual).getOpenDoor())
 				nextisDoorUp = true;
 			else
@@ -211,10 +212,11 @@ public class Player extends Entity implements Renderable, Updateble {
 			return;
 		} else 
 			((Door) atual).setTryAnimation(false);
-		if(atual.getY() - this.getY() == 16 && atual.getX() - this.getX() == 0 && dir == downDir) {
-			if(!((Door) atual).getAnimation())
+		if(atual.getY() - this.getY() == 16 && atual.getX() - this.getX() == 0) {			
+			if(dir == downDir)
+				((Door) atual).setTryAnimation(true);
+			if(!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
-			((Door) atual).setTryAnimation(true);
 			if(!((Door) atual).getOpenDoor())
 				nextisDoorDown = true;
 			else
