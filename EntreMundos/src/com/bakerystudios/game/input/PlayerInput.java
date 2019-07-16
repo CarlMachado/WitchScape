@@ -11,6 +11,7 @@ import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.inventario.Inventario;
+import com.bakerystudios.inventario.Warehouse;
 
 public class PlayerInput extends Input {
 
@@ -30,11 +31,13 @@ public class PlayerInput extends Input {
 			}
 
 			if (Inventario.status && Inventario.focus) {
-				if (e.getKeyCode() == KeyEvent.VK_1) {
+				if (e.getKeyCode() == KeyEvent.VK_1 && (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 					Inventario.selectedItem = 0;
-				} else if (e.getKeyCode() == KeyEvent.VK_2) {
+				} else if (e.getKeyCode() == KeyEvent.VK_2
+						&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 					Inventario.selectedItem = 1;
-				} else if (e.getKeyCode() == KeyEvent.VK_3) {
+				} else if (e.getKeyCode() == KeyEvent.VK_3
+						&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 					Inventario.selectedItem = 2;
 				}
 			}
@@ -65,25 +68,17 @@ public class PlayerInput extends Input {
 				}
 			}
 			if (Player.inEvent) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE
-						|| e.getKeyCode() == KeyEvent.VK_Q && e.getKeyCode() == KeyEvent.VK_K) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					for (Entity atual : Game.entities) {
 						if (atual instanceof Chest) {
 							if (((Chest) atual).isOpenChest()) {
-								if(e.getKeyCode() == KeyEvent.VK_Q) { // Foca no inventario
-									Inventario.focus = true;
-									((Chest) atual).setFocus(false);
-								} if(e.getKeyCode() == KeyEvent.VK_K) { // Foca no bau
-									Inventario.focus = false;
-									((Chest) atual).setFocus(true);
-								}
-								if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+								if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 									((Chest) atual).setAnimation(true);
 									((Chest) atual).setTryAnimation(false);
 									Game.uiChest = false;
 									Player.inEvent = false;
 								}
-								
+
 							}
 						}
 					}
@@ -94,8 +89,48 @@ public class PlayerInput extends Input {
 						|| e.getKeyCode() == KeyEvent.VK_9) {
 					for (Entity atual : Game.entities)
 						if (atual instanceof Chest)
-							if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus())
+							if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus()
+									&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest))
 								((Chest) atual).setselectedItem(Character.getNumericValue(e.getKeyCode()) - 1);
+				} else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_ENTER) {
+					for (Entity atual : Game.entities) {
+						if (atual instanceof Chest) {
+							if (((Chest) atual).isOpenChest()) {
+
+								if (e.getKeyCode() == KeyEvent.VK_Q && !Inventario.focus) { // Foca no inventario
+									System.out.println("cheguei");
+									Inventario.focus = true;
+									((Chest) atual).setFocus(false);
+								} else if (e.getKeyCode() == KeyEvent.VK_Q && !((Chest) atual).isFocus()) { // Bau
+									Inventario.focus = false;
+									((Chest) atual).setFocus(true);
+								}
+								if (e.getKeyCode() == KeyEvent.VK_ENTER) { // Troca de itens, bau e inventario
+									if (Inventario.focus
+											&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
+										Warehouse.numExchangeInventory = Inventario.selectedItem;
+										if (!Warehouse.exchangeInventory && !Warehouse.exchangeChest) {
+											Warehouse.firsSelected = 1;
+											Warehouse.temporary = Inventario.slot[Warehouse.numExchangeInventory];
+										}						
+										Warehouse.exchangeInventory = true;							
+										((Chest) atual).setFocus(true);
+										Inventario.focus = false;
+									} else if (((Chest) atual).isFocus()
+											&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
+										Warehouse.numExchangeChest = ((Chest) atual).getselectedItem();
+										if (!Warehouse.exchangeInventory && !Warehouse.exchangeChest) {
+											Warehouse.firsSelected = 0;
+											Warehouse.temporary = ((Chest) atual).getSlot(Warehouse.numExchangeChest);
+										}						
+										Warehouse.exchangeChest = true;						
+										Inventario.focus = true;
+										((Chest) atual).setFocus(false);
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 

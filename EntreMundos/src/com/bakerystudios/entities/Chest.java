@@ -11,6 +11,7 @@ import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.inventario.Inventario;
 import com.bakerystudios.inventario.Slot;
+import com.bakerystudios.inventario.Warehouse;
 
 public class Chest extends Entity implements Renderable, Updateble {
 
@@ -65,6 +66,9 @@ public class Chest extends Entity implements Renderable, Updateble {
 				if (currentAnimacao == 0) {
 					Inventario.visible = true;
 					Inventario.focus = true;
+					Inventario.selectedItem = 0;
+					Warehouse.exchangeChest = false;
+					Warehouse.exchangeInventory = false;
 					openChest = false;
 					animation = false;
 					currentFrame = 0;
@@ -80,8 +84,11 @@ public class Chest extends Entity implements Renderable, Updateble {
 				if (currentAnimacao >= maxAnimacao) {
 					Inventario.visible = true;
 					Inventario.focus = false;
+					Warehouse.exchangeChest = false;
+					Warehouse.exchangeInventory = false;
 					openChest = true;
 					animation = false;
+					selectedItem = 0;
 					currentFrame = 0;
 					currentFrame = 0;
 					currentAnimacao = maxAnimacao - 1;

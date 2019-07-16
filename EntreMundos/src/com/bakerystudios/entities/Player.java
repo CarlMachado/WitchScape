@@ -11,6 +11,8 @@ import com.bakerystudios.engine.graphics.engine.World;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.inventario.Inventario;
+import com.bakerystudios.inventario.Slot;
+import com.bakerystudios.inventario.Warehouse;
 
 public class Player extends Entity implements Renderable, Updateble {
 
@@ -43,7 +45,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public static boolean inEvent = false;
 	public static boolean isPossibleEvent = true;
-	
+
 	public static int controllerInventory = 1; // 1 para Inventario - 2 para Bau
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
@@ -202,6 +204,61 @@ public class Player extends Entity implements Renderable, Updateble {
 				collisionDoor(atual);
 			} else if (atual instanceof Chest) {
 				collisionChest(atual);
+				if (((Chest) atual).isOpenChest()) {
+					if (Warehouse.exchangeChest && Warehouse.exchangeInventory) {
+						if (Warehouse.firsSelected == 0) { // Primeiro bau
+							for (int j = 0; j < Inventario.slot.length; j++) {
+								if (Inventario.slot[j].getIdentity() == "") {
+									Warehouse.temporaryNum = j;
+									Warehouse.temporayNumExist = true;
+									break;
+								}
+							}
+							if (Warehouse.temporayNumExist) { // Possui slot vazio
+								System.out.println("troca slot vazio - bau");
+								Inventario.slot[Warehouse.temporaryNum] = ((Chest) atual).getSlot(Warehouse.numExchangeChest);
+								((Chest) atual).setSlot(new Slot(), Warehouse.numExchangeChest);
+								System.out.println(((Chest) atual).getSlot(Warehouse.numExchangeChest).getIdentity());
+								System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+							} else {
+								System.out.println("troca slot preenchido - bau");
+								// System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+								((Chest) atual).setSlot(Inventario.slot[Warehouse.numExchangeInventory],
+										Warehouse.numExchangeChest);
+								Inventario.slot[Warehouse.numExchangeInventory] = Warehouse.temporary;
+								// System.out.println(((Chest)
+								// atual).getSlot(Warehouse.numExchangeChest).getIdentity());
+							}
+							Warehouse.resetWareHouse();
+						} else { // Primeiro inventario
+							Warehouse.resetWareHouse();
+							for (int j = 0; j < Inventario.slot.length; j++) {
+								if (((Chest) atual).getSlot(j).getIdentity() == "") {
+									Warehouse.temporaryNum = j;
+									Warehouse.temporayNumExist = true;
+									break;
+								}
+							}
+							if (Warehouse.temporayNumExist) { // Possui slot vazio
+								System.out.println("troca slot vazio - inventario");
+								((Chest) atual).setSlot(Inventario.slot[Warehouse.numExchangeInventory], Warehouse.temporaryNum);
+								Inventario.slot[Warehouse.numExchangeInventory] = new Slot();
+								System.out.println(((Chest) atual).getSlot(Warehouse.numExchangeChest).getIdentity());
+								System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+							} else {
+								System.out.println("troca slot preenchido - inventario");
+								// System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+
+								Inventario.slot[Warehouse.numExchangeInventory] = ((Chest) atual)
+										.getSlot(Warehouse.numExchangeChest);
+								((Chest) atual).setSlot(Warehouse.temporary, Warehouse.numExchangeChest);
+								System.out.println(((Chest) atual).getSlot(Warehouse.numExchangeChest).getIdentity());
+								System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+							}
+							Warehouse.resetWareHouse();
+						}
+					}
+				}
 			} else if (atual instanceof Anotacao) {
 				if (Entity.isColidding(this, atual)) {
 
@@ -242,11 +299,11 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (dir == upDir)
 				((Chest) atual).setTryAnimation(true);
-			if (!((Chest) atual).isAnimation() && ((Chest) atual).isTryAnimation()) 
+			if (!((Chest) atual).isAnimation() && ((Chest) atual).isTryAnimation())
 				Game.uiChest = true;
-			if(!((Chest) atual).isOpenChest())
+			if (!((Chest) atual).isOpenChest())
 				Inventario.visible = false;
-			nextisChestUp = true;		
+			nextisChestUp = true;
 			return;
 		} else
 			((Chest) atual).setTryAnimation(false);

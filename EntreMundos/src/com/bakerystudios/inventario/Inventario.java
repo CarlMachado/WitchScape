@@ -17,7 +17,7 @@ public class Inventario implements Renderable, Updateble {
 	private int widthInventario = numSlots * widthSlot;
 	private int initialPosition = (Screen.SCALE_WIDTH / 2) - (widthInventario / 2);
 
-	private Slot[] slot;
+	public static Slot[] slot;
 
 	public static int selectedItem = 0;
 	public static boolean status = true;
@@ -28,6 +28,9 @@ public class Inventario implements Renderable, Updateble {
 		slot = new Slot[numSlots];
 		for (int i = 0; i < slot.length; i++)
 			slot[i] = new Slot();
+		slot[0].setIdentity("a");
+		slot[1].setIdentity("b");
+		slot[2].setIdentity("c");
 	}
 
 	public void update() {
@@ -52,6 +55,16 @@ public class Inventario implements Renderable, Updateble {
 			// ITEM SELECIONADO
 			if(focus) {
 				g.setColor(Color.BLUE);
+				g.drawRect(initialPosition + selectedItem * widthSlot, Screen.SCALE_HEIGHT - numberMagic, widthSlot, widthSlot);
+				g.setColor(Color.GRAY);
+				g.fillRect(initialPosition + selectedItem * widthSlot + 1, Screen.SCALE_HEIGHT - numberMagic + 1, widthSlot - 1,
+						widthSlot - 1);
+				g.setColor(Color.WHITE);
+				g.drawString(Integer.toString(slot[selectedItem].getAmount()), initialPosition + selectedItem * widthSlot + widthSlot - 12,
+						Screen.SCALE_HEIGHT - numberMagic + widthSlot - 4);
+			}
+			if(Warehouse.exchangeInventory) {
+				g.setColor(Color.GREEN);
 				g.drawRect(initialPosition + selectedItem * widthSlot, Screen.SCALE_HEIGHT - numberMagic, widthSlot, widthSlot);
 				g.setColor(Color.GRAY);
 				g.fillRect(initialPosition + selectedItem * widthSlot + 1, Screen.SCALE_HEIGHT - numberMagic + 1, widthSlot - 1,

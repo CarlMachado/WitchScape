@@ -17,6 +17,7 @@ import com.bakerystudios.gui.menu.MainMenu;
 import com.bakerystudios.gui.menu.PauseMenu;
 import com.bakerystudios.gui.menu.engine.Menu;
 import com.bakerystudios.gui.menu.engine.MenuState;
+import com.bakerystudios.inventario.Warehouse;
 
 public class UserInterface implements Renderable, Updateble {
 
@@ -86,6 +87,19 @@ public class UserInterface implements Renderable, Updateble {
 						// ITEM SELECIONADO
 						if(chest.isFocus()) {
 							g.setColor(Color.BLUE);
+							g.drawRect(chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot(),
+									chest.getHeightPosition(), chest.getwidthSlot(), chest.getwidthSlot());
+							g.setColor(Color.GRAY);
+							g.fillRect(chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot() + 1,
+									chest.getHeightPosition() + 1, chest.getwidthSlot() - 1, chest.getwidthSlot() - 1);
+							g.setColor(Color.WHITE);
+							g.drawString(Integer.toString(chest.getSlot(chest.getselectedItem()).getAmount()),
+									chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot()
+											+ chest.getwidthSlot() - 12,
+									chest.getHeightPosition() + chest.getwidthSlot() - 4);
+						}
+						if(Warehouse.exchangeChest) {
+							g.setColor(Color.GREEN);
 							g.drawRect(chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot(),
 									chest.getHeightPosition(), chest.getwidthSlot(), chest.getwidthSlot());
 							g.setColor(Color.GRAY);
