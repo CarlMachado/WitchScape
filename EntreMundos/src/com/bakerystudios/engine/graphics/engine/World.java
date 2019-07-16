@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.tiles.FloorTile;
 import com.bakerystudios.engine.graphics.tiles.WallTile;
+import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
@@ -18,6 +19,7 @@ public class World {
 	private final int FLOOR = 0xFF000000;
 	private final int WALL = 0xFFFFFFFF;
 	private final int DOOR = 0xFF7F3300;
+	private final int CHEST = 0xFF0026FF;
 
 	public static BufferedImage map;
 	public static Tile[] tiles;
@@ -46,6 +48,9 @@ public class World {
 					}
 					if(pixelAtual == DOOR) {
 						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null));
+					}
+					if(pixelAtual == CHEST) {
+						Game.entities.add(new Chest(xx * 16, yy * 16, 16, 16, null));
 					}
 				}
 			}
