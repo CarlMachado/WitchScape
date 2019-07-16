@@ -20,6 +20,7 @@ import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
+import com.bakerystudios.inventario.Inventario;
 import com.bakerystudios.sound.AudioManager;
 
 public class Game implements Runnable, Renderable, Updateble {
@@ -44,8 +45,10 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static Spritesheet doors;
 	public static World world;
 	public static List<Entity> entities;
-	
+	public static Inventario inventario;
+
 	public static boolean uiDoor = false;
+	public static boolean uiChest = false;
 
 	public Game() {
 		// Object instantiation
@@ -61,6 +64,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		doors = new Spritesheet("/sprites/doors.png");
 		audio = new AudioManager();
 		player = new Player(16, 192, Tile.SIZE, Tile.SIZE, null);
+		inventario = new Inventario();
 
 		entities = new ArrayList<Entity>();
 		entities.add(player);
@@ -91,6 +95,7 @@ public class Game implements Runnable, Renderable, Updateble {
 				Entity e = entities.get(i);
 				e.update();
 			}
+			inventario.update();
 		} else if (GameState.state == GameState.OVER) {
 
 		}
@@ -98,6 +103,7 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	private void nonPixelatedRender(Graphics g) {
 		gui.render(g);
+		Game.inventario.render(g);
 
 		if (GameState.state == GameState.PLAYING) {
 
@@ -131,11 +137,11 @@ public class Game implements Runnable, Renderable, Updateble {
 		g.fillRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
 
 		pixelatedRender(g);
-		
+
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT, null);
-		
+
 		nonPixelatedRender(g);
 
 		bs.show();

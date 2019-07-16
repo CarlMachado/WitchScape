@@ -4,11 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.bakerystudios.entities.Anotacao;
+import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
+import com.bakerystudios.inventario.Inventario;
 
 public class PlayerInput extends Input {
 
@@ -27,6 +29,16 @@ public class PlayerInput extends Input {
 				Player.setDown(true);
 			}
 
+			if (Inventario.status && Inventario.focus) {
+				if (e.getKeyCode() == KeyEvent.VK_1) {
+					Inventario.selectedItem = 0;
+				} else if (e.getKeyCode() == KeyEvent.VK_2) {
+					Inventario.selectedItem = 1;
+				} else if (e.getKeyCode() == KeyEvent.VK_3) {
+					Inventario.selectedItem = 2;
+				}
+			}
+
 			if (Anotacao.statusEventoAnotacao) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Anotacao.nextPaginaSelected = true;
@@ -38,11 +50,52 @@ public class PlayerInput extends Input {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				for (Entity atual : Game.entities) {
 					if (atual instanceof Door) {
-						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {					
+						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
 							((Door) atual).setAnimation(true);
 							Game.uiDoor = false;
 						}
+					} else if (atual instanceof Chest) {
+						if (((Chest) atual).isTryAnimation() && !((Chest) atual).isAnimation()
+								&& !((Chest) atual).isOpenChest()) {
+							((Chest) atual).setAnimation(true);
+							Player.inEvent = true;
+							Game.uiChest = false;
+						}
 					}
+				}
+			}
+			if (Player.inEvent) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE
+						|| e.getKeyCode() == KeyEvent.VK_Q && e.getKeyCode() == KeyEvent.VK_K) {
+					for (Entity atual : Game.entities) {
+						if (atual instanceof Chest) {
+							if (((Chest) atual).isOpenChest()) {
+								if(e.getKeyCode() == KeyEvent.VK_Q) { // Foca no inventario
+									Inventario.focus = true;
+									((Chest) atual).setFocus(false);
+								} if(e.getKeyCode() == KeyEvent.VK_K) { // Foca no bau
+									Inventario.focus = false;
+									((Chest) atual).setFocus(true);
+								}
+								if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+									((Chest) atual).setAnimation(true);
+									((Chest) atual).setTryAnimation(false);
+									Game.uiChest = false;
+									Player.inEvent = false;
+								}
+								
+							}
+						}
+					}
+				} else if (e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_2
+						|| e.getKeyCode() == KeyEvent.VK_3 || e.getKeyCode() == KeyEvent.VK_4
+						|| e.getKeyCode() == KeyEvent.VK_5 || e.getKeyCode() == KeyEvent.VK_6
+						|| e.getKeyCode() == KeyEvent.VK_7 || e.getKeyCode() == KeyEvent.VK_8
+						|| e.getKeyCode() == KeyEvent.VK_9) {
+					for (Entity atual : Game.entities)
+						if (atual instanceof Chest)
+							if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus())
+								((Chest) atual).setselectedItem(Character.getNumericValue(e.getKeyCode()) - 1);
 				}
 			}
 
@@ -72,13 +125,17 @@ public class PlayerInput extends Input {
 					Anotacao.exitSelected = false;
 				}
 			}
-			
+
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				for (int i = 0; i < Game.entities.size(); i++) {
 					Entity atual = Game.entities.get(i);
-					if (atual instanceof Door) 
-						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) 
-								((Door) atual).setAnimation(false);
+					if (atual instanceof Door) {
+						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation())
+							((Door) atual).setAnimation(false);
+					} else if (atual instanceof Chest) {
+						if (((Chest) atual).isTryAnimation() && !((Chest) atual).isAnimation())
+							((Chest) atual).setAnimation(false);
+					}
 				}
 			}
 		}
