@@ -3,7 +3,7 @@ package com.bakerystudios.inventario;
 public class Slot {
 	
 	private int amount = 0;
-	private String identity;
+	private String identity = "";
 
 	public int getAmount() {
 		return amount;
