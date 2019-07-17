@@ -76,17 +76,19 @@ public class PlayerInput extends Input {
 							Game.uiChest = false;
 						}
 					} else if(atual instanceof Princesa) {
-						if(((Princesa) atual).isTryEventActive() && !((Princesa) atual).isEventActive()) {
+						if(((Princesa) atual).isTryEventActivePrincesa() && !((Princesa) atual).isEventActivePrincesa()) {
+							//System.out.println("teste prin");
 							Player.inEvent = true;
-							((Princesa) atual).setEventActive(true);
-							((Princesa) atual).setTryEventActive(false);
+							((Princesa) atual).setEventActivePrincesa(true);
+							((Princesa) atual).setTryEventActivePrincesa(false);
 							Game.uiNpc = false;
 						}
 					}else if(atual instanceof Esqueleto) {
-						if(((Esqueleto) atual).isTryEventActive() && !((Esqueleto) atual).isEventActive()) {
+						if(((Esqueleto) atual).isTryEventActiveEsqueleto() && !((Esqueleto) atual).isEventActiveEsqueleto()) {
+							//System.out.println("teste esq");
 							Player.inEvent = true;
-							((Esqueleto) atual).setEventActive(true);
-							((Esqueleto) atual).setTryEventActive(false);
+							((Esqueleto) atual).setEventActiveEsqueleto(true);
+							((Esqueleto) atual).setTryEventActiveEsqueleto(false);
 							Game.uiNpc = false;
 						}
 					}
@@ -106,13 +108,13 @@ public class PlayerInput extends Input {
 
 							}
 						}else if(atual instanceof Princesa) {
-							if(((Princesa) atual).isEventActive()) {								
-								((Princesa) atual).setEventActive(false);
+							if(((Princesa) atual).isEventActivePrincesa()) {								
+								((Princesa) atual).setEventActivePrincesa(false);
 								Player.inEvent = false;
 							}
 						}else if(atual instanceof Esqueleto) {
-							if(((Esqueleto) atual).isEventActive()) {								
-								((Esqueleto) atual).setEventActive(false);
+							if(((Esqueleto) atual).isEventActiveEsqueleto()) {								
+								((Esqueleto) atual).setEventActiveEsqueleto(false);
 								Player.inEvent = false;
 							}
 						}

@@ -16,27 +16,27 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 
 	private BufferedImage[] sprites;
 
-	private boolean event = false;
+	private boolean eventEsqueleto = false;
 
-	protected boolean existEvent = false;
-	protected boolean tryEventActive = false;
-	protected boolean eventActive = false;
+	protected boolean existEventEsqueleto = false;
+	protected boolean tryEventActiveEsqueleto = false;
+	protected boolean eventActiveEsqueleto = false;
 
 	public Esqueleto(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
-			boolean existEvent) {
+			boolean existEventEsqueleto) {
 		super(x, y, width, height, sprite);
 		sprites = new BufferedImage[spriteList.length];
 		sprites = spriteList;
 		maxAnimation = sprites.length - 1;
-		this.existEvent = existEvent;
+		this.existEventEsqueleto = existEventEsqueleto;
 	}
 
 	public void update() {
 		animation();
-		if (eventActive)
-			event = true;
+		if (eventActiveEsqueleto)
+			eventEsqueleto = true;
 		else
-			event = false;
+			eventEsqueleto = false;
 	}
 
 	public void animation() {
@@ -52,41 +52,41 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 
 	public void render(Graphics g) {
 		g.drawImage(sprites[currentAnimation], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		if (event) {
+		if (eventEsqueleto) {
 			System.out.println("eventoEsqueleto");
 		}
 	}
 
-	public boolean isEvent() {
-		return event;
+	public boolean isEventEsqueleto() {
+		return eventEsqueleto;
 	}
 
-	public void setEvent(boolean event) {
-		this.event = event;
+	public void setEventEsqueleto(boolean eventEsqueleto) {
+		this.eventEsqueleto = eventEsqueleto;
 	}
 
-	public boolean isExistEvent() {
-		return existEvent;
+	public boolean isExistEventEsqueleto() {
+		return existEventEsqueleto;
 	}
 
-	public void setExistEvent(boolean existEvent) {
-		this.existEvent = existEvent;
+	public void setExistEventEsqueleto(boolean existEventEsqueleto) {
+		this.existEventEsqueleto = existEventEsqueleto;
 	}
 
-	public boolean isEventActive() {
-		return eventActive;
+	public boolean isEventActiveEsqueleto() {
+		return eventActiveEsqueleto;
 	}
 
-	public void setEventActive(boolean eventActive) {
-		this.eventActive = eventActive;
+	public void setEventActiveEsqueleto(boolean eventActiveEsqueleto) {
+		this.eventActiveEsqueleto = eventActiveEsqueleto;
 	}
 
-	public boolean isTryEventActive() {
-		return tryEventActive;
+	public boolean isTryEventActiveEsqueleto() {
+		return tryEventActiveEsqueleto;
 	}
 
-	public void setTryEventActive(boolean tryEventActive) {
-		this.tryEventActive = tryEventActive;
+	public void setTryEventActiveEsqueleto(boolean tryEventActiveEsqueleto) {
+		this.tryEventActiveEsqueleto = tryEventActiveEsqueleto;
 	}
 
 	public BufferedImage[] getSprites() {

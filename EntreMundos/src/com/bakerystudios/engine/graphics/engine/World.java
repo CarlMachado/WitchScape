@@ -72,7 +72,7 @@ public class World {
 						Game.entities.add(new Princesa(xx * 16, yy * 16, 16, 16, null, spritesPrincesa, true));
 					}
 					if(pixelAtual == ESQUELETO) {
-						Game.entities.add(new Esqueleto(xx * 16, yy * 16, 16, 16, null, spritesEsqueleto, false));
+						Game.entities.add(new Esqueleto(xx * 16, yy * 16, 16, 16, null, spritesEsqueleto, true));
 					}
 				}
 			}

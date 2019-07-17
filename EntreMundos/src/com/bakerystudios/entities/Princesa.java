@@ -16,11 +16,11 @@ public class Princesa extends Entity implements Renderable, Updateble {
 
 	private BufferedImage[] sprites;
 
-	private boolean event = false;
+	private boolean eventPrincesa = false;
 
-	protected boolean existEvent = false;
-	protected boolean tryEventActive = false;
-	protected boolean eventActive = false;
+	protected boolean existEventPrincesa = false;
+	protected boolean tryEventActivePrincesa = false;
+	protected boolean eventActivePrincesa = false;
 
 	public Princesa(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
 			boolean existEvent) {
@@ -28,15 +28,15 @@ public class Princesa extends Entity implements Renderable, Updateble {
 		sprites = new BufferedImage[spriteList.length];
 		sprites = spriteList;
 		maxAnimation = sprites.length - 1;
-		this.existEvent = existEvent;
+		this.existEventPrincesa = existEvent;
 	}
 
 	public void update() {
 		animation();
-		if (eventActive)
-			event = true;
+		if (eventActivePrincesa)
+			eventPrincesa = true;
 		else
-			event = false;
+			eventPrincesa = false;
 	}
 
 	public void animation() {
@@ -52,41 +52,41 @@ public class Princesa extends Entity implements Renderable, Updateble {
 
 	public void render(Graphics g) {
 		g.drawImage(sprites[currentAnimation], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		if (event) {
-			System.out.println("evento");
+		if (eventPrincesa) {
+			System.out.println("eventoPrincesa");
 		}
 	}
 
-	public boolean isEvent() {
-		return event;
+	public boolean isEventPrincesa() {
+		return eventPrincesa;
 	}
 
-	public void setEvent(boolean event) {
-		this.event = event;
+	public void setEventPrincesa(boolean eventPrincesa) {
+		this.eventPrincesa = eventPrincesa;
 	}
 
-	public boolean isExistEvent() {
-		return existEvent;
+	public boolean isExistEventPrincesa() {
+		return existEventPrincesa;
 	}
 
-	public void setExistEvent(boolean existEvent) {
-		this.existEvent = existEvent;
+	public void setExistEventPrincesa(boolean existEventPrincesa) {
+		this.existEventPrincesa = existEventPrincesa;
 	}
 
-	public boolean isEventActive() {
-		return eventActive;
+	public boolean isEventActivePrincesa() {
+		return eventActivePrincesa;
 	}
 
-	public void setEventActive(boolean eventActive) {
-		this.eventActive = eventActive;
+	public void setEventActivePrincesa(boolean eventActivePrincesa) {
+		this.eventActivePrincesa = eventActivePrincesa;
 	}
 
-	public boolean isTryEventActive() {
-		return tryEventActive;
+	public boolean isTryEventActivePrincesa() {
+		return tryEventActivePrincesa;
 	}
 
-	public void setTryEventActive(boolean tryEventActive) {
-		this.tryEventActive = tryEventActive;
+	public void setTryEventActivePrincesa(boolean tryEventActivePrincesa) {
+		this.tryEventActivePrincesa = tryEventActivePrincesa;
 	}
 
 	public BufferedImage[] getSprites() {
