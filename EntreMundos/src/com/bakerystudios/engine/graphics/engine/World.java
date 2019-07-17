@@ -61,6 +61,7 @@ public class World {
 						System.out.println("player");
 						Game.player.setX(xx * TILE_SIZE);
 						Game.player.setY(yy * TILE_SIZE);
+					}
 					if(pixelAtual == DOOR_FIRST) {
 						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "chave1", true));
 					}
