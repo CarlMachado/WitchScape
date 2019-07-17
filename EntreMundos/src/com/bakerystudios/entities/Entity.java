@@ -43,12 +43,12 @@ public class Entity implements Renderable, Updateble {
 		this.mheight = mheight;
 	}
 	
-	public void setX(int newX) {
-		this.x = newX;
+	public void setX(int x) {
+		this.x = x;
 	}
 	
-	public void setY(int newY) {
-		this.y = newY;
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	public int getX() {

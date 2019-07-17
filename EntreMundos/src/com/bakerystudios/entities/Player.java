@@ -24,7 +24,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	private int frames = 0, maxFrames = 5, index = 0, maxIndex = 2;
 	private boolean moved = false;
 	public int rightDir = 0, leftDir = 1, upDir = 2, downDir = 3;
-	public int dir = rightDir;
+	public int dir = leftDir;
 	protected static boolean right, left, up, down;
 
 	private double speed = 1.0;

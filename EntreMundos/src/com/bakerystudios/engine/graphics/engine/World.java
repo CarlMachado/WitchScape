@@ -20,6 +20,7 @@ public class World {
 	
 	private final int FLOOR = 0xFF000000;
 	private final int WALL = 0xFFFFFFFF;
+	private final int PLAYER = 0xFF5BABE1;
 	private final int DOOR_FIRST = 0xFF7F3300;
 	private final int DOOR_SECOND = 0xFF682900;
 	private final int DOOR_THIRD = 0xFFD85300;
@@ -56,23 +57,27 @@ public class World {
 					if (pixelAtual == WALL) {
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_WALL);
 					}
+					if(pixelAtual == PLAYER) {
+						System.out.println("player");
+						Game.player.setX(xx * TILE_SIZE);
+						Game.player.setY(yy * TILE_SIZE);
 					if(pixelAtual == DOOR_FIRST) {
-						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null, "chave1", true));
+						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "chave1", true));
 					}
 					if(pixelAtual == DOOR_SECOND) {
-						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null, "chave2", true));
+						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "chave2", true));
 					}
 					if(pixelAtual == DOOR_THIRD) {
-						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null, "", false));
+						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "", false));
 					}
 					if(pixelAtual == CHEST) {
-						Game.entities.add(new Chest(xx * 16, yy * 16, 16, 16, null));
+						Game.entities.add(new Chest(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null));
 					}
 					if(pixelAtual == PRINCESA) {
-						Game.entities.add(new Princesa(xx * 16, yy * 16, 16, 16, null, spritesPrincesa, true));
+						Game.entities.add(new Princesa(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, spritesPrincesa, true));
 					}
 					if(pixelAtual == ESQUELETO) {
-						Game.entities.add(new Esqueleto(xx * 16, yy * 16, 16, 16, null, spritesEsqueleto, true));
+						Game.entities.add(new Esqueleto(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, spritesEsqueleto, true));
 					}
 				}
 			}
