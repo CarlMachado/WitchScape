@@ -18,6 +18,7 @@ public class World {
 	private final int FLOOR = 0xFF000000;
 	private final int WALL = 0xFFFFFFFF;
 	private final int DOOR = 0xFF7F3300;
+	private final int PLAYER = 0xFF5BABE1;
 
 	public static BufferedImage map;
 	public static Tile[] tiles;
@@ -45,7 +46,12 @@ public class World {
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_WALL);
 					}
 					if(pixelAtual == DOOR) {
-						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null));
+						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null));
+					}
+					if(pixelAtual == PLAYER) {
+						System.out.println("player");
+						Game.player.setX(xx * TILE_SIZE);
+						Game.player.setY(yy * TILE_SIZE);
 					}
 				}
 			}

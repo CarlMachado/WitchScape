@@ -37,7 +37,7 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	private AudioManager audio;
 
-	private static Player player;
+	public static Player player;
 
 	public static Spritesheet spritesheet;
 	public static Spritesheet characters;
@@ -60,11 +60,11 @@ public class Game implements Runnable, Renderable, Updateble {
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
 		audio = new AudioManager();
-		player = new Player(16, 192, Tile.SIZE, Tile.SIZE, null);
+		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 
 		entities = new ArrayList<Entity>();
 		entities.add(player);
-		world = new World("/levels/map1.png", "/levels/map1_collisionmap.png");
+		world = new World("/levels/map.png", "/levels/map_collision.png");
 	}
 
 	public synchronized void start() {
