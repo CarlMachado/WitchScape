@@ -75,9 +75,7 @@ public class Player extends Entity implements Renderable, Updateble {
 					&& World.isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft && !movingRight) {
 				moved = true;
 				movingUp = true;
-				correctCollisionDoor();
-				correctCollisionChest();
-				correctCollisionNpc();
+				correctCollisionGeneral();
 			}
 			// y -= speed;
 		} else if (down) {
@@ -87,9 +85,7 @@ public class Player extends Entity implements Renderable, Updateble {
 					&& World.isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft && !movingRight) {
 				moved = true;
 				movingDown = true;
-				correctCollisionDoor();
-				correctCollisionChest();
-				correctCollisionNpc();
+				correctCollisionGeneral();
 			}
 			// y += speed;
 		} else if (right) {
@@ -99,9 +95,7 @@ public class Player extends Entity implements Renderable, Updateble {
 					&& !movingDown && !movingLeft && !movingUp) {
 				moved = true;
 				movingRight = true;
-				correctCollisionDoor();
-				correctCollisionChest();
-				correctCollisionNpc();
+				correctCollisionGeneral();
 			}
 			// x += speed;
 		} else if (left) {
@@ -111,9 +105,7 @@ public class Player extends Entity implements Renderable, Updateble {
 					&& !movingDown && !movingUp && !movingRight) {
 				moved = true;
 				movingLeft = true;
-				correctCollisionDoor();
-				correctCollisionChest();
-				correctCollisionNpc();
+				correctCollisionGeneral();
 			}
 			// x -= speed;
 		}
@@ -240,21 +232,27 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 		}
 	}
-	
+
 	public static boolean typeIsNpc(Entity atual) {
 		if (atual instanceof Princesa || atual instanceof Esqueleto)
 			return true;
-		else 
+		else
 			return false;
 	}
 
 	public void collisionNpc(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if(atual instanceof Princesa) {
-				if(((Princesa) atual).isExistEvent()) {
-					((Princesa) atual).setTryEventActive(true);
+			if (atual instanceof Princesa) {
+				if (((Princesa) atual).isExistEventPrincesa()) {
+					((Princesa) atual).setTryEventActivePrincesa(true);
 					Game.uiNpc = true;
-				}				
+				}
+			}
+			if (atual instanceof Esqueleto) {
+				if (((Esqueleto) atual).isExistEventEsqueleto()) {
+					((Esqueleto) atual).setTryEventActiveEsqueleto(true);
+					Game.uiNpc = true;
+				}
 			}
 			nextisNpcUp = true;
 		}
@@ -333,14 +331,30 @@ public class Player extends Entity implements Renderable, Updateble {
 		Inventario.visible = true;
 	}
 
-	public void correctCollisionDoor() {
-		if (nextisDoorDown || nextisDoorUp) {
+	public void correctCollisionGeneral() {
+		correctCollisionWithOthers();
+		correctCollisionDoor();
+		correctCollisionNpc();
+		correctCollisionChest();
+	}
+
+	public void correctCollisionWithOthers() {
+		if (nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight) {
 			for (Entity atual : Game.entities) {
 				if (atual instanceof Door) {
 					((Door) atual).setChoose(false);
 				}
+				if (atual instanceof Princesa) {
+					((Princesa) atual).setTryEventActivePrincesa(false);
+				}
+				if (atual instanceof Esqueleto) {
+					((Esqueleto) atual).setTryEventActiveEsqueleto(false);
+				}
 			}
 		}
+	}
+
+	public void correctCollisionDoor() {
 		if (nextisDoorDown)
 			nextisDoorDown = false;
 		if (nextisDoorUp)
