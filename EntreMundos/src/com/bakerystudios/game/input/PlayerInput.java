@@ -7,7 +7,9 @@ import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
+import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.inventario.Inventario;
@@ -54,8 +56,17 @@ public class PlayerInput extends Input {
 				for (Entity atual : Game.entities) {
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
-							((Door) atual).setAnimation(true);
-							Game.uiDoor = false;
+							if(((Door) atual).isChave()) {
+								for(int i = 0; i < Inventario.slot.length; i++) {
+									if(Inventario.slot[i].getIdentity() == ((Door) atual).getIdentify()) {
+										((Door) atual).setAnimation(true);
+										Game.uiDoor = false;
+									}
+								}
+							}else {
+								((Door) atual).setAnimation(true);
+								Game.uiDoor = false;
+							}							
 						}
 					} else if (atual instanceof Chest) {
 						if (((Chest) atual).isTryAnimation() && !((Chest) atual).isAnimation()
@@ -63,6 +74,20 @@ public class PlayerInput extends Input {
 							((Chest) atual).setAnimation(true);
 							Player.inEvent = true;
 							Game.uiChest = false;
+						}
+					} else if(atual instanceof Princesa) {
+						if(((Princesa) atual).isTryEventActive() && !((Princesa) atual).isEventActive()) {
+							Player.inEvent = true;
+							((Princesa) atual).setEventActive(true);
+							((Princesa) atual).setTryEventActive(false);
+							Game.uiNpc = false;
+						}
+					}else if(atual instanceof Esqueleto) {
+						if(((Esqueleto) atual).isTryEventActive() && !((Esqueleto) atual).isEventActive()) {
+							Player.inEvent = true;
+							((Esqueleto) atual).setEventActive(true);
+							((Esqueleto) atual).setTryEventActive(false);
+							Game.uiNpc = false;
 						}
 					}
 				}
@@ -79,6 +104,16 @@ public class PlayerInput extends Input {
 									Player.inEvent = false;
 								}
 
+							}
+						}else if(atual instanceof Princesa) {
+							if(((Princesa) atual).isEventActive()) {								
+								((Princesa) atual).setEventActive(false);
+								Player.inEvent = false;
+							}
+						}else if(atual instanceof Esqueleto) {
+							if(((Esqueleto) atual).isEventActive()) {								
+								((Esqueleto) atual).setEventActive(false);
+								Player.inEvent = false;
 							}
 						}
 					}
@@ -108,22 +143,16 @@ public class PlayerInput extends Input {
 								if (e.getKeyCode() == KeyEvent.VK_ENTER) { // Troca de itens, bau e inventario
 									if (Inventario.focus
 											&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
-										Warehouse.numExchangeInventory = Inventario.selectedItem;
-										if (!Warehouse.exchangeInventory && !Warehouse.exchangeChest) {
-											Warehouse.firsSelected = 1;
-											Warehouse.temporary = Inventario.slot[Warehouse.numExchangeInventory];
-										}						
-										Warehouse.exchangeInventory = true;							
+										Warehouse.numExchangeInventory = Inventario.selectedItem; 
+										Warehouse.temporaryInventory = Inventario.slot[Warehouse.numExchangeInventory];
+										Warehouse.exchangeInventory = true;
 										((Chest) atual).setFocus(true);
 										Inventario.focus = false;
 									} else if (((Chest) atual).isFocus()
 											&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 										Warehouse.numExchangeChest = ((Chest) atual).getselectedItem();
-										if (!Warehouse.exchangeInventory && !Warehouse.exchangeChest) {
-											Warehouse.firsSelected = 0;
-											Warehouse.temporary = ((Chest) atual).getSlot(Warehouse.numExchangeChest);
-										}						
-										Warehouse.exchangeChest = true;						
+										Warehouse.temporaryChest = ((Chest) atual).getSlot(Warehouse.numExchangeChest);
+										Warehouse.exchangeChest = true;
 										Inventario.focus = true;
 										((Chest) atual).setFocus(false);
 									}

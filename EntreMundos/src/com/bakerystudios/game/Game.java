@@ -49,6 +49,7 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	public static boolean uiDoor = false;
 	public static boolean uiChest = false;
+	public static boolean uiNpc = false;
 
 	public Game() {
 		// Object instantiation
@@ -141,9 +142,9 @@ public class Game implements Runnable, Renderable, Updateble {
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(frame, 0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT, null);
-
+		
 		nonPixelatedRender(g);
-
+		
 		bs.show();
 	}
 

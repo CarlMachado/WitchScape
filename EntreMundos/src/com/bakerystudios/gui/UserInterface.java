@@ -9,6 +9,7 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
+import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
@@ -49,17 +50,25 @@ public class UserInterface implements Renderable, Updateble {
 	public void render(Graphics g) {
 		fps.render(g);
 
-		if (Game.uiDoor || Game.uiChest) {
+		if (Game.uiDoor || Game.uiChest || Game.uiNpc) {
 			for (int j = 0; j < Game.entities.size(); j++) {
 				Entity atual = Game.entities.get(j);
 				if (atual instanceof Door && Game.uiDoor) {
 					g.setColor(Color.white);
 					g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-					if (!((Door) atual).getOpenDoor())
-						drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
-					else
+					if (!((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA ABERTA
+						if (((Door) atual).isChave()) {
+							drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
+							drawCentralizedString(g, "Você irá precisar de uma chave", Screen.HEIGHT + 540);
+							return;
+						} else {
+							drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
+							return;
+						}
+					} else if (((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA FECHADA
 						drawCentralizedString(g, "Aperte ENTER para fechar a porta", Screen.HEIGHT + 500);
-					g.dispose();
+						return;
+					}
 				}
 				if (atual instanceof Chest && Game.uiChest && !((Chest) atual).isOpenChest()
 						&& ((Chest) atual).isTryAnimation()) {
@@ -85,7 +94,7 @@ public class UserInterface implements Renderable, Updateble {
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
 						}
 						// ITEM SELECIONADO
-						if(chest.isFocus()) {
+						if (chest.isFocus()) {
 							g.setColor(Color.BLUE);
 							g.drawRect(chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot(),
 									chest.getHeightPosition(), chest.getwidthSlot(), chest.getwidthSlot());
@@ -98,7 +107,7 @@ public class UserInterface implements Renderable, Updateble {
 											+ chest.getwidthSlot() - 12,
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
 						}
-						if(Warehouse.exchangeChest) {
+						if (Warehouse.exchangeChest) {
 							g.setColor(Color.GREEN);
 							g.drawRect(chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot(),
 									chest.getHeightPosition(), chest.getwidthSlot(), chest.getwidthSlot());
@@ -112,6 +121,10 @@ public class UserInterface implements Renderable, Updateble {
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
 						}
 					}
+				} else if ((Player.typeIsNpc(atual)) && (Game.uiNpc)) {
+					g.setColor(Color.white);
+					g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
+					drawCentralizedString(g, "Aperte ENTER para interagir com o NPC", Screen.HEIGHT + 500);
 				}
 			}
 		}

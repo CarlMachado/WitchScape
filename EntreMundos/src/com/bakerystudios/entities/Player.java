@@ -11,7 +11,6 @@ import com.bakerystudios.engine.graphics.engine.World;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.inventario.Inventario;
-import com.bakerystudios.inventario.Slot;
 import com.bakerystudios.inventario.Warehouse;
 
 public class Player extends Entity implements Renderable, Updateble {
@@ -43,8 +42,12 @@ public class Player extends Entity implements Renderable, Updateble {
 	private boolean nextisChestLeft = false;
 	private boolean nextisChestRight = false;
 
+	private boolean nextisNpcUp = false;
+	private boolean nextisNpcDown = false;
+	private boolean nextisNpcLeft = false;
+	private boolean nextisNpcRight = false;
+
 	public static boolean inEvent = false;
-	public static boolean isPossibleEvent = true;
 
 	public static int controllerInventory = 1; // 1 para Inventario - 2 para Bau
 
@@ -68,45 +71,49 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (up) {
 			if (!inEvent && !moved)
 				dir = upDir;
-			if (!inEvent && !nextisChestUp && !nextisDoorUp && World.isFree(this.getX(), (int) (y - speed))
-					&& !movingDown && !movingLeft && !movingRight) {
+			if (!nextisNpcUp && !inEvent && !nextisChestUp && !nextisDoorUp
+					&& World.isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft && !movingRight) {
 				moved = true;
 				movingUp = true;
 				correctCollisionDoor();
 				correctCollisionChest();
+				correctCollisionNpc();
 			}
 			// y -= speed;
 		} else if (down) {
 			if (!inEvent && !moved)
 				dir = downDir;
-			if (!inEvent && !nextisChestDown && !nextisDoorDown && World.isFree(this.getX(), (int) (y + speed))
-					&& !movingUp && !movingLeft && !movingRight) {
+			if (!nextisNpcDown && !inEvent && !nextisChestDown && !nextisDoorDown
+					&& World.isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft && !movingRight) {
 				moved = true;
 				movingDown = true;
 				correctCollisionDoor();
 				correctCollisionChest();
+				correctCollisionNpc();
 			}
 			// y += speed;
 		} else if (right) {
 			if (!inEvent && !moved)
 				dir = rightDir;
-			if (!inEvent && !nextisChestRight && World.isFree((int) (x + speed), this.getY()) && !movingDown
-					&& !movingLeft && !movingUp) {
+			if (!nextisNpcRight && !inEvent && !nextisChestRight && World.isFree((int) (x + speed), this.getY())
+					&& !movingDown && !movingLeft && !movingUp) {
 				moved = true;
 				movingRight = true;
 				correctCollisionDoor();
 				correctCollisionChest();
+				correctCollisionNpc();
 			}
 			// x += speed;
 		} else if (left) {
 			if (!inEvent && !moved)
 				dir = leftDir;
-			if (!inEvent && !nextisChestLeft && World.isFree((int) (x - speed), this.getY()) && !movingDown && !movingUp
-					&& !movingRight) {
+			if (!nextisNpcLeft && !inEvent && !nextisChestLeft && World.isFree((int) (x - speed), this.getY())
+					&& !movingDown && !movingUp && !movingRight) {
 				moved = true;
 				movingLeft = true;
 				correctCollisionDoor();
 				correctCollisionChest();
+				correctCollisionNpc();
 			}
 			// x -= speed;
 		}
@@ -206,57 +213,21 @@ public class Player extends Entity implements Renderable, Updateble {
 				collisionChest(atual);
 				if (((Chest) atual).isOpenChest()) {
 					if (Warehouse.exchangeChest && Warehouse.exchangeInventory) {
-						if (Warehouse.firsSelected == 0) { // Primeiro bau
-							for (int j = 0; j < Inventario.slot.length; j++) {
-								if (Inventario.slot[j].getIdentity() == "") {
-									Warehouse.temporaryNum = j;
-									Warehouse.temporayNumExist = true;
-									break;
-								}
-							}
-							if (Warehouse.temporayNumExist) { // Possui slot vazio
-								System.out.println("troca slot vazio - bau");
-								Inventario.slot[Warehouse.temporaryNum] = ((Chest) atual).getSlot(Warehouse.numExchangeChest);
-								((Chest) atual).setSlot(new Slot(), Warehouse.numExchangeChest);
-								System.out.println(((Chest) atual).getSlot(Warehouse.numExchangeChest).getIdentity());
-								System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
-							} else {
-								System.out.println("troca slot preenchido - bau");
-								// System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
-								((Chest) atual).setSlot(Inventario.slot[Warehouse.numExchangeInventory],
-										Warehouse.numExchangeChest);
-								Inventario.slot[Warehouse.numExchangeInventory] = Warehouse.temporary;
-								// System.out.println(((Chest)
-								// atual).getSlot(Warehouse.numExchangeChest).getIdentity());
-							}
-							Warehouse.resetWareHouse();
-						} else { // Primeiro inventario
-							Warehouse.resetWareHouse();
-							for (int j = 0; j < Inventario.slot.length; j++) {
-								if (((Chest) atual).getSlot(j).getIdentity() == "") {
-									Warehouse.temporaryNum = j;
-									Warehouse.temporayNumExist = true;
-									break;
-								}
-							}
-							if (Warehouse.temporayNumExist) { // Possui slot vazio
-								System.out.println("troca slot vazio - inventario");
-								((Chest) atual).setSlot(Inventario.slot[Warehouse.numExchangeInventory], Warehouse.temporaryNum);
-								Inventario.slot[Warehouse.numExchangeInventory] = new Slot();
-								System.out.println(((Chest) atual).getSlot(Warehouse.numExchangeChest).getIdentity());
-								System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
-							} else {
-								System.out.println("troca slot preenchido - inventario");
-								// System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+						// System.out.println("ANTIGO:");
+						// System.out.println("Inventario:" +
+						// Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+						// System.out.println("Bau:" + ((Chest)
+						// atual).getSlot(Warehouse.numExchangeChest).getIdentity());
 
-								Inventario.slot[Warehouse.numExchangeInventory] = ((Chest) atual)
-										.getSlot(Warehouse.numExchangeChest);
-								((Chest) atual).setSlot(Warehouse.temporary, Warehouse.numExchangeChest);
-								System.out.println(((Chest) atual).getSlot(Warehouse.numExchangeChest).getIdentity());
-								System.out.println(Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
-							}
-							Warehouse.resetWareHouse();
-						}
+						Inventario.slot[Warehouse.numExchangeInventory] = Warehouse.temporaryChest;
+						((Chest) atual).setSlot(Warehouse.temporaryInventory, Warehouse.numExchangeChest);
+
+						// System.out.println("NOVO:");
+						// System.out.println("Inventario:" +
+						// Inventario.slot[Warehouse.numExchangeInventory].getIdentity());
+						// System.out.println("Bau:" + ((Chest)
+						// atual).getSlot(Warehouse.numExchangeChest).getIdentity());
+						Warehouse.resetWareHouse();
 					}
 				}
 			} else if (atual instanceof Anotacao) {
@@ -264,8 +235,35 @@ public class Player extends Entity implements Renderable, Updateble {
 
 					return;
 				}
+			} else if (typeIsNpc(atual)) {
+				collisionNpc(atual);
 			}
 		}
+	}
+	
+	public static boolean typeIsNpc(Entity atual) {
+		if (atual instanceof Princesa || atual instanceof Esqueleto)
+			return true;
+		else 
+			return false;
+	}
+
+	public void collisionNpc(Entity atual) {
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
+			if(atual instanceof Princesa) {
+				if(((Princesa) atual).isExistEvent()) {
+					((Princesa) atual).setTryEventActive(true);
+					Game.uiNpc = true;
+				}				
+			}
+			nextisNpcUp = true;
+		}
+		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) // Baixo
+			nextisNpcDown = true;
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) // Direita
+			nextisNpcRight = true;
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) // Esquerda
+			nextisNpcLeft = true;
 	}
 
 	public void collisionDoor(Entity atual) {
@@ -274,10 +272,14 @@ public class Player extends Entity implements Renderable, Updateble {
 				((Door) atual).setTryAnimation(true);
 			if (!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
-			if (!((Door) atual).getOpenDoor())
+			if (!((Door) atual).getOpenDoor()) {
 				nextisDoorUp = true;
-			else
+
+			} else {
 				nextisDoorUp = false;
+				// ((Door) atual).setChoose(false);
+			}
+			((Door) atual).setChoose(true);
 			return;
 		} else
 			((Door) atual).setTryAnimation(false);
@@ -286,10 +288,13 @@ public class Player extends Entity implements Renderable, Updateble {
 				((Door) atual).setTryAnimation(true);
 			if (!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
-			if (!((Door) atual).getOpenDoor())
+			if (!((Door) atual).getOpenDoor()) {
 				nextisDoorDown = true;
-			else
+			} else {
 				nextisDoorDown = false;
+				// ((Door) atual).setChoose(false);
+			}
+			((Door) atual).setChoose(true);
 			return;
 		} else
 			((Door) atual).setTryAnimation(false);
@@ -329,11 +334,30 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void correctCollisionDoor() {
+		if (nextisDoorDown || nextisDoorUp) {
+			for (Entity atual : Game.entities) {
+				if (atual instanceof Door) {
+					((Door) atual).setChoose(false);
+				}
+			}
+		}
 		if (nextisDoorDown)
 			nextisDoorDown = false;
 		if (nextisDoorUp)
 			nextisDoorUp = false;
 		Game.uiDoor = false;
+	}
+
+	public void correctCollisionNpc() {
+		if (nextisNpcUp)
+			nextisNpcUp = false;
+		if (nextisNpcDown)
+			nextisNpcDown = false;
+		if (nextisNpcLeft)
+			nextisNpcLeft = false;
+		if (nextisNpcRight)
+			nextisNpcRight = false;
+		Game.uiNpc = false;
 	}
 
 	public boolean isRight() {
@@ -386,6 +410,38 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void setNextisChestLeft(boolean nextisChestLeft) {
 		this.nextisChestLeft = nextisChestLeft;
+	}
+
+	public boolean isnextisNpcUp() {
+		return nextisNpcUp;
+	}
+
+	public void setNextisNpctUp(boolean nextisNpctUp) {
+		this.nextisNpcUp = nextisNpctUp;
+	}
+
+	public boolean isNextisNpcDown() {
+		return nextisNpcDown;
+	}
+
+	public void setNextisNpcDown(boolean nextisNpcDown) {
+		this.nextisNpcDown = nextisNpcDown;
+	}
+
+	public boolean isNextisNpcLeft() {
+		return nextisNpcLeft;
+	}
+
+	public void setNextisNpcLeft(boolean nextisNpcLeft) {
+		this.nextisNpcLeft = nextisNpcLeft;
+	}
+
+	public boolean isNextisNpcRight() {
+		return nextisNpcRight;
+	}
+
+	public void setNextisNpcRight(boolean nextisNpcRight) {
+		this.nextisNpcRight = nextisNpcRight;
 	}
 
 }

@@ -11,6 +11,8 @@ import com.bakerystudios.engine.graphics.tiles.FloorTile;
 import com.bakerystudios.engine.graphics.tiles.WallTile;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
+import com.bakerystudios.entities.Esqueleto;
+import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
@@ -18,8 +20,15 @@ public class World {
 	
 	private final int FLOOR = 0xFF000000;
 	private final int WALL = 0xFFFFFFFF;
-	private final int DOOR = 0xFF7F3300;
+	private final int DOOR_FIRST = 0xFF7F3300;
+	private final int DOOR_SECOND = 0xFF682900;
+	private final int DOOR_THIRD = 0xFFD85300;
 	private final int CHEST = 0xFF0026FF;
+	private final int PRINCESA = 0xFFFF7F7F;
+	private final int ESQUELETO = 0xFF808080;
+	
+	private BufferedImage[] spritesPrincesa;
+	private BufferedImage[] spritesEsqueleto;
 
 	public static BufferedImage map;
 	public static Tile[] tiles;
@@ -28,6 +37,7 @@ public class World {
 
 	public World(String map_path, String colmap_path) {
 		try {
+			loadSprites();
 			BufferedImage col_map = ImageIO.read(getClass().getResource(colmap_path));
 			map = ImageIO.read(getClass().getResource(map_path));
 			int[] pixels = new int[col_map.getWidth() * col_map.getHeight()];
@@ -46,11 +56,23 @@ public class World {
 					if (pixelAtual == WALL) {
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_WALL);
 					}
-					if(pixelAtual == DOOR) {
-						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null));
+					if(pixelAtual == DOOR_FIRST) {
+						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null, "chave1", true));
+					}
+					if(pixelAtual == DOOR_SECOND) {
+						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null, "chave2", true));
+					}
+					if(pixelAtual == DOOR_THIRD) {
+						Game.entities.add(new Door(xx * 16, yy * 16, 16, 16, null, "", false));
 					}
 					if(pixelAtual == CHEST) {
 						Game.entities.add(new Chest(xx * 16, yy * 16, 16, 16, null));
+					}
+					if(pixelAtual == PRINCESA) {
+						Game.entities.add(new Princesa(xx * 16, yy * 16, 16, 16, null, spritesPrincesa, true));
+					}
+					if(pixelAtual == ESQUELETO) {
+						Game.entities.add(new Esqueleto(xx * 16, yy * 16, 16, 16, null, spritesEsqueleto, false));
 					}
 				}
 			}
@@ -79,6 +101,16 @@ public class World {
 				|| (tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile));
 	}
 
+	public void loadSprites() {
+		spritesPrincesa = new BufferedImage[1];
+		for(int i = 0; i < spritesPrincesa.length; i++)
+			spritesPrincesa[i] = Game.characters.getSprite(96, 0, Tile.SIZE, Tile.SIZE);
+		
+		spritesEsqueleto = new BufferedImage[1];
+		for(int i = 0; i < spritesEsqueleto.length; i++)
+			spritesEsqueleto[i] = Game.characters.getSprite(144, 0, Tile.SIZE, Tile.SIZE);
+	}
+	
 	public void render(Graphics g) {
 		int xstart = Camera.x >> 4;
 		int ystart = Camera.y >> 4;
