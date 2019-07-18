@@ -1,7 +1,6 @@
 package com.bakerystudios.inventario;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import com.bakerystudios.engine.Renderable;
