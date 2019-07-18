@@ -22,6 +22,8 @@ public class Door extends Entity implements Renderable, Updateble {
 	private String identify;
 	private boolean chave;
 	
+	private boolean pressedEnter = false;
+	
 	private boolean choose = false;
 
 	private int currentAnimacao = 0;
@@ -38,6 +40,10 @@ public class Door extends Entity implements Renderable, Updateble {
 		this.maxAnimacao = sprites.length;
 		this.setIdentify(identify);
 		this.chave = chave;
+	}
+	
+	public boolean pressedEnter() {
+		return pressedEnter;
 	}
 
 	@Override
