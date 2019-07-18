@@ -47,6 +47,11 @@ public class Player extends Entity implements Renderable, Updateble {
 	private boolean nextisNpcLeft = false;
 	private boolean nextisNpcRight = false;
 
+	private boolean nextisPlacaUp = false;
+	private boolean nextisPlacaDown = false;
+	private boolean nextisPlacaLeft = false;
+	private boolean nextisPlacaRight = false;
+
 	public static boolean inEvent = false;
 
 	public static int controllerInventory = 1; // 1 para Inventario - 2 para Bau
@@ -71,7 +76,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (up) {
 			if (!inEvent && !moved)
 				dir = upDir;
-			if (!nextisNpcUp && !inEvent && !nextisChestUp && !nextisDoorUp
+			if (!nextisPlacaUp && !nextisNpcUp && !inEvent && !nextisChestUp && !nextisDoorUp
 					&& World.isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft && !movingRight) {
 				moved = true;
 				movingUp = true;
@@ -81,7 +86,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		} else if (down) {
 			if (!inEvent && !moved)
 				dir = downDir;
-			if (!nextisNpcDown && !inEvent && !nextisChestDown && !nextisDoorDown
+			if (!nextisPlacaDown && !nextisNpcDown && !inEvent && !nextisChestDown && !nextisDoorDown
 					&& World.isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft && !movingRight) {
 				moved = true;
 				movingDown = true;
@@ -91,7 +96,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		} else if (right) {
 			if (!inEvent && !moved)
 				dir = rightDir;
-			if (!nextisNpcRight && !inEvent && !nextisChestRight && World.isFree((int) (x + speed), this.getY())
+			if (!nextisPlacaRight && !nextisNpcRight && !inEvent && !nextisChestRight && World.isFree((int) (x + speed), this.getY())
 					&& !movingDown && !movingLeft && !movingUp) {
 				moved = true;
 				movingRight = true;
@@ -101,7 +106,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		} else if (left) {
 			if (!inEvent && !moved)
 				dir = leftDir;
-			if (!nextisNpcLeft && !inEvent && !nextisChestLeft && World.isFree((int) (x - speed), this.getY())
+			if (!nextisPlacaLeft && !nextisNpcLeft && !inEvent && !nextisChestLeft && World.isFree((int) (x - speed), this.getY())
 					&& !movingDown && !movingUp && !movingRight) {
 				moved = true;
 				movingLeft = true;
@@ -229,6 +234,8 @@ public class Player extends Entity implements Renderable, Updateble {
 				}
 			} else if (typeIsNpc(atual)) {
 				collisionNpc(atual);
+			}else if(atual instanceof Placa) {
+				collisionPlaca(atual);
 			}
 		}
 	}
@@ -236,7 +243,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	public static boolean typeIsNpc(Entity atual) {
 		if (atual instanceof Princesa || atual instanceof Esqueleto)
 			return true;
-		else
+		else 
 			return false;
 	}
 
@@ -324,6 +331,24 @@ public class Player extends Entity implements Renderable, Updateble {
 			nextisChestLeft = true;
 	}
 
+	public void collisionPlaca(Entity atual) {
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
+			if (dir == upDir) {
+				((Placa) atual).setTryEventActivePlaca(true);
+				Game.uiPlaca = true;
+			}
+			((Placa) atual).setChoose(true);
+			nextisPlacaUp = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) // Baixo
+			nextisPlacaDown = true;
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) // Direita
+			nextisPlacaRight = true;
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) // Esquerda
+			nextisPlacaLeft = true;
+	}
+	
 	public void correctCollisionChest() {
 		if (nextisChestUp)
 			nextisChestUp = false;
@@ -342,10 +367,19 @@ public class Player extends Entity implements Renderable, Updateble {
 		correctCollisionDoor();
 		correctCollisionNpc();
 		correctCollisionChest();
+		correctCollisionPlaca();
+	}
+	
+	public boolean existTrueNext() {
+		if(nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight
+				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown)
+			return true;
+		else 
+			return false;
 	}
 
 	public void correctCollisionWithOthers() {
-		if (nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight) {
+		if (existTrueNext()) {
 			for (Entity atual : Game.entities) {
 				if (atual instanceof Door) {
 					((Door) atual).setChoose(false);
@@ -358,8 +392,24 @@ public class Player extends Entity implements Renderable, Updateble {
 					((Esqueleto) atual).setTryEventActiveEsqueleto(false);
 					((Esqueleto) atual).setChoose(false);
 				}
+				if (atual instanceof Placa) {
+					((Placa) atual).setTryEventActivePlaca(false);
+					((Placa) atual).setChoose(false);
+				}
 			}
 		}
+	}
+
+	public void correctCollisionPlaca() {
+		if (nextisPlacaUp)
+			nextisPlacaUp = false;
+		if (nextisPlacaDown)
+			nextisPlacaDown = false;
+		if (nextisPlacaLeft)
+			nextisPlacaLeft = false;
+		if (nextisPlacaRight)
+			nextisPlacaRight = false;
+		Game.uiPlaca = false;
 	}
 
 	public void correctCollisionDoor() {
@@ -464,6 +514,38 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void setNextisNpcRight(boolean nextisNpcRight) {
 		this.nextisNpcRight = nextisNpcRight;
+	}
+
+	public boolean isNextisPlacaUp() {
+		return nextisPlacaUp;
+	}
+
+	public void setNextisPlacaUp(boolean nextisPlacaUp) {
+		this.nextisPlacaUp = nextisPlacaUp;
+	}
+
+	public boolean isNextisPlacaDown() {
+		return nextisPlacaDown;
+	}
+
+	public void setNextisPlacaDown(boolean nextisPlacaDown) {
+		this.nextisPlacaDown = nextisPlacaDown;
+	}
+
+	public boolean isNextisPlacaLeft() {
+		return nextisPlacaLeft;
+	}
+
+	public void setNextisPlacaLeft(boolean nextisPlacaLeft) {
+		this.nextisPlacaLeft = nextisPlacaLeft;
+	}
+
+	public boolean isNextisPlacaRight() {
+		return nextisPlacaRight;
+	}
+
+	public void setNextisPlacaRight(boolean nextisPlacaRight) {
+		this.nextisPlacaRight = nextisPlacaRight;
 	}
 
 }

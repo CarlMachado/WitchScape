@@ -35,8 +35,10 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 
 	private List<String>[] linha;
 	
-	private int currentPagina = 0;
+	private int currentPagina = 1;
 	private int paginas = 0;
+
+	private boolean eventIsOver = false;
 
 	public Anotacao(int x, int y, int width, int height, BufferedImage sprite, boolean visible, List<String>[] linha) {
 		super(x, y, width, height, sprite);
@@ -69,27 +71,31 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	
 	public void eventoAnotacao(Graphics g) {
 		if(isStatusEventoAnotacao()) {
-			int paginas = linha.length;
-			// FALTA CRIAR JANELA POR TRÁS DO TEXTO - CARLOS
+
 			TextBox.show(g, null, null, null);
 			g.setFont(Game.boxFont);
 			g.setColor(Color.BLACK);
 			int linhas = linha[currentPagina].size();
+
 			for(int j = 0; j < linhas; j++) {
 				int fontHeight = g.getFontMetrics().getHeight();
-				drawCentralizedString(g, linha[currentPagina].get(j), (int) y + j * fontHeight);
+				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y + j * fontHeight);
 			}	
-			if(currentPagina + 1 != paginas) { 
-				// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
-				if(nextPaginaSelected) {
-					System.out.println("troquei de pagina");
-					currentPagina++;
-					nextPaginaSelected = false;
-				}
+			// EXISTE PRÃ“XIMA PAGINA, EXIBE BOTÃƒO DE PRÃ“XIMA PAGINA - CARLOS
+			if(!eventIsOver && nextPaginaSelected) {
+				currentPagina++;
+				nextPaginaSelected = false;
+			}
+			
+			if(currentPagina == this.paginas) {
+				setEventIsOver(true);
 			}
 			
 			if(exitSelected) { // CLICOU ESC PARA SAIR DO EVENTO
 				setStatusEventoAnotacao(false);
+				exitSelected = false;
+				currentPagina = 1;
+				eventIsOver = false;
 				return;
 			}			
 		}
@@ -131,12 +137,28 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 		this.paginas = paginas;
 	}
 
+	public int getCurrentPagina() {
+		return currentPagina;
+	}
+
+	public void setCurrentPagina(int currentPagina) {
+		this.currentPagina = currentPagina;
+	}
+	
 	public boolean isStatusEventoAnotacao() {
 		return statusEventoAnotacao;
 	}
 
 	public void setStatusEventoAnotacao(boolean statusEventoAnotacao) {
 		this.statusEventoAnotacao = statusEventoAnotacao;
+	}
+
+	public boolean isEventIsOver() {
+		return eventIsOver;
+	}
+
+	public void setEventIsOver(boolean eventIsOver) {
+		this.eventIsOver = eventIsOver;
 	}
 
 }

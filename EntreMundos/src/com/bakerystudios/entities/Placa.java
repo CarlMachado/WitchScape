@@ -1,11 +1,68 @@
 package com.bakerystudios.entities;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
-public class Placa extends Entity{
+import com.bakerystudios.engine.Renderable;
+import com.bakerystudios.engine.Updateble;
 
-	public Placa(int x, int y, int width, int height, BufferedImage sprite) {
+public class Placa extends Entity implements Renderable, Updateble {
+
+	private List<String>[] placaDialogue;
+	private Anotacao anotacaoDialogue;
+
+	protected boolean tryEventActivePlaca = false;
+	protected boolean eventActivePlaca = false;
+
+	private boolean choose = false;
+
+	public Placa(int x, int y, int width, int height, BufferedImage sprite, List<String>[] placaDialogue) {
 		super(x, y, width, height, sprite);
+
+		this.placaDialogue = placaDialogue;
+		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, placaDialogue);
+	}
+
+	public void update() {
+		if (eventActivePlaca) {
+			anotacaoDialogue.setStatusEventoAnotacao(true);
+			setChoose(true);
+		} else {
+			anotacaoDialogue.setStatusEventoAnotacao(false);
+		}
+	}
+
+	public void render(Graphics g) {
+		super.render(g);
+	}
+
+	public boolean isChoose() {
+		return choose;
+	}
+
+	public void setChoose(boolean choose) {
+		this.choose = choose;
+	}
+	
+	public boolean isEventActivePlaca() {
+		return eventActivePlaca;
+	}
+
+	public void setEventActivePlaca(boolean eventActivePlaca) {
+		this.eventActivePlaca = eventActivePlaca;
+	}
+	
+	public boolean isTryEventActivePlaca() {
+		return tryEventActivePlaca;
+	}
+
+	public void setTryEventActivePlaca(boolean tryEventActivePlaca) {
+		this.tryEventActivePlaca = tryEventActivePlaca;
+	}
+	
+	public Anotacao getAnotacao() {
+		return anotacaoDialogue;
 	}
 
 }

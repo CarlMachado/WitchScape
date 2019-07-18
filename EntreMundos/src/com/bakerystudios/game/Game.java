@@ -50,6 +50,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static Spritesheet spritesheet;
 	public static Spritesheet characters;
 	public static Spritesheet doors;
+	public static Spritesheet wall;
 	public static World world;
 	public static List<Entity> entities;
 	public static Inventario inventario;
@@ -57,6 +58,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static boolean uiDoor = false;
 	public static boolean uiChest = false;
 	public static boolean uiNpc = false;
+	public static boolean uiPlaca = false;
 
 	public Game() {
 		// Object instantiation
@@ -70,7 +72,10 @@ public class Game implements Runnable, Renderable, Updateble {
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
+		wall = new Spritesheet("/sprites/wall.png");
+
 		//audio = new AudioManager();
+
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		inventario = new Inventario();
 		gui = new GraphicUserInterface();

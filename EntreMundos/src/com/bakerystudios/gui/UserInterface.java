@@ -10,6 +10,7 @@ import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
+import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.game.Game;
@@ -51,7 +52,7 @@ public class UserInterface implements Renderable, Updateble {
 	public void render(Graphics g) {
 		fps.render(g);
 
-		if (Game.uiDoor || Game.uiChest || Game.uiNpc) {
+		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca) {
 			for (int j = 0; j < Game.entities.size(); j++) {
 				Entity atual = Game.entities.get(j);
 				if (atual instanceof Door && Game.uiDoor) {
@@ -144,6 +145,16 @@ public class UserInterface implements Renderable, Updateble {
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 							drawCentralizedString(g, "Aperte ENTER para interagir com o NPC", Screen.HEIGHT + 500);	
 						}
+					} 
+				}else if(atual instanceof Placa && Game.uiPlaca) {
+					if(((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
+						((Placa) atual).getAnotacao().eventoAnotacao(g);
+						return;
+					}
+					if(!((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
+						g.setColor(Color.white);
+						g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
+						drawCentralizedString(g, "Aperte ENTER para interagir com a placa", Screen.HEIGHT + 500);
 					}
 				}
 			}

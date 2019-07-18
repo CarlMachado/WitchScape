@@ -3,6 +3,8 @@ package com.bakerystudios.engine.graphics.engine;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -12,6 +14,7 @@ import com.bakerystudios.engine.graphics.tiles.WallTile;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Esqueleto;
+import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
@@ -27,9 +30,11 @@ public class World {
 	private final int CHEST = 0xFF0026FF;
 	private final int PRINCESA = 0xFFFF7F7F;
 	private final int ESQUELETO = 0xFF808080;
+	private final int PLACA = 0XFFFF6A00;
 	
 	private BufferedImage[] spritesPrincesa;
 	private BufferedImage[] spritesEsqueleto;
+	private List<String>[] placaDialogue_FIRST;
 
 	public static BufferedImage map;
 	public static Tile[] tiles;
@@ -38,7 +43,7 @@ public class World {
 
 	public World(String map_path, String colmap_path) {
 		try {
-			loadSprites();
+			loadInfo();
 			BufferedImage col_map = ImageIO.read(getClass().getResource(colmap_path));
 			map = ImageIO.read(getClass().getResource(map_path));
 			int[] pixels = new int[col_map.getWidth() * col_map.getHeight()];
@@ -79,6 +84,9 @@ public class World {
 					if(pixelAtual == ESQUELETO) {
 						Game.entities.add(new Esqueleto(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, spritesEsqueleto, true));
 					}
+					if(pixelAtual == PLACA) {
+						Game.entities.add(new Placa(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, Game.wall.getSprite(48, 128, TILE_SIZE, TILE_SIZE), placaDialogue_FIRST));
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -106,7 +114,7 @@ public class World {
 				|| (tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile));
 	}
 
-	public void loadSprites() {
+	public void loadInfo() {
 		spritesPrincesa = new BufferedImage[1];
 		for(int i = 0; i < spritesPrincesa.length; i++)
 			spritesPrincesa[i] = Game.characters.getSprite(96, 0, Tile.SIZE, Tile.SIZE);
@@ -114,6 +122,13 @@ public class World {
 		spritesEsqueleto = new BufferedImage[1];
 		for(int i = 0; i < spritesEsqueleto.length; i++)
 			spritesEsqueleto[i] = Game.characters.getSprite(144, 0, Tile.SIZE, Tile.SIZE);
+		
+		
+		placaDialogue_FIRST = new ArrayList[2];
+		for(int i = 0; i < placaDialogue_FIRST.length; i++)
+			placaDialogue_FIRST[i] = new ArrayList<String>();
+		placaDialogue_FIRST[0].add("Plaquinha bonita, eu te amo por funcionar");
+		placaDialogue_FIRST[0].add("Testizin beautifil pa ver que funciona");		
 	}
 	
 	public void render(Graphics g) {
