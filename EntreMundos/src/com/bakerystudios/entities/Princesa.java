@@ -8,7 +8,6 @@ import java.util.List;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
-import com.bakerystudios.game.screen.Screen;
 
 public class Princesa extends Entity implements Renderable, Updateble {
 

@@ -30,7 +30,7 @@ public class Inventario implements Renderable, Updateble {
 			slot[i] = new Slot();
 		slot[0].setIdentity("chave1");
 		slot[1].setIdentity("chave2");
-		//slot[2].setIdentity("c");
+		// slot[2].setIdentity("c");
 	}
 
 	public void update() {
@@ -38,7 +38,7 @@ public class Inventario implements Renderable, Updateble {
 	}
 
 	public void render(Graphics g) {
-		if (GameState.state == GameState.PLAYING && !Game.uiDoor  && !Game.uiNpc && visible) {
+		if (GameState.state == GameState.PLAYING && !Game.uiDoor && !Game.uiNpc && !Game.uiPlaca && visible) {
 			int numberMagic = 100;
 			for (int i = 0; i < numSlots; i++) {
 				g.setColor(Color.RED);
@@ -53,24 +53,28 @@ public class Inventario implements Renderable, Updateble {
 						Screen.SCALE_HEIGHT - numberMagic + widthSlot - 4);
 			}
 			// ITEM SELECIONADO
-			if(focus) {
+			if (focus) {
 				g.setColor(Color.BLUE);
-				g.drawRect(initialPosition + selectedItem * widthSlot, Screen.SCALE_HEIGHT - numberMagic, widthSlot, widthSlot);
+				g.drawRect(initialPosition + selectedItem * widthSlot, Screen.SCALE_HEIGHT - numberMagic, widthSlot,
+						widthSlot);
 				g.setColor(Color.GRAY);
-				g.fillRect(initialPosition + selectedItem * widthSlot + 1, Screen.SCALE_HEIGHT - numberMagic + 1, widthSlot - 1,
-						widthSlot - 1);
+				g.fillRect(initialPosition + selectedItem * widthSlot + 1, Screen.SCALE_HEIGHT - numberMagic + 1,
+						widthSlot - 1, widthSlot - 1);
 				g.setColor(Color.WHITE);
-				g.drawString(Integer.toString(slot[selectedItem].getAmount()), initialPosition + selectedItem * widthSlot + widthSlot - 12,
+				g.drawString(Integer.toString(slot[selectedItem].getAmount()),
+						initialPosition + selectedItem * widthSlot + widthSlot - 12,
 						Screen.SCALE_HEIGHT - numberMagic + widthSlot - 4);
 			}
-			if(Warehouse.exchangeInventory) {
+			if (Warehouse.exchangeInventory) {
 				g.setColor(Color.GREEN);
-				g.drawRect(initialPosition + selectedItem * widthSlot, Screen.SCALE_HEIGHT - numberMagic, widthSlot, widthSlot);
+				g.drawRect(initialPosition + selectedItem * widthSlot, Screen.SCALE_HEIGHT - numberMagic, widthSlot,
+						widthSlot);
 				g.setColor(Color.GRAY);
-				g.fillRect(initialPosition + selectedItem * widthSlot + 1, Screen.SCALE_HEIGHT - numberMagic + 1, widthSlot - 1,
-						widthSlot - 1);
+				g.fillRect(initialPosition + selectedItem * widthSlot + 1, Screen.SCALE_HEIGHT - numberMagic + 1,
+						widthSlot - 1, widthSlot - 1);
 				g.setColor(Color.WHITE);
-				g.drawString(Integer.toString(slot[selectedItem].getAmount()), initialPosition + selectedItem * widthSlot + widthSlot - 12,
+				g.drawString(Integer.toString(slot[selectedItem].getAmount()),
+						initialPosition + selectedItem * widthSlot + widthSlot - 12,
 						Screen.SCALE_HEIGHT - numberMagic + widthSlot - 4);
 			}
 		}
