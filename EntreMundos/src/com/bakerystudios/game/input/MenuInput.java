@@ -3,17 +3,11 @@ package com.bakerystudios.game.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import com.bakerystudios.entities.Anotacao;
-import com.bakerystudios.entities.Chest;
-import com.bakerystudios.entities.Door;
-import com.bakerystudios.entities.Entity;
-import com.bakerystudios.entities.Esqueleto;
+import com.bakerystudios.entities.EventManager;
 import com.bakerystudios.entities.Player;
-import com.bakerystudios.entities.Princesa;
-import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.gui.menu.MainMenu;
-import com.bakerystudios.gui.menu.engine.MenuState;
+import com.bakerystudios.gui.menu.MenuState;
 
 public class MenuInput extends Input {
 
@@ -29,60 +23,29 @@ public class MenuInput extends Input {
 
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setUp(true);
+				
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setDown(true);
+				
 			}
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setEnter(true);
+				MainMenu.enter = true;
 			}
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			if (GameState.state == GameState.PLAYING && !Player.inEvent) {
-				for (Entity atual : Game.entities) {
-					if (atual instanceof Door) {
-						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
-							((Door) atual).setAnimation(false);
-							((Door) atual).setTryAnimation(false);							
-							break;
-						}
-					}
-					if (atual instanceof Chest) {
-						if (((Chest) atual).isTryAnimation() && !((Chest) atual).isAnimation()) {
-							((Chest) atual).setAnimation(false);
-							((Chest) atual).setTryAnimation(false);							
-							break;
-						}
-					}
-					if (atual instanceof Anotacao) {
-						if(((Anotacao) atual).isStatusEventoAnotacao()) {
-							((Anotacao) atual).setStatusEventoAnotacao(false);
-							break;
-						}
-					}
-					if(atual instanceof Princesa) {
-						if(((Princesa) atual).isTryEventActivePrincesa()) {
-							((Princesa) atual).setTryEventActivePrincesa(false);
-						}
-					}
-					if(atual instanceof Esqueleto) {
-						if(((Esqueleto) atual).isTryEventActiveEsqueleto()) {
-							((Esqueleto) atual).setTryEventActiveEsqueleto(false);
-						}
-					}
-				}
-				Game.uiDoor = false;
-				Game.uiChest = false;
-				Game.uiNpc = false;
-				
+				EventManager.esc = true;
 				GameState.state = GameState.MENU;
 				MenuState.state = MenuState.PAUSE;
+			}
+			if (GameState.state == GameState.MENU) {
+				EventManager.esc = true;
+				GameState.state = GameState.PLAYING;
 			}
 		}
 
@@ -103,24 +66,24 @@ public class MenuInput extends Input {
 
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setUp(false);
+				
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setDown(false);
+				
 			}
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setEnter(false);
+				
 			}
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-//			if(GameState.state == GameState.PLAYING) {
-//				GameState.state = GameState.MENU;
-//			}
+			if(GameState.state == GameState.PLAYING) {
+				EventManager.esc = false;
+			}
 		}
 
 		// OTHER KEYS

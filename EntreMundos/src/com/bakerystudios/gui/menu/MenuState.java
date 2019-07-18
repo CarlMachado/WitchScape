@@ -1,4 +1,4 @@
-package com.bakerystudios.gui.menu.engine;
+package com.bakerystudios.gui.menu;
 
 public enum MenuState {
 

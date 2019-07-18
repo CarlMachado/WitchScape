@@ -1,9 +1,13 @@
 package com.bakerystudios.game;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +34,9 @@ public class Game implements Runnable, Renderable, Updateble {
 	private Thread thread;
 	private Screen screen;
 	private List<Input> inputs = new ArrayList<>();
+	public static Font boxFont;
+	public static Font menuFont;
+	public static Font inventFont;
 
 	public static Random rand;
 
@@ -59,20 +66,33 @@ public class Game implements Runnable, Renderable, Updateble {
 		inputs.add(new MenuInput());
 		inputs.add(new PlayerInput());
 		screen = new Screen(inputs);
+		loadFonts();
 		rand = new Random();
-		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
 		wall = new Spritesheet("/sprites/wall.png");
-		audio = new AudioManager();
+
+		//audio = new AudioManager();
+
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		inventario = new Inventario();
+		gui = new GraphicUserInterface();
 
 		entities = new ArrayList<Entity>();
 		entities.add(player);
 		world = new World("/levels/map.png", "/levels/map_collision.png");
+	}
+	
+	public void loadFonts() {
+		try {
+			boxFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 20);
+			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 50);
+			inventFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 15);
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public synchronized void start() {
@@ -92,7 +112,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	@Override
 	public void update() {
 		gui.update();
-		audio.update();
+		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
 			for (int i = 0; i < entities.size(); i++) {

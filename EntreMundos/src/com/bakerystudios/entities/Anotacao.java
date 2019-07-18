@@ -10,6 +10,7 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
+import com.bakerystudios.gui.TextBox;
 
 import java.awt.Font;
 
@@ -70,16 +71,17 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	
 	public void eventoAnotacao(Graphics g) {
 		if(isStatusEventoAnotacao()) {
-			// FALTA CRIAR JANELA POR TRÁS DO TEXTO - CARLOS
-			g.setColor(Color.white);
-			g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-		
-			int linhas = linha[currentPagina - 1].size();
+
+			TextBox.show(g, null, null, null);
+			g.setFont(Game.boxFont);
+			g.setColor(Color.BLACK);
+			int linhas = linha[currentPagina].size();
+
 			for(int j = 0; j < linhas; j++) {
 				int fontHeight = g.getFontMetrics().getHeight();
 				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y + j * fontHeight);
 			}	
-			// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
+			// EXISTE PRÃ“XIMA PAGINA, EXIBE BOTÃƒO DE PRÃ“XIMA PAGINA - CARLOS
 			if(!eventIsOver && nextPaginaSelected) {
 				currentPagina++;
 				nextPaginaSelected = false;

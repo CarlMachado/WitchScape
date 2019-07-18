@@ -18,21 +18,20 @@ import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.fps.FramesPerSecond;
 import com.bakerystudios.gui.menu.MainMenu;
+import com.bakerystudios.gui.menu.MenuState;
 import com.bakerystudios.gui.menu.PauseMenu;
-import com.bakerystudios.gui.menu.engine.Menu;
-import com.bakerystudios.gui.menu.engine.MenuState;
 import com.bakerystudios.inventario.Warehouse;
 
 public class UserInterface implements Renderable, Updateble {
 
 	private FramesPerSecond fps;
-	private Menu mainMenu;
-	private Menu pauseMenu;
+	private MainMenu mainMenu;
+	private PauseMenu pauseMenu;
 
 	public UserInterface() {
 		fps = new FramesPerSecond();
-		mainMenu = new MainMenu(false);
-		pauseMenu = new PauseMenu(true);
+		mainMenu = new MainMenu();
+		pauseMenu = new PauseMenu();
 	}
 
 	@Override
@@ -61,15 +60,18 @@ public class UserInterface implements Renderable, Updateble {
 					g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 					if (!((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA ABERTA
 						if (((Door) atual).isChave()) {
-							drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
-							drawCentralizedString(g, "Você irá precisar de uma chave", Screen.HEIGHT + 540);
+							//drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
+							//drawCentralizedString(g, "Você irá precisar de uma chave", Screen.HEIGHT + 540);
+							if(((Door) atual).pressedEnter()) {
+								TextBox.show(g, "Está trancada.", null, null);
+							}
 							return;
 						} else {
-							drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
+							//drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
 							return;
 						}
 					} else if (((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA FECHADA
-						drawCentralizedString(g, "Aperte ENTER para fechar a porta", Screen.HEIGHT + 500);
+						//drawCentralizedString(g, "Aperte ENTER para fechar a porta", Screen.HEIGHT + 500);
 						return;
 					}
 				}
