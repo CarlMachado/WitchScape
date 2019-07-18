@@ -11,6 +11,7 @@ import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.gui.menu.MainMenu;
+import com.bakerystudios.gui.menu.engine.Menu;
 import com.bakerystudios.gui.menu.engine.MenuState;
 
 public class MenuInput extends Input {
@@ -27,17 +28,17 @@ public class MenuInput extends Input {
 
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setUp(true);
+				Menu.up = true;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setDown(true);
+				Menu.down = true;
 			}
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setEnter(true);
+				Menu.enter = true;
 			}
 		}
 
@@ -83,17 +84,17 @@ public class MenuInput extends Input {
 
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setUp(false);
+				Menu.up = false;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setDown(false);
+				Menu.down = false;
 			}
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (GameState.state == GameState.MENU) {
-				MainMenu.setEnter(false);
+				Menu.enter = false;
 			}
 		}
 

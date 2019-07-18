@@ -1,26 +1,35 @@
 package com.bakerystudios.gui.menu.engine;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import com.bakerystudios.engine.OptionManager;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
-import com.bakerystudios.gui.menu.MainMenu;
 
 public abstract class Menu implements Renderable, Updateble {
 
 	protected OptionManager option = new OptionManager(6);
+	public static boolean up;
+	public static boolean down;
+	public static boolean enter;
+	private BufferedImage background;
+	private boolean rgbaBk = false;
 	
-	protected static boolean up, down, enter;
-	
-	protected boolean background = false;
-	
-	public Menu(boolean background) {
-		this.background = background;
+	public Menu(boolean rgbaBk) {
+		this.rgbaBk = rgbaBk;
+		try {
+			background = ImageIO.read(getClass().getResource("/sprites/tittle.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public abstract void executeOption();
@@ -52,7 +61,7 @@ public abstract class Menu implements Renderable, Updateble {
 
 	@Override
 	public void render(Graphics g) {
-		if(background) {
+		if(rgbaBk) {
 			Graphics2D g2D = (Graphics2D) g;
 			g2D.setColor(new Color(0, 0, 0, 100));
 			g2D.fillRect(0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT);
@@ -61,17 +70,17 @@ public abstract class Menu implements Renderable, Updateble {
 		int y = (int) (Screen.SCALE_WIDTH * 0.11);
 		
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.05)));
+		g.setFont(Game.menuFont);
 		
-
+		g.drawImage(background, 0, 0, null);
+		
 		// GAME TITLE ----------------------------------------------------------
 		drawCentralizedString(g, "BKS GAME ENGINE", y);
 		y += g.getFontMetrics().getHeight() * 1.7;
 		
 		// MENU OPTIONS ----------------------------------------------------------
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.03)));
-		//System.out.println("Fonte: "+(int) (Screen.SCALE_WIDTH * 0.03));
+		g.setFont(Game.menuFont);
 		
 		for(int i = 0; i < option.optionAmount(); i++) {
 			String name = option.getOption(i).getName();
@@ -88,30 +97,6 @@ public abstract class Menu implements Renderable, Updateble {
 		}
 		//fillCentralizedRect(g, 1, 100, 30);
 		//drawCentralizedString(g, "EXEMPLO", 1);
-	}
-
-	public static boolean isUp() {
-		return up;
-	}
-
-	public static void setUp(boolean up) {
-		MainMenu.up = up;
-	}
-
-	public static boolean isDown() {
-		return down;
-	}
-
-	public static void setDown(boolean down) {
-		MainMenu.down = down;
-	}
-
-	public static boolean isEnter() {
-		return enter;
-	}
-
-	public static void setEnter(boolean enter) {
-		MainMenu.enter = enter;
 	}
 	
 }
