@@ -9,6 +9,7 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
+import com.bakerystudios.gui.TextBox;
 
 public class Inventario implements Renderable, Updateble {
 
@@ -59,7 +60,8 @@ public class Inventario implements Renderable, Updateble {
 			//fillCentralizedRect(g, 575, 490, 120);
 
 			g.setColor(Color.BLACK);
-			drawCentralizedString(g, "Exemplo de nome de item.", 605);
+			TextBox.showPopUp(g, 570, "Nome do item", null);
+			//drawCentralizedString(g, "Exemplo de nome de item.", 605);
 
 			g.setFont(Game.inventFont);
 			for (int i = 0; i < numSlots; i++) {

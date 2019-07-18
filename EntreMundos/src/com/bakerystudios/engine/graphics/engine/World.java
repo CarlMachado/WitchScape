@@ -39,7 +39,6 @@ public class World {
 	public static BufferedImage map;
 	public static Tile[] tiles;
 	public static int WIDTH, HEIGHT;
-	public static final int TILE_SIZE = 16;
 
 	public World(String map_path, String colmap_path) {
 		try {
@@ -54,38 +53,38 @@ public class World {
 			for (int xx = 0; xx < col_map.getWidth(); xx++) {
 				for (int yy = 0; yy < col_map.getHeight(); yy++) {
 					int pixelAtual = pixels[xx + (yy * col_map.getWidth())];
-					tiles[xx + (yy * WIDTH)] = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_FLOOR);
+					tiles[xx + (yy * WIDTH)] = new FloorTile(xx * Tile.SIZE, yy * Tile.SIZE, Tile.TILE_FLOOR);
 					
 					if (pixelAtual == FLOOR) {
-						tiles[xx + (yy * WIDTH)] = new FloorTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_FLOOR);
+						tiles[xx + (yy * WIDTH)] = new FloorTile(xx * Tile.SIZE, yy * Tile.SIZE, Tile.TILE_FLOOR);
 					}
 					if (pixelAtual == WALL) {
-						tiles[xx + (yy * WIDTH)] = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_WALL);
+						tiles[xx + (yy * WIDTH)] = new WallTile(xx * Tile.SIZE, yy * Tile.SIZE, Tile.TILE_WALL);
 					}
 					if(pixelAtual == PLAYER) {
-						Game.player.setX(xx * TILE_SIZE);
-						Game.player.setY(yy * TILE_SIZE);
+						Game.player.setX(xx * Tile.SIZE);
+						Game.player.setY(yy * Tile.SIZE);
 					}
 					if(pixelAtual == DOOR_FIRST) {
-						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "chave1", true));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave1", true));
 					}
 					if(pixelAtual == DOOR_SECOND) {
-						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "chave2", true));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave2", true));
 					}
 					if(pixelAtual == DOOR_THIRD) {
-						Game.entities.add(new Door(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, "", false));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "", false));
 					}
 					if(pixelAtual == CHEST) {
-						Game.entities.add(new Chest(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null));
+						Game.entities.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null));
 					}
 					if(pixelAtual == PRINCESA) {
-						Game.entities.add(new Princesa(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, spritesPrincesa, true));
+						Game.entities.add(new Princesa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, spritesPrincesa, true));
 					}
 					if(pixelAtual == ESQUELETO) {
-						Game.entities.add(new Esqueleto(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, null, spritesEsqueleto, true));
+						Game.entities.add(new Esqueleto(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, spritesEsqueleto, true));
 					}
 					if(pixelAtual == PLACA) {
-						Game.entities.add(new Placa(xx * TILE_SIZE, yy * TILE_SIZE, TILE_SIZE, TILE_SIZE, Game.wall.getSprite(48, 128, TILE_SIZE, TILE_SIZE), placaDialogue_FIRST));
+						Game.entities.add(new Placa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, Game.wall.getSprite(48, 128, Tile.SIZE, Tile.SIZE), placaDialogue_FIRST));
 					}
 				}
 			}
@@ -96,17 +95,17 @@ public class World {
 
 	public static boolean isFree(int xnext, int ynext) {
 
-		int x1 = xnext / TILE_SIZE;
-		int y1 = ynext / TILE_SIZE;
+		int x1 = xnext / Tile.SIZE;
+		int y1 = ynext / Tile.SIZE;
 
-		int x2 = (xnext + TILE_SIZE - 1) / TILE_SIZE;
-		int y2 = ynext / TILE_SIZE;
+		int x2 = (xnext + Tile.SIZE - 1) / Tile.SIZE;
+		int y2 = ynext / Tile.SIZE;
 
-		int x3 = xnext / TILE_SIZE;
-		int y3 = (ynext + TILE_SIZE - 1) / TILE_SIZE;
+		int x3 = xnext / Tile.SIZE;
+		int y3 = (ynext + Tile.SIZE - 1) / Tile.SIZE;
 
-		int x4 = (xnext + TILE_SIZE - 1) / TILE_SIZE;
-		int y4 = (ynext + TILE_SIZE - 1) / TILE_SIZE;
+		int x4 = (xnext + Tile.SIZE - 1) / Tile.SIZE;
+		int y4 = (ynext + Tile.SIZE - 1) / Tile.SIZE;
 
 		return !((tiles[x1 + (y1 * World.WIDTH)] instanceof WallTile)
 				|| (tiles[x2 + (y2 * World.WIDTH)] instanceof WallTile)
