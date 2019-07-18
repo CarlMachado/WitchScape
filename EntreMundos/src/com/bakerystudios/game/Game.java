@@ -1,9 +1,13 @@
 package com.bakerystudios.game;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +34,8 @@ public class Game implements Runnable, Renderable, Updateble {
 	private Thread thread;
 	private Screen screen;
 	private List<Input> inputs = new ArrayList<>();
+	public static Font boxFont;
+	public static Font menuFont;
 
 	public static Random rand;
 
@@ -57,8 +63,8 @@ public class Game implements Runnable, Renderable, Updateble {
 		inputs.add(new MenuInput());
 		inputs.add(new PlayerInput());
 		screen = new Screen(inputs);
+		loadFonts();
 		rand = new Random();
-		gui = new GraphicUserInterface();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		characters = new Spritesheet("/sprites/characters.png");
@@ -66,10 +72,20 @@ public class Game implements Runnable, Renderable, Updateble {
 		audio = new AudioManager();
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		inventario = new Inventario();
+		gui = new GraphicUserInterface();
 
 		entities = new ArrayList<Entity>();
 		entities.add(player);
 		world = new World("/levels/map.png", "/levels/map_collision.png");
+	}
+	
+	public void loadFonts() {
+		try {
+			boxFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, (int) (Screen.SCALE_WIDTH * 0.010));
+			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, (int) (Screen.SCALE_WIDTH * 0.03));
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public synchronized void start() {

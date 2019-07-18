@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import com.bakerystudios.engine.OptionManager;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
 public class InitialMenu implements Updateble, Renderable {
@@ -51,35 +52,35 @@ public class InitialMenu implements Updateble, Renderable {
 		y += g.getFontMetrics().getHeight() * 1.7;
 		
 		// MENU OPTIONS ----------------------------------------------------------
-		g.setColor(Color.WHITE);
-		g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.03)));
+		g.setColor(Color.ORANGE);
+		g.setFont(Game.menuFont);
 		//System.out.println("Fonte: "+(int) (Screen.SCALE_WIDTH * 0.03));
 		
 		String name = "";
 		int fontHeight = g.getFontMetrics().getHeight();
 		int fontWidth = g.getFontMetrics().stringWidth(name);
 		
-		if(option1) {
-			g.setColor(Color.GRAY);
-			fillCentralizedRect(g, y - (int) (fontHeight * 0.85), (int) (fontWidth * 1.1), (int) (fontHeight * 1.1));
-		}
-		g.setColor(Color.WHITE);
-		drawCentralizedString(g, name, y);
-		y += fontHeight * 1.5;
-		if(option1) {
-			g.setColor(Color.GRAY);
-			fillCentralizedRect(g, y - (int) (fontHeight * 0.85), (int) (fontWidth * 1.1), (int) (fontHeight * 1.1));
-		}
-		g.setColor(Color.WHITE);
-		drawCentralizedString(g, name, y);
-		y += fontHeight * 1.5;
-		if(option1) {
-			g.setColor(Color.GRAY);
-			fillCentralizedRect(g, y - (int) (fontHeight * 0.85), (int) (fontWidth * 1.1), (int) (fontHeight * 1.1));
-		}
-		g.setColor(Color.WHITE);
-		drawCentralizedString(g, name, y);
-		y += fontHeight * 1.5;
+//		if(option1) {
+//			g.setColor(Color.GRAY);
+//			fillCentralizedRect(g, y - (int) (fontHeight * 0.85), (int) (fontWidth * 1.1), (int) (fontHeight * 1.1));
+//		}
+//		g.setColor(Color.WHITE);
+//		drawCentralizedString(g, name, y);
+//		y += fontHeight * 1.5;
+//		if(option1) {
+//			g.setColor(Color.GRAY);
+//			fillCentralizedRect(g, y - (int) (fontHeight * 0.85), (int) (fontWidth * 1.1), (int) (fontHeight * 1.1));
+//		}
+//		g.setColor(Color.WHITE);
+//		drawCentralizedString(g, name, y);
+//		y += fontHeight * 1.5;
+//		if(option1) {
+//			g.setColor(Color.GRAY);
+//			fillCentralizedRect(g, y - (int) (fontHeight * 0.85), (int) (fontWidth * 1.1), (int) (fontHeight * 1.1));
+//		}
+//		g.setColor(Color.WHITE);
+//		drawCentralizedString(g, name, y);
+//		y += fontHeight * 1.5;
 			
 		//fillCentralizedRect(g, 1, 100, 30);
 		//drawCentralizedString(g, "EXEMPLO", 1);

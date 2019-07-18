@@ -58,7 +58,6 @@ public class World {
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx * TILE_SIZE, yy * TILE_SIZE, Tile.TILE_WALL);
 					}
 					if(pixelAtual == PLAYER) {
-						System.out.println("player");
 						Game.player.setX(xx * TILE_SIZE);
 						Game.player.setY(yy * TILE_SIZE);
 					}
