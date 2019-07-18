@@ -7,7 +7,9 @@ import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
+import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.gui.menu.MainMenu;
@@ -42,25 +44,43 @@ public class MenuInput extends Input {
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			if (GameState.state == GameState.PLAYING && !Anotacao.statusEventoAnotacao && !Player.inEvent) {
+			if (GameState.state == GameState.PLAYING && !Player.inEvent) {
 				for (Entity atual : Game.entities) {
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
 							((Door) atual).setAnimation(false);
-							((Door) atual).setTryAnimation(false);
-							Game.uiDoor = false;
+							((Door) atual).setTryAnimation(false);							
 							break;
 						}
 					}
 					if (atual instanceof Chest) {
 						if (((Chest) atual).isTryAnimation() && !((Chest) atual).isAnimation()) {
 							((Chest) atual).setAnimation(false);
-							((Chest) atual).setTryAnimation(false);
-							Game.uiChest = false;
+							((Chest) atual).setTryAnimation(false);							
 							break;
 						}
 					}
+					if (atual instanceof Anotacao) {
+						if(((Anotacao) atual).isStatusEventoAnotacao()) {
+							((Anotacao) atual).setStatusEventoAnotacao(false);
+							break;
+						}
+					}
+					if(atual instanceof Princesa) {
+						if(((Princesa) atual).isTryEventActivePrincesa()) {
+							((Princesa) atual).setTryEventActivePrincesa(false);
+						}
+					}
+					if(atual instanceof Esqueleto) {
+						if(((Esqueleto) atual).isTryEventActiveEsqueleto()) {
+							((Esqueleto) atual).setTryEventActiveEsqueleto(false);
+						}
+					}
 				}
+				Game.uiDoor = false;
+				Game.uiChest = false;
+				Game.uiNpc = false;
+				
 				GameState.state = GameState.MENU;
 				MenuState.state = MenuState.PAUSE;
 			}

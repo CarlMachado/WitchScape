@@ -3,9 +3,7 @@ package com.bakerystudios.gui.menu2;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-import com.bakerystudios.engine.OptionManager;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.game.screen.Screen;
@@ -13,9 +11,9 @@ import com.bakerystudios.game.screen.Screen;
 public class InitialMenu implements Updateble, Renderable {
 	
 	private static boolean option1;
-	private static boolean option2;
-	private static boolean option3;
-	private static boolean click;
+	//private static boolean option2;
+	//private static boolean option3;
+	//private static boolean click;
 	
 	public InitialMenu(boolean background) {
 		

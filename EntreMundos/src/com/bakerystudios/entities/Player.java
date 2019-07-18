@@ -244,15 +244,21 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (atual instanceof Princesa) {
 				if (((Princesa) atual).isExistEventPrincesa()) {
-					((Princesa) atual).setTryEventActivePrincesa(true);
-					Game.uiNpc = true;
+					if (upDir == dir) {
+						((Princesa) atual).setTryEventActivePrincesa(true);
+						Game.uiNpc = true;
+					}
 				}
+				((Princesa) atual).setChoose(true);
 			}
 			if (atual instanceof Esqueleto) {
 				if (((Esqueleto) atual).isExistEventEsqueleto()) {
-					((Esqueleto) atual).setTryEventActiveEsqueleto(true);
-					Game.uiNpc = true;
+					if (upDir == dir) {
+						((Esqueleto) atual).setTryEventActiveEsqueleto(true);
+						Game.uiNpc = true;
+					}
 				}
+				((Esqueleto) atual).setChoose(true);
 			}
 			nextisNpcUp = true;
 		}
@@ -346,9 +352,11 @@ public class Player extends Entity implements Renderable, Updateble {
 				}
 				if (atual instanceof Princesa) {
 					((Princesa) atual).setTryEventActivePrincesa(false);
+					((Princesa) atual).setChoose(false);
 				}
 				if (atual instanceof Esqueleto) {
 					((Esqueleto) atual).setTryEventActiveEsqueleto(false);
+					((Esqueleto) atual).setChoose(false);
 				}
 			}
 		}

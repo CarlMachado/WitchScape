@@ -9,7 +9,9 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
+import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
@@ -121,10 +123,26 @@ public class UserInterface implements Renderable, Updateble {
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
 						}
 					}
-				} else if ((Player.typeIsNpc(atual)) && (Game.uiNpc)) {
-					g.setColor(Color.white);
-					g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-					drawCentralizedString(g, "Aperte ENTER para interagir com o NPC", Screen.HEIGHT + 500);
+				} else if ((Player.typeIsNpc(atual)) && (Game.uiNpc)) {							
+					if(atual instanceof Princesa) {						
+						if(((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
+							((Princesa) atual).getAnotacao().eventoAnotacao(g);
+						} else if(!((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
+							g.setColor(Color.white);
+							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
+							drawCentralizedString(g, "Aperte ENTER para interagir com o NPC", Screen.HEIGHT + 500);	
+						}
+					}
+					if(atual instanceof Esqueleto) {
+						if(((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
+							((Esqueleto) atual).getAnotacao().eventoAnotacao(g);
+							return;
+						} else if(!((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
+							g.setColor(Color.white);
+							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
+							drawCentralizedString(g, "Aperte ENTER para interagir com o NPC", Screen.HEIGHT + 500);	
+						}
+					}
 				}
 			}
 		}

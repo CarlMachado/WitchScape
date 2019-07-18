@@ -2,10 +2,13 @@ package com.bakerystudios.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
+import com.bakerystudios.game.screen.Screen;
 
 public class Princesa extends Entity implements Renderable, Updateble {
 
@@ -16,11 +19,14 @@ public class Princesa extends Entity implements Renderable, Updateble {
 
 	private BufferedImage[] sprites;
 
-	private boolean eventPrincesa = false;
-
 	protected boolean existEventPrincesa = false;
 	protected boolean tryEventActivePrincesa = false;
 	protected boolean eventActivePrincesa = false;
+	
+	private List<String>[] princesaDialogue;
+	private Anotacao anotacaoDialogue;
+	
+	private boolean choose = false;
 
 	public Princesa(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
 			boolean existEvent) {
@@ -29,14 +35,30 @@ public class Princesa extends Entity implements Renderable, Updateble {
 		sprites = spriteList;
 		maxAnimation = sprites.length - 1;
 		this.existEventPrincesa = existEvent;
+		
+		princesaDialogue = new ArrayList[4];
+		for(int i = 0; i < princesaDialogue.length; i++)
+			princesaDialogue[i] = new ArrayList<String>();
+		princesaDialogue[0].add("Olá Herikc, tudo bem?");
+		princesaDialogue[0].add("Antes que pergunte, eu estou perfeitamente bem");		
+		princesaDialogue[1].add("Você poderia me fazer um favor?");
+		princesaDialogue[1].add("Eu preciso que alguém resgate o meu namorado corno");
+		princesaDialogue[2].add("Vai se fude mermao BABACA");
+		princesaDialogue[2].add("Vai se fude mermao BABACA AAAAA");
+		princesaDialogue[3].add("Testes servem pra fude a nossa vida");
+		princesaDialogue[3].add("por que sempre encontramos bugs nesse bostas");
+		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, princesaDialogue);
 	}
 
 	public void update() {
 		animation();
-		if (eventActivePrincesa)
-			eventPrincesa = true;
-		else
-			eventPrincesa = false;
+		if (eventActivePrincesa) {
+			anotacaoDialogue.setStatusEventoAnotacao(true);
+			choose = true;
+		}
+		else {
+			anotacaoDialogue.setStatusEventoAnotacao(false);
+		}
 	}
 
 	public void animation() {
@@ -52,17 +74,6 @@ public class Princesa extends Entity implements Renderable, Updateble {
 
 	public void render(Graphics g) {
 		g.drawImage(sprites[currentAnimation], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		if (eventPrincesa) {
-			System.out.println("eventoPrincesa");
-		}
-	}
-
-	public boolean isEventPrincesa() {
-		return eventPrincesa;
-	}
-
-	public void setEventPrincesa(boolean eventPrincesa) {
-		this.eventPrincesa = eventPrincesa;
 	}
 
 	public boolean isExistEventPrincesa() {
@@ -95,6 +106,22 @@ public class Princesa extends Entity implements Renderable, Updateble {
 
 	public void setSprites(BufferedImage[] sprites) {
 		this.sprites = sprites;
+	}
+	
+	public Anotacao getAnotacao() {
+		return anotacaoDialogue;
+	}
+	
+	public boolean getExistEventPrincesa() {
+		return existEventPrincesa;
+	}
+
+	public boolean isChoose() {
+		return choose;
+	}
+
+	public void setChoose(boolean choose) {
+		this.choose = choose;
 	}
 
 }
