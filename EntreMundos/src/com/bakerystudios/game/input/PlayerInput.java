@@ -45,7 +45,7 @@ public class PlayerInput extends Input {
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				for (Entity atual : Game.entities) {
+				for (Entity atual : Game.entities) { 
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
 							if (((Door) atual).isChave()) {

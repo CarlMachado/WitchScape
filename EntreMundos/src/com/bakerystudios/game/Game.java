@@ -173,7 +173,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		double delta = 0;
 		long lastTime = System.nanoTime();
 
-		screen.requestFocus();
+		screen.requestFocus(); 
 		while (isRunning) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;

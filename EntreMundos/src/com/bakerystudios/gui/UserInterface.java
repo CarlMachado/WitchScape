@@ -72,6 +72,7 @@ public class UserInterface implements Renderable, Updateble {
 							//drawCentralizedString(g, "Aperte ENTER para abrir a porta", Screen.HEIGHT + 500);
 							//drawCentralizedString(g, "Você irá precisar de uma chave", Screen.HEIGHT + 540);
 							if(((Door) atual).pressedEnter()) {
+								System.out.println("teste");
 								TextBox.show(g, "Está trancada.", null, null);
 							}
 							return;
@@ -90,7 +91,7 @@ public class UserInterface implements Renderable, Updateble {
 					g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 					drawCentralizedString(g, "Aperte ENTER para abrir o bau", Screen.HEIGHT + 500);
 				}
-				if (atual instanceof Chest) {
+				if (atual instanceof Chest) { 
 					Chest chest = (Chest) atual;
 					if (chest.isOpenChest()) {
 						for (int i = 0; i < chest.getNumSlots(); i++) {

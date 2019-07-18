@@ -45,7 +45,7 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 		esqueletoDialogue[1].add("hehe brincaeira, ou não... quem sabe né");
 		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
 	}
-
+ 
 	public void update() {
 		animation();
 		if (eventActiveEsqueleto) {
