@@ -42,9 +42,7 @@ public class MenuInput extends Input {
 				EventManager.esc = true;
 				GameState.state = GameState.MENU;
 				MenuState.state = MenuState.PAUSE;
-			}
-			if (GameState.state == GameState.MENU) {
-				EventManager.esc = true;
+			}else if (GameState.state == GameState.MENU && MenuState.state == MenuState.PAUSE) {
 				GameState.state = GameState.PLAYING;
 			}
 		}
