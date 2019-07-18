@@ -36,6 +36,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	private List<Input> inputs = new ArrayList<>();
 	public static Font boxFont;
 	public static Font menuFont;
+	public static Font inventFont;
 
 	public static Random rand;
 
@@ -69,7 +70,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
-		audio = new AudioManager();
+		//audio = new AudioManager();
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		inventario = new Inventario();
 		gui = new GraphicUserInterface();
@@ -81,8 +82,9 @@ public class Game implements Runnable, Renderable, Updateble {
 	
 	public void loadFonts() {
 		try {
-			boxFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, (int) (Screen.SCALE_WIDTH * 0.010));
-			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, (int) (Screen.SCALE_WIDTH * 0.03));
+			boxFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 20);
+			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 50);
+			inventFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 15);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
@@ -105,7 +107,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	@Override
 	public void update() {
 		gui.update();
-		audio.update();
+		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
 			for (int i = 0; i < entities.size(); i++) {

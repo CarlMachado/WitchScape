@@ -8,7 +8,9 @@ import java.util.List;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
+import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
+import com.bakerystudios.gui.TextBox;
 
 import java.awt.Font;
 
@@ -69,9 +71,9 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 		if(isStatusEventoAnotacao()) {
 			int paginas = linha.length;
 			// FALTA CRIAR JANELA POR TRÁS DO TEXTO - CARLOS
-			g.setColor(Color.white);
-			g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-			
+			TextBox.show(g, null, null, null);
+			g.setFont(Game.boxFont);
+			g.setColor(Color.BLACK);
 			int linhas = linha[currentPagina].size();
 			for(int j = 0; j < linhas; j++) {
 				int fontHeight = g.getFontMetrics().getHeight();
