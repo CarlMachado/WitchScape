@@ -76,7 +76,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 			g.setFont(Game.boxFont);
 			g.setColor(Color.BLACK);
 			int linhas = linha[currentPagina - 1].size();
-
+ 
 			for(int j = 0; j < linhas; j++) {
 				int fontHeight = g.getFontMetrics().getHeight();
 				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y + j * fontHeight);

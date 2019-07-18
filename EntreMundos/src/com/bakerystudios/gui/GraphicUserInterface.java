@@ -11,7 +11,7 @@ public class GraphicUserInterface implements Renderable, Updateble {
 	private HeadUpDisplay hud;
 	
 	public GraphicUserInterface() {
-		ui = new UserInterface();
+		ui = new UserInterface(); 
 		hud = new HeadUpDisplay();
 	}
 	
