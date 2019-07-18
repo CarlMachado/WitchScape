@@ -16,8 +16,8 @@ public class TextBox {
 		g.fillRect(Screen.SCALE_WIDTH / 2 - width / 2, y, width, height);
 	}
 	
-	public static void showPopUp(Graphics g, String t1, String t2) {
-		int y = 470;
+	public static void showPopUp(Graphics g, int y, String t1, String t2) {
+		//int y = 470;
 		
 		g.setFont(Game.boxFont);
 		
@@ -26,7 +26,8 @@ public class TextBox {
 		int width = t2 == null ? 
 				g.getFontMetrics().stringWidth(t1) + 20 : g.getFontMetrics().stringWidth(t1) > g.getFontMetrics().stringWidth(t2) ? 
 							g.getFontMetrics().stringWidth(t1) + 20 : g.getFontMetrics().stringWidth(t2) + 20;
-		int height = t2 == null ? 50 : 80;
+		int height = t2 == null ?
+				g.getFontMetrics().getHeight() + 20 : g.getFontMetrics().getHeight() * 2 + 25;
 
 		g.setFont(Game.boxFont);
 		

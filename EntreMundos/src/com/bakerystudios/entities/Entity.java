@@ -10,8 +10,6 @@ import com.bakerystudios.engine.camera.Camera;
 
 public class Entity implements Renderable, Updateble {
 	
-	//public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(6*16, 0,16,16);
-	
 	protected double x;
 	protected double y;
 	protected int width;
@@ -43,6 +41,26 @@ public class Entity implements Renderable, Updateble {
 		this.mheight = mheight;
 	}
 	
+	public static boolean isColidding(Entity e1,Entity e2){
+		Rectangle e1Mask = new Rectangle(e1.getX() + e1.maskx,e1.getY()+e1.masky,e1.mwidth,e1.mheight);
+		Rectangle e2Mask = new Rectangle(e2.getX() + e2.maskx,e2.getY()+e2.masky,e2.mwidth,e2.mheight);
+		
+		return e1Mask.intersects(e2Mask);
+	}
+	
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(sprite,this.getX() - Camera.x,this.getY() - Camera.y,null);
+		//g.setColor(Color.red);
+		//g.fillRect(this.getX() + maskx - Camera.x,this.getY() + masky - Camera.y,mwidth,mheight);
+	}
+	
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -65,26 +83,6 @@ public class Entity implements Renderable, Updateble {
 	
 	public int getHeight() {
 		return this.height;
-	}
-	
-	public static boolean isColidding(Entity e1,Entity e2){
-		Rectangle e1Mask = new Rectangle(e1.getX() + e1.maskx,e1.getY()+e1.masky,e1.mwidth,e1.mheight);
-		Rectangle e2Mask = new Rectangle(e2.getX() + e2.maskx,e2.getY()+e2.masky,e2.mwidth,e2.mheight);
-		
-		return e1Mask.intersects(e2Mask);
-	}
-	
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void render(Graphics g) {
-		g.drawImage(sprite,this.getX() - Camera.x,this.getY() - Camera.y,null);
-		//g.setColor(Color.red);
-		//g.fillRect(this.getX() + maskx - Camera.x,this.getY() + masky - Camera.y,mwidth,mheight);
 	}
 	
 }
