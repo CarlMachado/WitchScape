@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,9 +35,13 @@ public class Game implements Runnable, Renderable, Updateble {
 	private Thread thread;
 	private Screen screen;
 	private List<Input> inputs = new ArrayList<>();
+	
 	public static Font boxFont;
 	public static Font menuFont;
 	public static Font inventFont;
+	public static InputStream boxFontStream = ClassLoader.getSystemClassLoader().getResourceAsStream("font.ttf");
+	public static InputStream menuFontStream = ClassLoader.getSystemClassLoader().getResourceAsStream("font.ttf");
+	public static InputStream inventFontStream = ClassLoader.getSystemClassLoader().getResourceAsStream("font.ttf");
 
 	public static Random rand;
 
@@ -87,9 +92,9 @@ public class Game implements Runnable, Renderable, Updateble {
 	
 	public void loadFonts() {
 		try {
-			boxFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 20);
-			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 50);
-			inventFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/font.ttf")).deriveFont(Font.PLAIN, 15);
+			boxFont = Font.createFont(Font.TRUETYPE_FONT, boxFontStream).deriveFont(Font.PLAIN, 20);
+			menuFont = Font.createFont(Font.TRUETYPE_FONT, menuFontStream).deriveFont(Font.PLAIN, 50);
+			inventFont = Font.createFont(Font.TRUETYPE_FONT, inventFontStream).deriveFont(Font.PLAIN, 15);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
