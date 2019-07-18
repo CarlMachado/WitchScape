@@ -27,9 +27,9 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	private boolean visible = false;
 	private boolean nextPagina = false;
 	
-	public static boolean statusEventoAnotacao = false;
-	public static boolean nextPaginaSelected = false;
-	public static boolean exitSelected = false;
+	private boolean statusEventoAnotacao = false;
+	private boolean nextPaginaSelected = false;
+	private boolean exitSelected = false;
 
 	private List<String>[] linha;
 	
@@ -52,7 +52,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 			if (currentAnimacao >= maxAnimacao) {
 				currentAnimacao = 0;
 				animation = false;
-				statusEventoAnotacao = true;
+				setStatusEventoAnotacao(true);
 			}
 		}
 	}
@@ -60,36 +60,41 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	public void render(Graphics g) {
 		if (visible) {
 			g.drawImage(sprites[currentAnimacao], this.getX() - Camera.x, this.getY() - Camera.y, null);
-			if (statusEventoAnotacao)
+			if (isStatusEventoAnotacao())
 				eventoAnotacao(g);
 		}
 	}
 	
 	public void eventoAnotacao(Graphics g) {
-		if(statusEventoAnotacao) {
+		if(isStatusEventoAnotacao()) {
 			int paginas = linha.length;
 			// FALTA CRIAR JANELA POR TRÁS DO TEXTO - CARLOS
 			g.setColor(Color.white);
-			g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.025)));
+			g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 			
 			int linhas = linha[currentPagina].size();
 			for(int j = 0; j < linhas; j++) {
 				int fontHeight = g.getFontMetrics().getHeight();
-				g.drawString(linha[currentPagina].get(j), (int) x, (int) y + j * fontHeight); // COORDENADAS A DEFINIR (x e y)
+				drawCentralizedString(g, linha[currentPagina].get(j), (int) y + j * fontHeight);
 			}	
 			if(currentPagina + 1 != paginas) { 
 				// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
 				if(nextPaginaSelected) {
+					System.out.println("troquei de pagina");
 					currentPagina++;
 					nextPaginaSelected = false;
 				}
 			}
 			
 			if(exitSelected) { // CLICOU ESC PARA SAIR DO EVENTO
-				statusEventoAnotacao = false;
+				setStatusEventoAnotacao(false);
 				return;
 			}			
 		}
+	}
+	
+	protected void drawCentralizedString(Graphics g, String str, int y) {
+		g.drawString(str, Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth(str) / 2, y);
 	}
 
 	public boolean isNextPagina() {
@@ -99,6 +104,22 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	public void setNextPagina(boolean nextPagina) {
 		this.nextPagina = nextPagina;
 	}
+	
+	public boolean isNextPaginaSelected() {
+		return nextPagina;
+	}
+
+	public void setNextPaginaSelected(boolean nextPaginaSelected) {
+		this.nextPaginaSelected = nextPaginaSelected;
+	}
+	
+	public boolean isExitSelected() {
+		return exitSelected;
+	}
+
+	public void setExitSelected(boolean exitSelected) {
+		this.exitSelected = exitSelected;
+	}
 
 	public int getPaginas() {
 		return paginas;
@@ -106,6 +127,14 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 
 	public void setPaginas(int paginas) {
 		this.paginas = paginas;
+	}
+
+	public boolean isStatusEventoAnotacao() {
+		return statusEventoAnotacao;
+	}
+
+	public void setStatusEventoAnotacao(boolean statusEventoAnotacao) {
+		this.statusEventoAnotacao = statusEventoAnotacao;
 	}
 
 }

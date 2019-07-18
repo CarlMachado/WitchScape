@@ -43,15 +43,7 @@ public class PlayerInput extends Input {
 					Inventario.selectedItem = 2;
 				}
 			}
-
-			if (Anotacao.statusEventoAnotacao) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Anotacao.nextPaginaSelected = true;
-				}
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					Anotacao.exitSelected = true;
-				}
-			}
+			
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				for (Entity atual : Game.entities) {
 					if (atual instanceof Door) {
@@ -75,15 +67,27 @@ public class PlayerInput extends Input {
 							Player.inEvent = true;
 							Game.uiChest = false;
 						}
+					} else if(atual instanceof Anotacao) {
+						if (((Anotacao) atual).isStatusEventoAnotacao()) {
+								((Anotacao) atual).setNextPagina(true);
+						}
 					} else if(atual instanceof Princesa) {
+						if(((Princesa) atual).getExistEventPrincesa() && ((Princesa) atual).isEventActivePrincesa()) {
+							System.out.println("true next");
+							((Princesa) atual).getAnotacao().setNextPaginaSelected(true);
+						}
 						if(((Princesa) atual).isTryEventActivePrincesa() && !((Princesa) atual).isEventActivePrincesa()) {
 							//System.out.println("teste prin");
 							Player.inEvent = true;
 							((Princesa) atual).setEventActivePrincesa(true);
 							((Princesa) atual).setTryEventActivePrincesa(false);
-							Game.uiNpc = false;
-						}
+							Game.uiNpc = false;						
+						}						
 					}else if(atual instanceof Esqueleto) {
+						if(((Esqueleto) atual).getExistEventEsqueleto() && ((Esqueleto) atual).isEventActiveEsqueleto()) {
+							System.out.println("true next");
+							((Esqueleto) atual).getAnotacao().setNextPaginaSelected(true);
+						}
 						if(((Esqueleto) atual).isTryEventActiveEsqueleto() && !((Esqueleto) atual).isEventActiveEsqueleto()) {
 							//System.out.println("teste esq");
 							Player.inEvent = true;
@@ -107,7 +111,11 @@ public class PlayerInput extends Input {
 								}
 
 							}
-						}else if(atual instanceof Princesa) {
+						}else if(atual instanceof Anotacao) {
+							if (((Anotacao) atual).isStatusEventoAnotacao()) {
+								((Anotacao) atual).setExitSelected(true);
+							}
+						} else if(atual instanceof Princesa) {
 							if(((Princesa) atual).isEventActivePrincesa()) {								
 								((Princesa) atual).setEventActivePrincesa(false);
 								Player.inEvent = false;
@@ -181,15 +189,6 @@ public class PlayerInput extends Input {
 				Player.setUp(false);
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				Player.setDown(false);
-			}
-
-			if (Anotacao.statusEventoAnotacao) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Anotacao.nextPaginaSelected = false;
-				}
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					Anotacao.exitSelected = false;
-				}
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {

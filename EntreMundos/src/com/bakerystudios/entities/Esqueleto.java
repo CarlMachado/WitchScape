@@ -2,6 +2,8 @@ package com.bakerystudios.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
@@ -16,11 +18,14 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 
 	private BufferedImage[] sprites;
 
-	private boolean eventEsqueleto = false;
-
 	protected boolean existEventEsqueleto = false;
 	protected boolean tryEventActiveEsqueleto = false;
 	protected boolean eventActiveEsqueleto = false;
+	
+	private List<String>[] esqueletoDialogue;
+	private Anotacao anotacaoDialogue;
+	
+	private boolean choose = false;
 
 	public Esqueleto(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
 			boolean existEventEsqueleto) {
@@ -29,14 +34,27 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 		sprites = spriteList;
 		maxAnimation = sprites.length - 1;
 		this.existEventEsqueleto = existEventEsqueleto;
+		
+		esqueletoDialogue = new ArrayList[2];
+		for(int i = 0; i < esqueletoDialogue.length; i++)
+			esqueletoDialogue[i] = new ArrayList<String>();
+		esqueletoDialogue[0].add("Eu sou um esqueleto de bosta");
+		esqueletoDialogue[0].add("só sirvo para testes e depois serei descartado");		
+		esqueletoDialogue[1].add("Mas sabe qual a parte boa, humano?");
+		esqueletoDialogue[1].add("que após tudo isso, eu irei lhe matar");
+		esqueletoDialogue[1].add("hehe brincaeira, ou não... quem sabe né");
+		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
 	}
 
 	public void update() {
 		animation();
-		if (eventActiveEsqueleto)
-			eventEsqueleto = true;
-		else
-			eventEsqueleto = false;
+		if (eventActiveEsqueleto) {
+			anotacaoDialogue.setStatusEventoAnotacao(true);
+			setChoose(true);
+		}
+		else {
+			anotacaoDialogue.setStatusEventoAnotacao(false);
+		}
 	}
 
 	public void animation() {
@@ -52,17 +70,6 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 
 	public void render(Graphics g) {
 		g.drawImage(sprites[currentAnimation], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		if (eventEsqueleto) {
-			System.out.println("eventoEsqueleto");
-		}
-	}
-
-	public boolean isEventEsqueleto() {
-		return eventEsqueleto;
-	}
-
-	public void setEventEsqueleto(boolean eventEsqueleto) {
-		this.eventEsqueleto = eventEsqueleto;
 	}
 
 	public boolean isExistEventEsqueleto() {
@@ -95,6 +102,30 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 
 	public void setSprites(BufferedImage[] sprites) {
 		this.sprites = sprites;
+	}
+
+	public boolean isChoose() {
+		return choose;
+	}
+
+	public void setChoose(boolean choose) {
+		this.choose = choose;
+	}
+
+	public List<String>[] getEsqueletoDialogue() {
+		return esqueletoDialogue;
+	}
+
+	public void setEsqueletoDialogue(List<String>[] esqueletoDialogue) {
+		this.esqueletoDialogue = esqueletoDialogue;
+	}
+	
+	public Anotacao getAnotacao() {
+		return anotacaoDialogue;
+	}
+	
+	public boolean getExistEventEsqueleto() {
+		return existEventEsqueleto;
 	}
 
 }
