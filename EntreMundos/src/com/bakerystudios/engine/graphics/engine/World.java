@@ -132,22 +132,22 @@ public class World {
 	}
 	
 	public void render(Graphics g) {
-		int xstart = Camera.x >> 4;
-		int ystart = Camera.y >> 4;
-
-		int xfinal = xstart + (Screen.WIDTH >> 4);
-		int yfinal = ystart + (Screen.HEIGHT >> 4);
-		
-		for (int xx = xstart; xx <= xfinal; xx++) {
-			for (int yy = ystart; yy <= yfinal; yy++) {
-				if (xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT)
-					continue;
-				if(xx + (yy * WIDTH) < tiles.length) {
-					Tile tile = tiles[xx + (yy * WIDTH)];
-					tile.render(g);
-				}
-			}
-		}
+//		int xstart = Camera.x >> 4;
+//		int ystart = Camera.y >> 4;
+//
+//		int xfinal = xstart + (Screen.WIDTH >> 4);
+//		int yfinal = ystart + (Screen.HEIGHT >> 4);
+//		
+//		for (int xx = xstart; xx <= xfinal; xx++) {
+//			for (int yy = ystart; yy <= yfinal; yy++) {
+//				if (xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT)
+//					continue;
+//				if(xx + (yy * WIDTH) < tiles.length) {
+//					Tile tile = tiles[xx + (yy * WIDTH)];
+//					tile.render(g);
+//				}
+//			}
+//		}
 		Tile tile = tiles[0];
 		g.drawImage(map, tile.getX() - Camera.x, tile.getY() - Camera.y, null);
 	}
