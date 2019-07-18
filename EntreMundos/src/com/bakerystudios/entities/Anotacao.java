@@ -72,7 +72,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	public void eventoAnotacao(Graphics g) {
 		if(isStatusEventoAnotacao()) {
 
-			TextBox.show(g, null, null, null);
+			TextBox.showDialog(g, null, null, null);
 			g.setFont(Game.boxFont);
 			g.setColor(Color.BLACK);
 			int linhas = linha[currentPagina - 1].size();

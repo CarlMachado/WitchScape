@@ -1,8 +1,9 @@
 package com.bakerystudios.entities;
 
+import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.game.Game;
 
-public class EventManager {
+public class EventManager implements Updateble {
 
 	public static boolean esc;
 	
@@ -44,6 +45,11 @@ public class EventManager {
 			Game.uiChest = false;
 			Game.uiNpc = false;
 		}
+	}
+
+	@Override
+	public void update() {
+		eventCheck();
 	}
 	
 }

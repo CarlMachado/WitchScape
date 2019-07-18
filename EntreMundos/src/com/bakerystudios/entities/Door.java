@@ -41,10 +41,6 @@ public class Door extends Entity implements Renderable, Updateble {
 		this.setIdentify(identify);
 		this.chave = chave;
 	}
-	
-	public boolean pressedEnter() {
-		return pressedEnter;
-	}
 
 	@Override
 	public void update() {
@@ -133,6 +129,14 @@ public class Door extends Entity implements Renderable, Updateble {
 
 	public void setChoose(boolean choose) {
 		this.choose = choose;
+	}
+
+	public boolean isPressedEnter() {
+		return pressedEnter;
+	}
+
+	public void setPressedEnter(boolean pressedEnter) {
+		this.pressedEnter = pressedEnter;
 	}
 
 }

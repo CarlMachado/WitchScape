@@ -19,6 +19,7 @@ import com.bakerystudios.engine.graphics.engine.Spritesheet;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
 import com.bakerystudios.entities.Entity;
+import com.bakerystudios.entities.EventManager;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.input.Input;
 import com.bakerystudios.game.input.MenuInput;
@@ -57,6 +58,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static Spritesheet characters;
 	public static Spritesheet doors;
 	public static Spritesheet wall;
+	public static EventManager em;
 	public static World world;
 	public static List<Entity> entities;
 	public static Inventario inventario;
@@ -79,7 +81,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
 		wall = new Spritesheet("/sprites/wall.png");
-
+		em = new EventManager();
 		//audio = new AudioManager();
 
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
@@ -118,6 +120,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	@Override
 	public void update() {
 		gui.update();
+		em.update();
 		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {

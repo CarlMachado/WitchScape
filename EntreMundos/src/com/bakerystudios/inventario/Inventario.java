@@ -28,9 +28,9 @@ public class Inventario implements Renderable, Updateble {
 		slot = new Slot[numSlots];
 		for (int i = 0; i < slot.length; i++)
 			slot[i] = new Slot();
-		//slot[0].setIdentity("chave1");
-		//slot[1].setIdentity("chave2");
-		// slot[2].setIdentity("c");
+		slot[0].setIdentity("chave1");
+		slot[1].setIdentity("chave2");
+		slot[2].setIdentity("c");
 	}
 
 	public void update() {
@@ -46,7 +46,7 @@ public class Inventario implements Renderable, Updateble {
 	}
 	
 	public void render(Graphics g) {
-		if (GameState.state == GameState.PLAYING && !Game.uiNpc && !Game.uiPlaca && visible) {
+		if (GameState.state == GameState.PLAYING && visible) {
 			int numberMagic = 100;
 			Color db = new Color(111, 83, 39);
 			Color lb = new Color(190, 163, 115);
