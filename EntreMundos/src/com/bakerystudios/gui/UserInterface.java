@@ -52,6 +52,15 @@ public class UserInterface implements Renderable, Updateble {
 	public void render(Graphics g) {
 		fps.render(g);
 
+		if (GameState.state == GameState.MENU) {
+			if (MenuState.state == MenuState.MAIN) {
+				mainMenu.render(g);
+			}
+			if (MenuState.state == MenuState.PAUSE) {
+				pauseMenu.render(g);
+			}
+		}
+
 		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca) {
 			for (int j = 0; j < Game.entities.size(); j++) {
 				Entity atual = Game.entities.get(j);
@@ -157,15 +166,6 @@ public class UserInterface implements Renderable, Updateble {
 						drawCentralizedString(g, "Aperte ENTER para interagir com a placa", Screen.HEIGHT + 500);
 					}
 				}
-			}
-		}
-
-		if (GameState.state == GameState.MENU) {
-			if (MenuState.state == MenuState.MAIN) {
-				mainMenu.render(g);
-			}
-			if (MenuState.state == MenuState.PAUSE) {
-				pauseMenu.render(g);
 			}
 		}
 	}

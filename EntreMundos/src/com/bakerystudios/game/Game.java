@@ -24,6 +24,7 @@ import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
+import com.bakerystudios.gui.menu.MenuState;
 import com.bakerystudios.inventario.Inventario;
 import com.bakerystudios.sound.AudioManager;
 
@@ -127,24 +128,13 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	private void nonPixelatedRender(Graphics g) {
 		gui.render(g);
-		Game.inventario.render(g);
-
-		if (GameState.state == GameState.PLAYING) {
-
-		} else if (GameState.state == GameState.OVER) {
-
-		}
+		inventario.render(g);
 	}
 
 	private void pixelatedRender(Graphics g) {
-		if (GameState.state == GameState.PLAYING) {
-
-			world.render(g);
-			for (Entity e : entities)
-				e.render(g);
-		} else if (GameState.state == GameState.OVER) {
-
-		}
+		world.render(g);
+		for (Entity e : entities)
+			e.render(g);
 	}
 
 	@Override

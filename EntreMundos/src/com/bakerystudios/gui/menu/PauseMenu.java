@@ -18,9 +18,9 @@ public class PauseMenu implements Updateble, Renderable {
 	
 	@Override
 	public void render(Graphics g) {
-		Graphics2D g2D = (Graphics2D) g;
-		g2D.setColor(new Color(0, 0, 0, 100));
-		g2D.fillRect(0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT);
+		//Graphics2D g2 = (Graphics2D) g;
+		g.setColor(new Color(0, 0, 0, 255));
+		g.fillRect(0, 0, Screen.SCALE_WIDTH, Screen.SCALE_HEIGHT);
 	}
 	
 }
