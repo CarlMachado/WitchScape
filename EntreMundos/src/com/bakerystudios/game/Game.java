@@ -14,12 +14,14 @@ import java.util.Random;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.engine.Spritesheet;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.EventManager;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.game.input.DebugInput;
 import com.bakerystudios.game.input.Input;
 import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
@@ -30,6 +32,12 @@ import com.bakerystudios.sound.AudioManager;
 
 public class Game implements Runnable, Renderable, Updateble {
 
+	public static final int MAP = 0;
+	public static final int SEC_FLOOR = 1;
+	public static final int DUNGEON = 2;
+	public static int CUR_MAP = MAP;
+	
+	
 	private boolean isRunning;
 
 	private Thread thread;
@@ -57,7 +65,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static Spritesheet doors;
 	public static Spritesheet wall;
 	public static EventManager em;
-	public static World world;
+	public static List<World> world;
 	public static List<Entity> entities;
 	public static Inventario inventario;
 
@@ -71,24 +79,33 @@ public class Game implements Runnable, Renderable, Updateble {
 		inputs = new ArrayList<>();
 		inputs.add(new MenuInput());
 		inputs.add(new PlayerInput());
+		inputs.add(new DebugInput());
 		screen = new Screen(inputs);
 		loadFonts();
 		rand = new Random();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
+		em = new EventManager();
+		//audio = new AudioManager();
+		
+		// carregamento das sprites
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
 		wall = new Spritesheet("/sprites/wall.png");
-		em = new EventManager();
-		//audio = new AudioManager();
 
-		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		inventario = new Inventario();
 		gui = new GraphicUserInterface();
 
+		// carregamento das entidades
+		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		entities = new ArrayList<Entity>();
 		entities.add(player);
-		world = new World("/levels/map.png", "/levels/map_collision.png");
+		
+		// carregamento dos mapas
+		world = new ArrayList<>();
+		world.add(new World("/levels/map.png", "/levels/map_collision.png"));
+		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png"));
+		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png"));
 	}
 	
 	public void loadFonts() {
@@ -135,10 +152,14 @@ public class Game implements Runnable, Renderable, Updateble {
 	private void nonPixelatedRender(Graphics g) {
 		gui.render(g);
 		inventario.render(g);
+		
+		g.setColor(Color.RED);
+		g.setFont(new Font("arial", Font.PLAIN, 15));
+		g.drawString("x: " + player.getX() + " y: " + player.getY(), 1100, 23);
 	}
 
 	private void pixelatedRender(Graphics g) {
-		world.render(g);
+		world.get(CUR_MAP).render(g);
 		for (Entity e : entities)
 			e.render(g);
 	}

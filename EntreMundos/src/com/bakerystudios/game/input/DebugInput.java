@@ -3,6 +3,10 @@ package com.bakerystudios.game.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import com.bakerystudios.engine.graphics.engine.Tile;
+import com.bakerystudios.entities.Entity;
+import com.bakerystudios.game.Game;
+
 public class DebugInput extends Input {
 
 	@Override
@@ -25,8 +29,12 @@ public class DebugInput extends Input {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		// pega o x e o y da tela
+		System.out.println("Tela -------");
 		System.out.println("x: " + arg0.getX());
 		System.out.println("y: " + arg0.getY());
+		System.out.println("------------");
+		
 	}
 
 	@Override
