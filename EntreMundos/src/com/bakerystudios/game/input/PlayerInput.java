@@ -6,13 +6,13 @@ import java.awt.event.MouseEvent;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
-import com.bakerystudios.entities.Esqueleto;
-import com.bakerystudios.entities.Placa;
+import com.bakerystudios.entities.Skeleton;
+import com.bakerystudios.entities.Board;
 import com.bakerystudios.entities.Player;
-import com.bakerystudios.entities.Princesa;
+import com.bakerystudios.entities.Princess;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
-import com.bakerystudios.inventario.Inventario;
+import com.bakerystudios.inventario.Inventory;
 import com.bakerystudios.inventario.Warehouse;
 
 public class PlayerInput extends Input {
@@ -32,15 +32,15 @@ public class PlayerInput extends Input {
 				Player.setDown(true);
 			}
 
-			if (Inventario.status && Inventario.focus) {
+			if (Inventory.status && Inventory.focus) {
 				if (e.getKeyCode() == KeyEvent.VK_1 && (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
-					Inventario.selectedItem = 0;
+					Inventory.selectedItem = 0;
 				} else if (e.getKeyCode() == KeyEvent.VK_2
 						&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
-					Inventario.selectedItem = 1;
+					Inventory.selectedItem = 1;
 				} else if (e.getKeyCode() == KeyEvent.VK_3
 						&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
-					Inventario.selectedItem = 2;
+					Inventory.selectedItem = 2;
 				}
 			}
 
@@ -49,10 +49,11 @@ public class PlayerInput extends Input {
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
 							if (((Door) atual).isChave()) {
-								for (int i = 0; i < Inventario.slot.length; i++) {
-									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdentify()) {
+								for (int i = 0; i < Inventory.slot.length; i++) {
+									if (Inventory.slot[i].getIdentity() == ((Door) atual).getIdentify()) {
 										((Door) atual).setAnimation(true);
 										Game.uiDoor = false;
+										break;
 									}
 								}
 							} else {
@@ -67,57 +68,57 @@ public class PlayerInput extends Input {
 							Player.inEvent = true;
 							Game.uiChest = false;
 						}
-					} else if (atual instanceof Princesa) {
-						if (((Princesa) atual).getExistEventPrincesa() && ((Princesa) atual).isEventActivePrincesa()) {
-							if (!((Princesa) atual).getAnotacao().isEventIsOver())
-								((Princesa) atual).getAnotacao().setNextPaginaSelected(true);
+					} else if (atual instanceof Princess) {
+						if (((Princess) atual).getExistEventPrincesa() && ((Princess) atual).isEventActivePrincesa()) {
+							if (!((Princess) atual).getAnotacao().isEventIsOver())
+								((Princess) atual).getAnotacao().setNextPaginaSelected(true);
 							else {
-								((Princesa) atual).setEventActivePrincesa(false);
-								((Princesa) atual).setTryEventActivePrincesa(false);
-								((Princesa) atual).getAnotacao().setExitSelected(true);
+								((Princess) atual).setEventActivePrincesa(false);
+								((Princess) atual).setTryEventActivePrincesa(false);
+								((Princess) atual).getAnotacao().setExitSelected(true);
 								Player.inEvent = false;
 							}
 						}
-						if (((Princesa) atual).isTryEventActivePrincesa()
-								&& !((Princesa) atual).isEventActivePrincesa()) {
+						if (((Princess) atual).isTryEventActivePrincesa()
+								&& !((Princess) atual).isEventActivePrincesa()) {
 							// System.out.println("teste prin");
 							Player.inEvent = true;
-							((Princesa) atual).setEventActivePrincesa(true);
-							((Princesa) atual).setTryEventActivePrincesa(false);
+							((Princess) atual).setEventActivePrincesa(true);
+							((Princess) atual).setTryEventActivePrincesa(false);
 							Game.uiNpc = false;
 						}
-					} else if (atual instanceof Esqueleto) {
-						if (((Esqueleto) atual).getExistEventEsqueleto()
-								&& ((Esqueleto) atual).isEventActiveEsqueleto()) {
-							if (!((Esqueleto) atual).getAnotacao().isEventIsOver())
-								((Esqueleto) atual).getAnotacao().setNextPaginaSelected(true);
+					} else if (atual instanceof Skeleton) {
+						if (((Skeleton) atual).getExistEventEsqueleto()
+								&& ((Skeleton) atual).isEventActiveEsqueleto()) {
+							if (!((Skeleton) atual).getAnotacao().isEventIsOver())
+								((Skeleton) atual).getAnotacao().setNextPaginaSelected(true);
 							else {
-								((Esqueleto) atual).setEventActiveEsqueleto(false);
-								((Esqueleto) atual).setTryEventActiveEsqueleto(false);
-								((Esqueleto) atual).getAnotacao().setExitSelected(true);
+								((Skeleton) atual).setEventActiveEsqueleto(false);
+								((Skeleton) atual).setTryEventActiveEsqueleto(false);
+								((Skeleton) atual).getAnotacao().setExitSelected(true);
 								Player.inEvent = false;
 							}
 						}
-						if (((Esqueleto) atual).isTryEventActiveEsqueleto()
-								&& !((Esqueleto) atual).isEventActiveEsqueleto()) {
+						if (((Skeleton) atual).isTryEventActiveEsqueleto()
+								&& !((Skeleton) atual).isEventActiveEsqueleto()) {
 							// System.out.println("teste esq");
 							Player.inEvent = true;
-							((Esqueleto) atual).setEventActiveEsqueleto(true);
-							((Esqueleto) atual).setTryEventActiveEsqueleto(false);
+							((Skeleton) atual).setEventActiveEsqueleto(true);
+							((Skeleton) atual).setTryEventActiveEsqueleto(false);
 							Game.uiNpc = false;
 						}
-					} else if (atual instanceof Placa) {
-						if (((Placa) atual).isTryEventActivePlaca() && !((Placa) atual).isEventActivePlaca()) {
+					} else if (atual instanceof Board) {
+						if (((Board) atual).isTryEventActivePlaca() && !((Board) atual).isEventActivePlaca()) {
 							Player.inEvent = true;
-							((Placa) atual).setEventActivePlaca(true);
-							((Placa) atual).setTryEventActivePlaca(false);
+							((Board) atual).setEventActivePlaca(true);
+							((Board) atual).setTryEventActivePlaca(false);
 							Game.uiPlaca = false;
-						} else if (((Placa) atual).isEventActivePlaca()) {
-							((Placa) atual).getAnotacao().setNextPaginaSelected(true);
-							if (((Placa) atual).getAnotacao().getCurrentPagina() + 1 >= ((Placa) atual).getAnotacao()
+						} else if (((Board) atual).isEventActivePlaca()) {
+							((Board) atual).getAnotacao().setNextPaginaSelected(true);
+							if (((Board) atual).getAnotacao().getCurrentPagina() + 1 >= ((Board) atual).getAnotacao()
 									.getPaginas()) {
-								((Placa) atual).setEventActivePlaca(false);
-								((Placa) atual).getAnotacao().setExitSelected(true);
+								((Board) atual).setEventActivePlaca(false);
+								((Board) atual).getAnotacao().setExitSelected(true);
 								Player.inEvent = false;
 							}
 						}
@@ -137,20 +138,20 @@ public class PlayerInput extends Input {
 								}
 
 							}
-						} else if (atual instanceof Princesa) {
-							if (((Princesa) atual).isEventActivePrincesa()) {
-								((Princesa) atual).setEventActivePrincesa(false);
+						} else if (atual instanceof Princess) {
+							if (((Princess) atual).isEventActivePrincesa()) {
+								((Princess) atual).setEventActivePrincesa(false);
 								Player.inEvent = false;
 							}
-						} else if (atual instanceof Esqueleto) {
-							if (((Esqueleto) atual).isEventActiveEsqueleto()) {
-								((Esqueleto) atual).setEventActiveEsqueleto(false);
+						} else if (atual instanceof Skeleton) {
+							if (((Skeleton) atual).isEventActiveEsqueleto()) {
+								((Skeleton) atual).setEventActiveEsqueleto(false);
 								Player.inEvent = false;
 							}
-						} else if (atual instanceof Placa) {
-							if (((Placa) atual).isEventActivePlaca()) {
-								((Placa) atual).setEventActivePlaca(false);
-								((Placa) atual).getAnotacao().setExitSelected(true);
+						} else if (atual instanceof Board) {
+							if (((Board) atual).isEventActivePlaca()) {
+								((Board) atual).setEventActivePlaca(false);
+								((Board) atual).getAnotacao().setExitSelected(true);
 								Player.inEvent = false;
 							}
 						}
@@ -170,28 +171,28 @@ public class PlayerInput extends Input {
 						if (atual instanceof Chest) {
 							if (((Chest) atual).isOpenChest()) {
 
-								if (e.getKeyCode() == KeyEvent.VK_Q && !Inventario.focus) { // Foca no inventario
+								if (e.getKeyCode() == KeyEvent.VK_Q && !Inventory.focus) { // Foca no inventario
 									System.out.println("cheguei");
-									Inventario.focus = true;
+									Inventory.focus = true;
 									((Chest) atual).setFocus(false);
 								} else if (e.getKeyCode() == KeyEvent.VK_Q && !((Chest) atual).isFocus()) { // Bau
-									Inventario.focus = false;
+									Inventory.focus = false;
 									((Chest) atual).setFocus(true);
 								}
 								if (e.getKeyCode() == KeyEvent.VK_ENTER) { // Troca de itens, bau e inventario
-									if (Inventario.focus
+									if (Inventory.focus
 											&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
-										Warehouse.numExchangeInventory = Inventario.selectedItem;
-										Warehouse.temporaryInventory = Inventario.slot[Warehouse.numExchangeInventory];
+										Warehouse.numExchangeInventory = Inventory.selectedItem;
+										Warehouse.temporaryInventory = Inventory.slot[Warehouse.numExchangeInventory];
 										Warehouse.exchangeInventory = true;
 										((Chest) atual).setFocus(true);
-										Inventario.focus = false;
+										Inventory.focus = false;
 									} else if (((Chest) atual).isFocus()
 											&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 										Warehouse.numExchangeChest = ((Chest) atual).getselectedItem();
 										Warehouse.temporaryChest = ((Chest) atual).getSlot(Warehouse.numExchangeChest);
 										Warehouse.exchangeChest = true;
-										Inventario.focus = true;
+										Inventory.focus = true;
 										((Chest) atual).setFocus(false);
 									}
 								}

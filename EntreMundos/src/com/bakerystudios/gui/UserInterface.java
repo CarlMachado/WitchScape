@@ -9,10 +9,10 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
-import com.bakerystudios.entities.Esqueleto;
-import com.bakerystudios.entities.Placa;
+import com.bakerystudios.entities.Skeleton;
+import com.bakerystudios.entities.Board;
 import com.bakerystudios.entities.Player;
-import com.bakerystudios.entities.Princesa;
+import com.bakerystudios.entities.Princess;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
@@ -132,31 +132,31 @@ public class UserInterface implements Renderable, Updateble {
 						}
 					}
 				} else if ((Player.typeIsNpc(atual)) && (Game.uiNpc)) {							
-					if(atual instanceof Princesa) {						
-						if(((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
-							((Princesa) atual).getAnotacao().eventoAnotacao(g);
-						} else if(!((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
+					if(atual instanceof Princess) {						
+						if(((Princess) atual).isEventActivePrincesa() && ((Princess) atual).isChoose()) {
+							((Princess) atual).getAnotacao().eventoAnotacao(g);
+						} else if(!((Princess) atual).isEventActivePrincesa() && ((Princess) atual).isChoose()) {
 							g.setColor(Color.white);
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 							TextBox.showPopUp(g, 510, "Aperte ENTER para conversar com o NPC.", null);
 						}
 					}
-					if(atual instanceof Esqueleto) {
-						if(((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
-							((Esqueleto) atual).getAnotacao().eventoAnotacao(g);
+					if(atual instanceof Skeleton) {
+						if(((Skeleton) atual).isEventActiveEsqueleto() && ((Skeleton) atual).isChoose()) {
+							((Skeleton) atual).getAnotacao().eventoAnotacao(g);
 							return;
-						} else if(!((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
+						} else if(!((Skeleton) atual).isEventActiveEsqueleto() && ((Skeleton) atual).isChoose()) {
 							g.setColor(Color.white);
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 							TextBox.showPopUp(g, 510, "Aperte ENTER para conversar com o NPC.", null);
 						}
 					} 
-				}else if(atual instanceof Placa && Game.uiPlaca) {
-					if(((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
-						((Placa) atual).getAnotacao().eventoAnotacao(g);
+				}else if(atual instanceof Board && Game.uiPlaca) {
+					if(((Board) atual).isEventActivePlaca() && ((Board) atual).isChoose()) {
+						((Board) atual).getAnotacao().eventoAnotacao(g);
 						return;
 					}
-					if(!((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
+					if(!((Board) atual).isEventActivePlaca() && ((Board) atual).isChoose()) {
 						g.setColor(Color.white);
 						g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 						TextBox.showPopUp(g, 510, "Aperte ENTER para ler a placa.", null);

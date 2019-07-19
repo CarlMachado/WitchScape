@@ -25,8 +25,10 @@ import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
-import com.bakerystudios.inventario.Inventario;
+import com.bakerystudios.inventario.Inventory;
 import com.bakerystudios.sound.AudioManager;
+import com.bakerystudios.teleports.Teleport;
+import com.bakerystudios.teleports.TeleportManager;
 
 public class Game implements Runnable, Renderable, Updateble {
 
@@ -57,9 +59,10 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static Spritesheet doors;
 	public static Spritesheet wall;
 	public static EventManager em;
+	public static TeleportManager teleports;
 	public static World world;
 	public static List<Entity> entities;
-	public static Inventario inventario;
+	public static Inventory inventario;
 
 	public static boolean uiDoor = false;
 	public static boolean uiChest = false;
@@ -68,6 +71,7 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	public Game() {
 		// Object instantiation
+		teleports = new TeleportManager();
 		inputs = new ArrayList<>();
 		inputs.add(new MenuInput());
 		inputs.add(new PlayerInput());
@@ -80,10 +84,10 @@ public class Game implements Runnable, Renderable, Updateble {
 		doors = new Spritesheet("/sprites/doors.png");
 		wall = new Spritesheet("/sprites/wall.png");
 		em = new EventManager();
-		//audio = new AudioManager();
+		audio = new AudioManager();
 
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
-		inventario = new Inventario();
+		inventario = new Inventory();
 		gui = new GraphicUserInterface();
 
 		entities = new ArrayList<Entity>();
@@ -119,6 +123,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public void update() {
 		gui.update();
 		em.update();
+		
 		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {

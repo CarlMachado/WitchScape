@@ -13,11 +13,13 @@ import com.bakerystudios.engine.graphics.tiles.FloorTile;
 import com.bakerystudios.engine.graphics.tiles.WallTile;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
-import com.bakerystudios.entities.Esqueleto;
-import com.bakerystudios.entities.Placa;
-import com.bakerystudios.entities.Princesa;
+import com.bakerystudios.entities.Entity;
+import com.bakerystudios.entities.Skeleton;
+import com.bakerystudios.entities.Board;
+import com.bakerystudios.entities.Princess;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
+import com.bakerystudios.teleports.Teleport;
 
 public class World {
 	
@@ -28,13 +30,14 @@ public class World {
 	private final int DOOR_SECOND = 0xFF682900;
 	private final int DOOR_THIRD = 0xFFD85300;
 	private final int CHEST = 0xFF0026FF;
-	private final int PRINCESA = 0xFFFF7F7F;
-	private final int ESQUELETO = 0xFF808080;
-	private final int PLACA = 0XFFFF6A00;
+	private final int PRINCESS = 0xFFFF7F7F;
+	private final int SKELETON = 0xFF808080;
+	private final int BOARD = 0xFFFF6A00;
+	private final int TELEPORT = 0xFF666FFF;
 	
-	private BufferedImage[] spritesPrincesa;
-	private BufferedImage[] spritesEsqueleto;
-	private List<String>[] placaDialogue_FIRST;
+	private BufferedImage[] princessSprites;
+	private BufferedImage[] SkeletonSprites;
+	private List<String>[] boardDialogue_FIRST;
 
 	public static BufferedImage map;
 	public static Tile[] tiles;
@@ -64,6 +67,8 @@ public class World {
 					if(pixelAtual == PLAYER) {
 						Game.player.setX(xx * Tile.SIZE);
 						Game.player.setY(yy * Tile.SIZE);
+						//System.out.println("x: " + xx * Tile.SIZE);
+						//System.out.println("y: " + yy * Tile.SIZE);
 					}
 					if(pixelAtual == DOOR_FIRST) {
 						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave1", true));
@@ -72,24 +77,38 @@ public class World {
 						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave2", true));
 					}
 					if(pixelAtual == DOOR_THIRD) {
-						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "", false));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, null, false));
 					}
 					if(pixelAtual == CHEST) {
 						Game.entities.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null));
 					}
-					if(pixelAtual == PRINCESA) {
-						Game.entities.add(new Princesa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, spritesPrincesa, true));
+					if(pixelAtual == PRINCESS) {
+						Game.entities.add(new Princess(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, princessSprites, true));
 					}
-					if(pixelAtual == ESQUELETO) {
-						Game.entities.add(new Esqueleto(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, spritesEsqueleto, true));
+					if(pixelAtual == SKELETON) {
+						Game.entities.add(new Skeleton(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, SkeletonSprites, true));
 					}
-					if(pixelAtual == PLACA) {
-						Game.entities.add(new Placa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, Game.wall.getSprite(48, 128, Tile.SIZE, Tile.SIZE), placaDialogue_FIRST));
+					if(pixelAtual == BOARD) {
+						Game.entities.add(new Board(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, Game.wall.getSprite(48, 128, Tile.SIZE, Tile.SIZE), boardDialogue_FIRST));
+					}
+					if(pixelAtual == TELEPORT) {
+						Game.entities.add(new Teleport(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null));
 					}
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		int i = 0;
+		for(Entity e : Game.entities) {
+			if(e instanceof Teleport) {
+				if(i == 0) {
+					((Teleport) e).setDestiny(tiles[1579]);
+					i++;
+				} else {
+					((Teleport) e).setDestiny(tiles[987]);
+				}
+			}
 		}
 	}
 
@@ -114,20 +133,20 @@ public class World {
 	}
 
 	public void loadInfo() {
-		spritesPrincesa = new BufferedImage[1];
-		for(int i = 0; i < spritesPrincesa.length; i++)
-			spritesPrincesa[i] = Game.characters.getSprite(96, 0, Tile.SIZE, Tile.SIZE);
+		princessSprites = new BufferedImage[1];
+		for(int i = 0; i < princessSprites.length; i++)
+			princessSprites[i] = Game.characters.getSprite(96, 0, Tile.SIZE, Tile.SIZE);
 		
-		spritesEsqueleto = new BufferedImage[1];
-		for(int i = 0; i < spritesEsqueleto.length; i++)
-			spritesEsqueleto[i] = Game.characters.getSprite(144, 0, Tile.SIZE, Tile.SIZE);
+		SkeletonSprites = new BufferedImage[1];
+		for(int i = 0; i < SkeletonSprites.length; i++)
+			SkeletonSprites[i] = Game.characters.getSprite(144, 0, Tile.SIZE, Tile.SIZE);
 		
 		
-		placaDialogue_FIRST = new ArrayList[2];
-		for(int i = 0; i < placaDialogue_FIRST.length; i++)
-			placaDialogue_FIRST[i] = new ArrayList<String>();
-		placaDialogue_FIRST[0].add("Plaquinha bonita, eu te amo por funcionar");
-		placaDialogue_FIRST[0].add("Testizin beautifil pa ver que funciona");		
+		boardDialogue_FIRST = new ArrayList[2];
+		for(int i = 0; i < boardDialogue_FIRST.length; i++)
+			boardDialogue_FIRST[i] = new ArrayList<String>();
+		boardDialogue_FIRST[0].add("Plaquinha bonita, eu te amo por funcionar");
+		boardDialogue_FIRST[0].add("Testizin beautifil pa ver que funciona");		
 	}
 	
 	public void render(Graphics g) {

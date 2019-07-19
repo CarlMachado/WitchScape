@@ -24,20 +24,20 @@ public class EventManager implements Updateble {
 						break;
 					}
 				}
-				if (atual instanceof Anotacao) {
-					if(((Anotacao) atual).isStatusEventoAnotacao()) {
-						((Anotacao) atual).setStatusEventoAnotacao(false);
+				if (atual instanceof Annotation) {
+					if(((Annotation) atual).isStatusEventoAnotacao()) {
+						((Annotation) atual).setStatusEventoAnotacao(false);
 						break;
 					}
 				}
-				if(atual instanceof Princesa) {
-					if(((Princesa) atual).isTryEventActivePrincesa()) {
-						((Princesa) atual).setTryEventActivePrincesa(false);
+				if(atual instanceof Princess) {
+					if(((Princess) atual).isTryEventActivePrincesa()) {
+						((Princess) atual).setTryEventActivePrincesa(false);
 					}
 				}
-				if(atual instanceof Esqueleto) {
-					if(((Esqueleto) atual).isTryEventActiveEsqueleto()) {
-						((Esqueleto) atual).setTryEventActiveEsqueleto(false);
+				if(atual instanceof Skeleton) {
+					if(((Skeleton) atual).isTryEventActiveEsqueleto()) {
+						((Skeleton) atual).setTryEventActiveEsqueleto(false);
 					}
 				}
 			}

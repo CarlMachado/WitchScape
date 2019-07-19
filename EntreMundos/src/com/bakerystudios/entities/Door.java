@@ -38,7 +38,7 @@ public class Door extends Entity implements Renderable, Updateble {
 			sprites[i] = Game.doors.getSprite(0, 16 * i, Tile.SIZE, Tile.SIZE);
 		}
 		this.maxAnimacao = sprites.length;
-		this.setIdentify(identify);
+		this.identify = identify;
 		this.chave = chave;
 	}
 

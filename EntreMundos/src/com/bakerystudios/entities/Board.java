@@ -7,21 +7,21 @@ import java.util.List;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 
-public class Placa extends Entity implements Renderable, Updateble {
+public class Board extends Entity implements Renderable, Updateble {
 
 	private List<String>[] placaDialogue;
-	private Anotacao anotacaoDialogue;
+	private Annotation anotacaoDialogue;
 
 	protected boolean tryEventActivePlaca = false;
 	protected boolean eventActivePlaca = false;
 
 	private boolean choose = false;
 
-	public Placa(int x, int y, int width, int height, BufferedImage sprite, List<String>[] placaDialogue) {
+	public Board(int x, int y, int width, int height, BufferedImage sprite, List<String>[] placaDialogue) {
 		super(x, y, width, height, sprite);
 
 		this.placaDialogue = placaDialogue;
-		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, placaDialogue);
+		anotacaoDialogue = new Annotation(0, 600, 0, 0, null, true, placaDialogue);
 	}
 
 	public void update() {
@@ -61,7 +61,7 @@ public class Placa extends Entity implements Renderable, Updateble {
 		this.tryEventActivePlaca = tryEventActivePlaca;
 	}
 	
-	public Anotacao getAnotacao() {
+	public Annotation getAnotacao() {
 		return anotacaoDialogue;
 	}
 

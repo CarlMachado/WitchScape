@@ -9,7 +9,7 @@ import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
 
-public class Esqueleto extends Entity implements Renderable, Updateble {
+public class Skeleton extends Entity implements Renderable, Updateble {
 
 	private int currentAnimation = 0;
 	private int maxAnimation = 0;
@@ -23,11 +23,11 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 	protected boolean eventActiveEsqueleto = false;
 	
 	private List<String>[] esqueletoDialogue;
-	private Anotacao anotacaoDialogue;
+	private Annotation anotacaoDialogue;
 	
 	private boolean choose = false;
 
-	public Esqueleto(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
+	public Skeleton(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
 			boolean existEventEsqueleto) {
 		super(x, y, width, height, sprite);
 		sprites = new BufferedImage[spriteList.length];
@@ -43,7 +43,7 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 		esqueletoDialogue[1].add("Mas sabe qual a parte boa, humano?");
 		esqueletoDialogue[1].add("que após tudo isso, eu irei lhe matar");
 		esqueletoDialogue[1].add("hehe brincaeira, ou não... quem sabe né");
-		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
+		anotacaoDialogue = new Annotation(0, 600, 0, 0, null, true, esqueletoDialogue);
 	}
  
 	public void update() {
@@ -120,7 +120,7 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 		this.esqueletoDialogue = esqueletoDialogue;
 	}
 	
-	public Anotacao getAnotacao() {
+	public Annotation getAnotacao() {
 		return anotacaoDialogue;
 	}
 	

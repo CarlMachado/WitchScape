@@ -9,7 +9,7 @@ import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
 
-public class Princesa extends Entity implements Renderable, Updateble {
+public class Princess extends Entity implements Renderable, Updateble {
 
 	private int currentAnimation = 0;
 	private int maxAnimation = 0;
@@ -23,11 +23,11 @@ public class Princesa extends Entity implements Renderable, Updateble {
 	protected boolean eventActivePrincesa = false;
 	
 	private List<String>[] princesaDialogue;
-	private Anotacao anotacaoDialogue;
+	private Annotation anotacaoDialogue;
 	
 	private boolean choose = false;
 
-	public Princesa(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
+	public Princess(int x, int y, int width, int height, BufferedImage sprite, BufferedImage[] spriteList,
 			boolean existEvent) {
 		super(x, y, width, height, sprite);
 		sprites = new BufferedImage[spriteList.length];
@@ -46,7 +46,7 @@ public class Princesa extends Entity implements Renderable, Updateble {
 		princesaDialogue[2].add("Vai se fude mermao BABACA AAAAA");
 		princesaDialogue[3].add("Testes servem pra fude a nossa vida");
 		princesaDialogue[3].add("por que sempre encontramos bugs nesse bostas");
-		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, princesaDialogue);
+		anotacaoDialogue = new Annotation(0, 600, 0, 0, null, true, princesaDialogue);
 	}
 
 	public void update() {
@@ -107,7 +107,7 @@ public class Princesa extends Entity implements Renderable, Updateble {
 		this.sprites = sprites;
 	}
 	
-	public Anotacao getAnotacao() {
+	public Annotation getAnotacao() {
 		return anotacaoDialogue;
 	}
 	

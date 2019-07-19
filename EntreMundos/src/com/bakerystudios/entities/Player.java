@@ -1,5 +1,6 @@
 package com.bakerystudios.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -10,7 +11,7 @@ import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
-import com.bakerystudios.inventario.Inventario;
+import com.bakerystudios.inventario.Inventory;
 import com.bakerystudios.inventario.Warehouse;
 
 public class Player extends Entity implements Renderable, Updateble {
@@ -178,8 +179,8 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void render(Graphics g) {
-		// g.setColor(Color.red);
-		// g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
+		g.setColor(Color.red);
+		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
 
 		if (dir == rightDir) {
 			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -216,7 +217,7 @@ public class Player extends Entity implements Renderable, Updateble {
 						// System.out.println("Bau:" + ((Chest)
 						// atual).getSlot(Warehouse.numExchangeChest).getIdentity());
 
-						Inventario.slot[Warehouse.numExchangeInventory] = Warehouse.temporaryChest;
+						Inventory.slot[Warehouse.numExchangeInventory] = Warehouse.temporaryChest;
 						((Chest) atual).setSlot(Warehouse.temporaryInventory, Warehouse.numExchangeChest);
 
 						// System.out.println("NOVO:");
@@ -227,21 +228,21 @@ public class Player extends Entity implements Renderable, Updateble {
 						Warehouse.resetWareHouse();
 					}
 				}
-			} else if (atual instanceof Anotacao) {
+			} else if (atual instanceof Annotation) {
 				if (Entity.isColidding(this, atual)) {
 
 					return;
 				}
 			} else if (typeIsNpc(atual)) {
 				collisionNpc(atual);
-			}else if(atual instanceof Placa) {
+			}else if(atual instanceof Board) {
 				collisionPlaca(atual);
 			}
 		}
 	}
 
 	public static boolean typeIsNpc(Entity atual) {
-		if (atual instanceof Princesa || atual instanceof Esqueleto)
+		if (atual instanceof Princess || atual instanceof Skeleton)
 			return true;
 		else 
 			return false;
@@ -249,23 +250,23 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionNpc(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (atual instanceof Princesa) {
-				if (((Princesa) atual).isExistEventPrincesa()) {
+			if (atual instanceof Princess) {
+				if (((Princess) atual).isExistEventPrincesa()) {
 					if (upDir == dir) {
-						((Princesa) atual).setTryEventActivePrincesa(true);
+						((Princess) atual).setTryEventActivePrincesa(true);
 						Game.uiNpc = true;
 					}
 				}
-				((Princesa) atual).setChoose(true);
+				((Princess) atual).setChoose(true);
 			}
-			if (atual instanceof Esqueleto) {
-				if (((Esqueleto) atual).isExistEventEsqueleto()) {
+			if (atual instanceof Skeleton) {
+				if (((Skeleton) atual).isExistEventEsqueleto()) {
 					if (upDir == dir) {
-						((Esqueleto) atual).setTryEventActiveEsqueleto(true);
+						((Skeleton) atual).setTryEventActiveEsqueleto(true);
 						Game.uiNpc = true;
 					}
 				}
-				((Esqueleto) atual).setChoose(true);
+				((Skeleton) atual).setChoose(true);
 			}
 			nextisNpcUp = true;
 		}
@@ -318,7 +319,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (!((Chest) atual).isAnimation() && ((Chest) atual).isTryAnimation())
 				Game.uiChest = true;
 			if (!((Chest) atual).isOpenChest())
-				Inventario.visible = false;
+				Inventory.visible = false;
 			nextisChestUp = true;
 			return;
 		} else
@@ -334,10 +335,10 @@ public class Player extends Entity implements Renderable, Updateble {
 	public void collisionPlaca(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (dir == upDir) {
-				((Placa) atual).setTryEventActivePlaca(true);
+				((Board) atual).setTryEventActivePlaca(true);
 				Game.uiPlaca = true;
 			}
-			((Placa) atual).setChoose(true);
+			((Board) atual).setChoose(true);
 			nextisPlacaUp = true;
 			return;
 		}
@@ -359,7 +360,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (nextisChestRight)
 			nextisChestRight = false;
 		Game.uiChest = false;
-		Inventario.visible = true;
+		Inventory.visible = true;
 	}
 
 	public void correctCollisionGeneral() {
@@ -384,17 +385,17 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (atual instanceof Door) {
 					((Door) atual).setChoose(false);
 				}
-				if (atual instanceof Princesa) {
-					((Princesa) atual).setTryEventActivePrincesa(false);
-					((Princesa) atual).setChoose(false);
+				if (atual instanceof Princess) {
+					((Princess) atual).setTryEventActivePrincesa(false);
+					((Princess) atual).setChoose(false);
 				}
-				if (atual instanceof Esqueleto) {
-					((Esqueleto) atual).setTryEventActiveEsqueleto(false);
-					((Esqueleto) atual).setChoose(false);
+				if (atual instanceof Skeleton) {
+					((Skeleton) atual).setTryEventActiveEsqueleto(false);
+					((Skeleton) atual).setChoose(false);
 				}
-				if (atual instanceof Placa) {
-					((Placa) atual).setTryEventActivePlaca(false);
-					((Placa) atual).setChoose(false);
+				if (atual instanceof Board) {
+					((Board) atual).setTryEventActivePlaca(false);
+					((Board) atual).setChoose(false);
 				}
 			}
 		}

@@ -14,7 +14,7 @@ import com.bakerystudios.gui.TextBox;
 
 import java.awt.Font;
 
-public class Anotacao extends Entity implements Renderable, Updateble {
+public class Annotation extends Entity implements Renderable, Updateble {
 
 	
 	private BufferedImage[] sprites;
@@ -40,7 +40,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 
 	private boolean eventIsOver = false;
 
-	public Anotacao(int x, int y, int width, int height, BufferedImage sprite, boolean visible, List<String>[] linha) {
+	public Annotation(int x, int y, int width, int height, BufferedImage sprite, boolean visible, List<String>[] linha) {
 		super(x, y, width, height, sprite);
 		this.visible = visible;
 		this.linha = linha;

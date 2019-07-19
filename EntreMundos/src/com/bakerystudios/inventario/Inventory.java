@@ -10,7 +10,7 @@ import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.TextBox;
 
-public class Inventario implements Renderable, Updateble {
+public class Inventory implements Renderable, Updateble {
 
 	private int numSlots = 3;
 	private int widthSlot = 64;
@@ -24,13 +24,13 @@ public class Inventario implements Renderable, Updateble {
 	public static boolean visible = true;
 	public static boolean focus = true;
 
-	public Inventario() {
+	public Inventory() {
 		slot = new Slot[numSlots];
 		for (int i = 0; i < slot.length; i++)
 			slot[i] = new Slot();
 		slot[0].setIdentity("chave1");
 		slot[1].setIdentity("chave2");
-		slot[2].setIdentity("c");
+		//slot[2].setIdentity("c");
 	}
 
 	public void update() {

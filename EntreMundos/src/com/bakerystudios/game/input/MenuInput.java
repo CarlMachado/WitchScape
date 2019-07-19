@@ -98,7 +98,8 @@ public class MenuInput extends Input {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println("x: " + e.getX());
+		System.out.println("y: " + e.getY());
 	}
 
 	@Override
