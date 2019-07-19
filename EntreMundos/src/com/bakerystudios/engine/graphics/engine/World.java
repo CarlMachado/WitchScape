@@ -105,18 +105,6 @@ public class World {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		int i = 0;
-		for(Entity e : Game.entities) {
-			if(e instanceof Teleport) {
-				if(i == 0) {
-					((Teleport) e).setDestiny(tiles[1579]);
-					i++;
-				} else {
-					((Teleport) e).setDestiny(tiles[987]);
-				}
-			}
-		}
 	}
 
 	public static boolean isFree(int xnext, int ynext) {

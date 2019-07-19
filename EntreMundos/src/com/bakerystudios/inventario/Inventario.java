@@ -29,10 +29,9 @@ public class Inventario implements Renderable, Updateble {
 		slot = new Slot[numSlots];
 		for (int i = 0; i < slot.length; i++)
 			slot[i] = new Slot();
-		//slot[0].setIdentity("chave1");
-		slot[0].setShortName("Chave Porta");
-		//slot[1].setIdentity("Luva de Couro");
-		//slot[1].setShortName("Luva de Couro");
+		slot[0].setIdentity("chave1");
+		slot[1].setShortName("Chave Porta");
+		slot[2].setIdentity("Luva de Couro");
 	}
 
 	public void update() {
