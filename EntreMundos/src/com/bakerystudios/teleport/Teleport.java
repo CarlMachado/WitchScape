@@ -8,16 +8,20 @@ import com.bakerystudios.game.Game;
 
 public class Teleport extends Entity implements Updateble {
 
-	private int map;
+	private int destinyMap;
+	private int sourceMap;
+	private int dir;
 	private int x;
 	private int y;
 	private int xDestiny;
 	private int yDestiny;
 	
 	public Teleport(int x, int y, int width, int height, 
-			int xDestiny, int yDestiny, int map) {
+			int xDestiny, int yDestiny, int sourceMap, int destinyMap, int dir) {
 		super(x, y, width, height, null);
-		this.map = map;
+		this.destinyMap = destinyMap;
+		this.sourceMap = sourceMap;
+		this.dir = dir;
 		this.x = x;
 		this.y = y;
 		this.xDestiny = xDestiny;
@@ -26,10 +30,12 @@ public class Teleport extends Entity implements Updateble {
 
 	@Override
 	public void update() {
-		if(Game.player.getX() == x && Game.player.getY() == y) {
+		if(Game.player.getX() == x && Game.player.getY() == y
+				&& Game.CUR_MAP == sourceMap) {
+			Game.CUR_MAP = destinyMap;
 			Game.player.setX(xDestiny);
 			Game.player.setY(yDestiny);
-			Game.CUR_MAP = map;
+			Game.player.setDir(dir);
 		}
 	}
 

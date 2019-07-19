@@ -21,6 +21,7 @@ import com.bakerystudios.engine.graphics.engine.World;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.EventManager;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.entities.Witch;
 import com.bakerystudios.game.input.DebugInput;
 import com.bakerystudios.game.input.Input;
 import com.bakerystudios.game.input.MenuInput;
@@ -29,6 +30,7 @@ import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
 import com.bakerystudios.inventario.Inventario;
 import com.bakerystudios.sound.AudioManager;
+import com.bakerystudios.teleport.Teleport;
 
 public class Game implements Runnable, Renderable, Updateble {
 
@@ -59,6 +61,8 @@ public class Game implements Runnable, Renderable, Updateble {
 	private AudioManager audio;
 
 	public static Player player;
+	
+	public static List<Teleport> teleport;
 
 	public static Spritesheet spritesheet;
 	public static Spritesheet characters;
@@ -76,15 +80,26 @@ public class Game implements Runnable, Renderable, Updateble {
 
 	public Game() {
 		// Object instantiation
+		
+		// carregamento dos inputs
 		inputs = new ArrayList<>();
 		inputs.add(new MenuInput());
 		inputs.add(new PlayerInput());
 		inputs.add(new DebugInput());
 		screen = new Screen(inputs);
+		
+		// carregamento das fontes
 		loadFonts();
+		
+		// criação dos teleports
+		createTeleports();
+		
+		// outros carregamentos
 		rand = new Random();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		em = new EventManager();
+		inventario = new Inventario();
+		gui = new GraphicUserInterface();
 		//audio = new AudioManager();
 		
 		// carregamento das sprites
@@ -93,19 +108,34 @@ public class Game implements Runnable, Renderable, Updateble {
 		doors = new Spritesheet("/sprites/doors.png");
 		wall = new Spritesheet("/sprites/wall.png");
 
-		inventario = new Inventario();
-		gui = new GraphicUserInterface();
 
 		// carregamento das entidades
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		entities = new ArrayList<Entity>();
 		entities.add(player);
+		entities.add(new Witch(272, 272, Tile.SIZE, Tile.SIZE, null));
 		
 		// carregamento dos mapas
 		world = new ArrayList<>();
 		world.add(new World("/levels/map.png", "/levels/map_collision.png"));
 		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png"));
 		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png"));
+	}
+	
+	public void createTeleports() {
+		teleport = new ArrayList<>();
+		// casa > segundo andar
+		teleport.add(new Teleport(416, 544, Tile.SIZE, Tile.SIZE, 160, 224, MAP, SEC_FLOOR, Player.LEFT_DIR));
+		// segundo andar > casa
+		teleport.add(new Teleport(176, 224, Tile.SIZE, Tile.SIZE, 400, 544, SEC_FLOOR, MAP, Player.LEFT_DIR));
+		// baixo > cima
+		teleport.add(new Teleport(400, 320, Tile.SIZE, Tile.SIZE, 400, 208, MAP, MAP, Player.UP_DIR));
+		// cima > baixo
+		teleport.add(new Teleport(400, 224, Tile.SIZE, Tile.SIZE, 400, 336, MAP, MAP, Player.DOWN_DIR));
+		// casa > calabouço
+		teleport.add(new Teleport(416, 432, Tile.SIZE, Tile.SIZE, 256, 320, MAP, DUNGEON, Player.RIGHT_DIR));
+		// calabouço > casa
+		teleport.add(new Teleport(240, 320, Tile.SIZE, Tile.SIZE, 400, 432, DUNGEON, MAP, Player.LEFT_DIR));
 	}
 	
 	public void loadFonts() {
@@ -139,8 +169,10 @@ public class Game implements Runnable, Renderable, Updateble {
 		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
-			for (int i = 0; i < entities.size(); i++) {
-				Entity e = entities.get(i);
+			for(Teleport t : teleport) {
+				t.update();
+			}
+			for (Entity e : entities) {
 				e.update();
 			}
 			inventario.update();

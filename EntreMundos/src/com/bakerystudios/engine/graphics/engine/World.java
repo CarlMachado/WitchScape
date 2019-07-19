@@ -43,9 +43,9 @@ public class World {
 	private BufferedImage[] spritesGrade;
 	private List<String>[] placaDialogue_FIRST;
 
-	public static BufferedImage map;
-	public static Tile[] tiles;
-	public static int WIDTH, HEIGHT;
+	public BufferedImage map;
+	public Tile[] tiles;
+	public int WIDTH, HEIGHT;
 
 	public World(String map_path, String colmap_path) {
 		try {
@@ -107,7 +107,7 @@ public class World {
 		}
 	}
 
-	public static boolean isFree(int xnext, int ynext) {
+	public boolean isFree(int xnext, int ynext) {
 
 		int x1 = xnext / Tile.SIZE;
 		int y1 = ynext / Tile.SIZE;
@@ -121,10 +121,10 @@ public class World {
 		int x4 = (xnext + Tile.SIZE - 1) / Tile.SIZE;
 		int y4 = (ynext + Tile.SIZE - 1) / Tile.SIZE;
 
-		return !((tiles[x1 + (y1 * World.WIDTH)] instanceof WallTile)
-				|| (tiles[x2 + (y2 * World.WIDTH)] instanceof WallTile)
-				|| (tiles[x3 + (y3 * World.WIDTH)] instanceof WallTile)
-				|| (tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile));
+		return !((tiles[x1 + (y1 * WIDTH)] instanceof WallTile)
+				|| (tiles[x2 + (y2 * WIDTH)] instanceof WallTile)
+				|| (tiles[x3 + (y3 * WIDTH)] instanceof WallTile)
+				|| (tiles[x4 + (y4 * WIDTH)] instanceof WallTile));
 	}
 
 	public void loadInfo() {
