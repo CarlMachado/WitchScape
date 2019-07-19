@@ -13,12 +13,14 @@ import com.bakerystudios.engine.graphics.tiles.FloorTile;
 import com.bakerystudios.engine.graphics.tiles.WallTile;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
+import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
+import com.bakerystudios.teleport.Teleport;
 
 public class World {
 	
@@ -102,6 +104,18 @@ public class World {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+
+		int i = 0;
+		for(Entity e : Game.entities) {
+			if(e instanceof Teleport) {
+				if(i == 0) {
+					((Teleport) e).setDestiny(tiles[1579]);
+					i++;
+				} else {
+					((Teleport) e).setDestiny(tiles[987]);
+				}
+			}
 		}
 	}
 
