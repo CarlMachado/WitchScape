@@ -25,16 +25,16 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	private int frames = 0, maxFrames = 5, index = 0, maxIndex = 2;
 	private boolean moved = false;
-	public int rightDir = 0, leftDir = 1, upDir = 2, downDir = 3;
-	public int dir = leftDir;
+	public static final int RIGHT_DIR = 0, LEFT_DIR = 1, UP_DIR = 2, DOWN_DIR = 3;
+	private int dir = LEFT_DIR;
 	protected static boolean right, left, up, down;
 
 	private double speed = 1.0;
 
-	private BufferedImage[] rightPlayer;
-	private BufferedImage[] leftPlayer;
-	private BufferedImage[] downPlayer;
-	private BufferedImage[] upPlayer;
+	private BufferedImage[] rightSprite;
+	private BufferedImage[] leftSprite;
+	private BufferedImage[] downSprite;
+	private BufferedImage[] upSprite;
 
 	private boolean nextisDoorUp = false;
 	private boolean nextisDoorDown = false;
@@ -63,25 +63,25 @@ public class Player extends Entity implements Renderable, Updateble {
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 
-		rightPlayer = new BufferedImage[3];
-		leftPlayer = new BufferedImage[3];
-		downPlayer = new BufferedImage[3];
-		upPlayer = new BufferedImage[3];
+		rightSprite = new BufferedImage[3];
+		leftSprite = new BufferedImage[3];
+		downSprite = new BufferedImage[3];
+		upSprite = new BufferedImage[3];
 
 		for (int i = 0; i < 3; i++) {
-			downPlayer[i] = Game.characters.getSprite(48 + (i * 16), 0, 16, 16);
-			leftPlayer[i] = Game.characters.getSprite(48 + (i * 16), 16, 16, 16);
-			rightPlayer[i] = Game.characters.getSprite(48 + (i * 16), 32, 16, 16);
-			upPlayer[i] = Game.characters.getSprite(48 + (i * 16), 48, 16, 16);
+			downSprite[i] = Game.characters.getSprite(48 + (i * 16), 0, 16, 16);
+			leftSprite[i] = Game.characters.getSprite(48 + (i * 16), 16, 16, 16);
+			rightSprite[i] = Game.characters.getSprite(48 + (i * 16), 32, 16, 16);
+			upSprite[i] = Game.characters.getSprite(48 + (i * 16), 48, 16, 16);
 		}
 	}
 
 	public void movmentChecker() {
 		if (up) {
 			if (!inEvent && !moved)
-				dir = upDir;
+				dir = UP_DIR;
 			if (!nextisPlacaUp && !nextisNpcUp && !inEvent && !nextisChestUp && !nextisDoorUp
-					&& World.isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft && !movingRight) {
+					&& Game.world.get(Game.CUR_MAP).isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft && !movingRight) {
 				moved = true;
 				movingUp = true;
 				correctCollisionGeneral();
@@ -89,9 +89,9 @@ public class Player extends Entity implements Renderable, Updateble {
 			// y -= speed;
 		} else if (down) {
 			if (!inEvent && !moved)
-				dir = downDir;
+				dir = DOWN_DIR;
 			if (!nextisPlacaDown && !nextisNpcDown && !inEvent && !nextisChestDown && !nextisDoorDown
-					&& World.isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft && !movingRight) {
+					&& Game.world.get(Game.CUR_MAP).isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft && !movingRight) {
 				moved = true;
 				movingDown = true;
 				correctCollisionGeneral();
@@ -99,8 +99,9 @@ public class Player extends Entity implements Renderable, Updateble {
 			// y += speed;
 		} else if (right) {
 			if (!inEvent && !moved)
-				dir = rightDir;
-			if (!nextisPlacaRight && !nextisNpcRight && !inEvent && !nextisChestRight && World.isFree((int) (x + speed), this.getY()) && !movingDown && !movingLeft && !movingUp) {
+				dir = RIGHT_DIR;
+			if (!nextisPlacaRight && !nextisNpcRight && !inEvent && !nextisChestRight 
+					&& Game.world.get(Game.CUR_MAP).isFree((int) (x + speed), this.getY()) && !movingDown && !movingLeft && !movingUp) {
 				moved = true;
 				movingRight = true;
 				correctCollisionGeneral();
@@ -108,9 +109,9 @@ public class Player extends Entity implements Renderable, Updateble {
 			// x += speed;
 		} else if (left) {
 			if (!inEvent && !moved)
-				dir = leftDir;
+				dir = LEFT_DIR;
 			if (!nextisPlacaLeft && !nextisNpcLeft && !inEvent && !nextisChestLeft
-					&& World.isFree((int) (x - speed), this.getY()) && !movingDown && !movingUp && !movingRight) {
+					&& Game.world.get(Game.CUR_MAP).isFree((int) (x - speed), this.getY()) && !movingDown && !movingUp && !movingRight) {
 				moved = true;
 				movingLeft = true;
 				correctCollisionGeneral();
@@ -184,24 +185,24 @@ public class Player extends Entity implements Renderable, Updateble {
 		g.setColor(Color.red);
 		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
 
-		if (dir == rightDir) {
-			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		if (dir == RIGHT_DIR) {
+			g.drawImage(rightSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
-		} else if (dir == leftDir) {
-			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		} else if (dir == LEFT_DIR) {
+			g.drawImage(leftSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
-		} else if (dir == upDir) {
-			g.drawImage(upPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		} else if (dir == UP_DIR) {
+			g.drawImage(upSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
-		} else if (dir == downDir) {
-			g.drawImage(downPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		} else if (dir == DOWN_DIR) {
+			g.drawImage(downSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 		}
 	}
 
 	public void updateCamera() {
-		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, World.WIDTH * Tile.SIZE - Screen.WIDTH);
-		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, World.HEIGHT * Tile.SIZE - Screen.HEIGHT);
+		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, Game.world.get(Game.CUR_MAP).WIDTH * Tile.SIZE - Screen.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, Game.world.get(Game.CUR_MAP).HEIGHT * Tile.SIZE - Screen.HEIGHT);
 	}
 
 	public void checkCollisionAllObjects() {
@@ -256,7 +257,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (atual instanceof Princesa) {
 				if (((Princesa) atual).isExistEventPrincesa()) {
-					if (upDir == dir) {
+					if (UP_DIR == dir) {
 						((Princesa) atual).setTryEventActivePrincesa(true);
 						Game.uiNpc = true;
 					}
@@ -265,7 +266,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			if (atual instanceof Esqueleto) {
 				if (((Esqueleto) atual).isExistEventEsqueleto()) {
-					if (upDir == dir) {
+					if (UP_DIR == dir) {
 						((Esqueleto) atual).setTryEventActiveEsqueleto(true);
 						Game.uiNpc = true;
 					}
@@ -284,7 +285,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionDoor(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == upDir)
+			if (dir == UP_DIR)
 				((Door) atual).setTryAnimation(true);
 			if (!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
@@ -300,7 +301,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		} else
 			((Door) atual).setTryAnimation(false);
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
-			if (dir == downDir)
+			if (dir == DOWN_DIR)
 				((Door) atual).setTryAnimation(true);
 			if (!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
@@ -318,7 +319,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionChest(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == upDir)
+			if (dir == UP_DIR)
 				((Chest) atual).setTryAnimation(true);
 			if (!((Chest) atual).isAnimation() && ((Chest) atual).isTryAnimation())
 				Game.uiChest = true;
@@ -338,7 +339,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionPlaca(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == upDir) {
+			if (dir == UP_DIR) {
 				((Placa) atual).setTryEventActivePlaca(true);
 				Game.uiPlaca = true;
 			}
@@ -356,7 +357,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionVaso(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == upDir) {
+			if (dir == UP_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);	
 				((Vaso) atual).setChoose(true);
 			}
@@ -364,7 +365,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			return;
 		}
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
-			if (dir == downDir) {
+			if (dir == DOWN_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);	
 				((Vaso) atual).setChoose(true);
 			}
@@ -372,7 +373,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			return;
 		}
 		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
-			if (dir == rightDir) {
+			if (dir == RIGHT_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);	
 				((Vaso) atual).setChoose(true);
 			}
@@ -380,7 +381,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			return;
 		}
 		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
-			if (dir == leftDir) {
+			if (dir == LEFT_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);	
 				((Vaso) atual).setChoose(true);
 			}
@@ -605,6 +606,12 @@ public class Player extends Entity implements Renderable, Updateble {
 		this.nextisVaso = nextisVaso;
 	}
 
+	public int getDir() {
+		return dir;
+	}
 
+	public void setDir(int dir) {
+		this.dir = dir;
+	}
 
 }
