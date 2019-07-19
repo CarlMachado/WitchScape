@@ -16,6 +16,7 @@ import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Princesa;
+import com.bakerystudios.entities.Vaso;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
@@ -27,13 +28,17 @@ public class World {
 	private final int DOOR_FIRST = 0xFF7F3300;
 	private final int DOOR_SECOND = 0xFF682900;
 	private final int DOOR_THIRD = 0xFFD85300;
+	private final int DOOR_FORTY = 0xFFF95F00;
 	private final int CHEST = 0xFF0026FF;
 	private final int PRINCESA = 0xFFFF7F7F;
 	private final int ESQUELETO = 0xFF808080;
 	private final int PLACA = 0XFFFF6A00;
+	private final int VASO = 0XFF441B00;
 	
 	private BufferedImage[] spritesPrincesa;
 	private BufferedImage[] spritesEsqueleto;
+	private BufferedImage[] spritesPorta;
+	private BufferedImage[] spritesGrade;
 	private List<String>[] placaDialogue_FIRST;
 
 	public static BufferedImage map;
@@ -66,13 +71,16 @@ public class World {
 						Game.player.setY(yy * Tile.SIZE);
 					}
 					if(pixelAtual == DOOR_FIRST) {
-						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave1", true));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta, spritesPorta.length));
 					}
 					if(pixelAtual == DOOR_SECOND) {
-						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave2", true));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave2", true, true, "ala", spritesPorta, spritesPorta.length));
 					}
 					if(pixelAtual == DOOR_THIRD) {
-						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "", false));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "", false, false, "", spritesPorta, spritesPorta.length));
+					}
+					if(pixelAtual == DOOR_FORTY) {
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave1", true, true, "Luva de Couro", spritesGrade, spritesGrade.length));
 					}
 					if(pixelAtual == CHEST) {
 						Game.entities.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null));
@@ -85,6 +93,10 @@ public class World {
 					}
 					if(pixelAtual == PLACA) {
 						Game.entities.add(new Placa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, Game.wall.getSprite(48, 128, Tile.SIZE, Tile.SIZE), placaDialogue_FIRST));
+					}
+					if(pixelAtual == VASO) {
+						tiles[xx + (yy * WIDTH)] = new WallTile(xx * Tile.SIZE, yy * Tile.SIZE, Tile.TILE_WALL);
+						Game.entities.add(new Vaso(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave1"));
 					}
 				}
 			}
@@ -122,6 +134,13 @@ public class World {
 		for(int i = 0; i < spritesEsqueleto.length; i++)
 			spritesEsqueleto[i] = Game.characters.getSprite(144, 0, Tile.SIZE, Tile.SIZE);
 		
+		spritesPorta = new BufferedImage[4];
+		for(int i = 0; i < spritesPorta.length; i++)
+			spritesPorta[i] = Game.doors.getSprite(0, 16 * i, Tile.SIZE, Tile.SIZE);
+		
+		spritesGrade = new BufferedImage[4];
+		for(int i = 0; i < spritesGrade.length; i++)
+			spritesGrade[i] = Game.doors.getSprite(64, 16 * i, Tile.SIZE, Tile.SIZE);
 		
 		placaDialogue_FIRST = new ArrayList[2];
 		for(int i = 0; i < placaDialogue_FIRST.length; i++)
@@ -149,6 +168,26 @@ public class World {
 //		}
 		Tile tile = tiles[0];
 		g.drawImage(map, tile.getX() - Camera.x, tile.getY() - Camera.y, null);
+	}
+
+	public int getVASO() {
+		return VASO;
+	}
+
+	public BufferedImage[] getSpritesPorta() {
+		return spritesPorta;
+	}
+
+	public void setSpritesPorta(BufferedImage[] spritesPorta) {
+		this.spritesPorta = spritesPorta;
+	}
+
+	public BufferedImage[] getSpritesGrade() {
+		return spritesGrade;
+	}
+
+	public void setSpritesGrade(BufferedImage[] spritesGrade) {
+		this.spritesGrade = spritesGrade;
 	}
 
 }

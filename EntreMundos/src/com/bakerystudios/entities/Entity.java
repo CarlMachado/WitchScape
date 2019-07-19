@@ -17,7 +17,7 @@ public class Entity implements Renderable, Updateble {
 	
 	public boolean debug = false;
 	
-	private BufferedImage sprite;
+	protected BufferedImage sprite;
 	
 	public int maskx,masky,mwidth,mheight;
 	

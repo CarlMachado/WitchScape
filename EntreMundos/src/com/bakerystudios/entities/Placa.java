@@ -30,6 +30,7 @@ public class Placa extends Entity implements Renderable, Updateble {
 			setChoose(true);
 		} else {
 			anotacaoDialogue.setStatusEventoAnotacao(false);
+			setChoose(false);
 		}
 	}
 

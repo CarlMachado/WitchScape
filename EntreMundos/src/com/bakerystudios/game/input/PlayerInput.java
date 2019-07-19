@@ -10,6 +10,7 @@ import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
+import com.bakerystudios.entities.Vaso;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.inventario.Inventario;
@@ -48,12 +49,31 @@ public class PlayerInput extends Input {
 				for (Entity atual : Game.entities) { 
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
-							if (((Door) atual).isChave()) {
+							if (((Door) atual).isChave() && !((Door) atual).isNeedEquipament()) {
 								for (int i = 0; i < Inventario.slot.length; i++) {
 									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdentify()) {
 										((Door) atual).setAnimation(true);
 										Game.uiDoor = false;
 									}
+								}
+							}else if(!((Door) atual).isChave() && ((Door) atual).isNeedEquipament()) {
+								for (int i = 0; i < Inventario.slot.length; i++) {
+									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdEquipament()) {
+										((Door) atual).setAnimation(true);
+										Game.uiDoor = false;
+									}
+								}
+							}else if(((Door) atual).isChave() && ((Door) atual).isNeedEquipament()) {
+								boolean chave = false, equipament = false;
+								for (int i = 0; i < Inventario.slot.length; i++) {
+									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdEquipament()) 
+										equipament = true;
+									else if(Inventario.slot[i].getIdentity() == ((Door) atual).getIdentify())
+										chave = true;
+								}
+								if(chave && equipament) {
+									((Door) atual).setAnimation(true);
+									Game.uiDoor = false;
 								}
 							} else {
 								((Door) atual).setAnimation(true);
@@ -119,6 +139,26 @@ public class PlayerInput extends Input {
 								((Placa) atual).setEventActivePlaca(false);
 								((Placa) atual).getAnotacao().setExitSelected(true);
 								Player.inEvent = false;
+							}
+						}
+					}else if(atual instanceof Vaso) {
+						if (((Vaso) atual).isTryEventActiveVaso() && !((Vaso) atual).isEventActiveVaso()) {
+							((Vaso) atual).setEventActiveVaso(true);
+							((Vaso) atual).setTryEventActiveVaso(false);
+						}
+						if(((Vaso) atual).isEventActiveVaso()) {
+							if(((Vaso) atual).isBroken() && ((Vaso) atual).isChoose() && !((Vaso) atual).isDrope()) { // PEGA ITEM
+								for(int j = 0; j < Inventario.slot.length; j++) {
+									if(Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
+										Inventario.slot[j].setAmount(1);
+										Inventario.slot[j].setIdentity(((Vaso) atual).getIdDrop());
+										((Vaso) atual).setDrope(true);
+										break;
+									}
+								}
+							}else { // QUEBRA VASO
+								((Vaso) atual).setAnimation(true);
+								((Vaso) atual).setEventActiveVaso(false);
 							}
 						}
 					}

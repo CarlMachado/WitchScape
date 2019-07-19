@@ -18,28 +18,35 @@ public class Door extends Entity implements Renderable, Updateble {
 
 	private boolean openDoor = false;
 	private boolean openDoorLocale = false;
-	
+
 	private String identify;
 	private boolean chave;
-	
+
 	private boolean pressedEnter = false;
-	
+
 	private boolean choose = false;
+
+	private boolean needEquipament = false;
+	private String idEquipament = "";
 
 	private int currentAnimacao = 0;
 	private int maxAnimacao = 0;
 	private int currentFrame = 0;
 	private int maxFrame = 10;
 
-	public Door(int x, int y, int width, int height, BufferedImage sprite, String identify, boolean chave) {
+	public Door(int x, int y, int width, int height, BufferedImage sprite, String identify, boolean chave,
+			boolean needEquipament, String idEquipament, BufferedImage[] sprites, int sizeSprites) {
 		super(x, y, width, height, sprite);
-		sprites = new BufferedImage[4];
-		for (int i = 0; i < sprites.length; i++) {
-			sprites[i] = Game.doors.getSprite(0, 16 * i, Tile.SIZE, Tile.SIZE);
-		}
+		this.sprites = new BufferedImage[sizeSprites];
+		//for (int i = 0; i < sprites.length; i++) {
+		//	sprites[i] = new BufferedImage;
+		//}
+		this.sprites = sprites;
 		this.maxAnimacao = sprites.length;
 		this.setIdentify(identify);
 		this.chave = chave;
+		this.needEquipament = needEquipament;
+		this.idEquipament = idEquipament;
 	}
 
 	@Override
@@ -57,7 +64,7 @@ public class Door extends Entity implements Renderable, Updateble {
 					animation = false;
 					openDoorLocale = true;
 					openDoor = true;
-					//choose = false;
+					// choose = false;
 					currentAnimacao = maxAnimacao - 1;
 				}
 			} else { // Fecha porta
@@ -71,7 +78,7 @@ public class Door extends Entity implements Renderable, Updateble {
 					currentFrame = 0;
 					openDoorLocale = false;
 					openDoor = false;
-					//choose = false;
+					// choose = false;
 					animation = false;
 				}
 			}
@@ -79,7 +86,7 @@ public class Door extends Entity implements Renderable, Updateble {
 	}
 
 	@Override
-	public void render(Graphics g) {		
+	public void render(Graphics g) {
 		g.drawImage(sprites[currentAnimacao], this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 
@@ -137,6 +144,22 @@ public class Door extends Entity implements Renderable, Updateble {
 
 	public void setPressedEnter(boolean pressedEnter) {
 		this.pressedEnter = pressedEnter;
+	}
+
+	public boolean isNeedEquipament() {
+		return needEquipament;
+	}
+
+	public void setNeedEquipament(boolean needEquipament) {
+		this.needEquipament = needEquipament;
+	}
+
+	public String getIdEquipament() {
+		return idEquipament;
+	}
+
+	public void setIdEquipament(String idEquipament) {
+		this.idEquipament = idEquipament;
 	}
 
 }

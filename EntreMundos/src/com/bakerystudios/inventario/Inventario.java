@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
@@ -28,9 +29,10 @@ public class Inventario implements Renderable, Updateble {
 		slot = new Slot[numSlots];
 		for (int i = 0; i < slot.length; i++)
 			slot[i] = new Slot();
-		slot[0].setIdentity("chave1");
-		slot[1].setIdentity("chave2");
-		slot[2].setIdentity("c");
+		//slot[0].setIdentity("chave1");
+		slot[0].setShortName("Chave Porta");
+		//slot[1].setIdentity("Luva de Couro");
+		//slot[1].setShortName("Luva de Couro");
 	}
 
 	public void update() {
@@ -46,7 +48,7 @@ public class Inventario implements Renderable, Updateble {
 	}
 	
 	public void render(Graphics g) {
-		if (GameState.state == GameState.PLAYING && visible) {
+		if (GameState.state == GameState.PLAYING && visible && (!Player.inEvent || Game.uiChest)) {
 			int numberMagic = 100;
 			Color db = new Color(111, 83, 39);
 			Color lb = new Color(190, 163, 115);
@@ -59,7 +61,7 @@ public class Inventario implements Renderable, Updateble {
 			//fillCentralizedRect(g, 575, 490, 120);
 
 			g.setColor(Color.BLACK);
-			TextBox.showPopUp(g, 570, "Nome do item", null);
+			TextBox.showPopUp(g, 570, slot[selectedItem].getShortName(), null);
 			//drawCentralizedString(g, "Exemplo de nome de item.", 605);
 
 			g.setFont(Game.inventFont);
