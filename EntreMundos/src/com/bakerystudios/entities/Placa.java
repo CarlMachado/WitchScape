@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.game.Game;
 
 public class Placa extends Entity implements Renderable, Updateble {
 
@@ -26,12 +27,19 @@ public class Placa extends Entity implements Renderable, Updateble {
 
 	public void update() {
 		if (eventActivePlaca) {
-			anotacaoDialogue.setStatusEventoAnotacao(true);
+			Game.uiPlaca = true;
+			anotacaoDialogue.setStatus(true);
 			setChoose(true);
-		} else {
-			anotacaoDialogue.setStatusEventoAnotacao(false);
-			setChoose(false);
-		}
+			if (anotacaoDialogue.isSinalizeExit()) {
+				System.out.println("teste");
+				eventActivePlaca = false;
+				tryEventActivePlaca = false;
+				anotacaoDialogue.setSinalizeExit(false);
+				anotacaoDialogue.setExit(false);
+				Game.uiPlaca = false;
+				Player.inEvent = false;
+			}
+		} 
 	}
 
 	public void render(Graphics g) {

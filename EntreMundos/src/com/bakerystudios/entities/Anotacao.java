@@ -16,7 +16,6 @@ import java.awt.Font;
 
 public class Anotacao extends Entity implements Renderable, Updateble {
 
-	
 	private BufferedImage[] sprites;
 
 	private boolean animation = false;
@@ -24,23 +23,25 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	private int currentAnimacao = 0;
 	private int maxAnimacao = 0; // sprites.length
 	private int currentFrame = 0;
-	private int maxFrame = 30;	
-	
+	private int maxFrame = 30;
+
 	private boolean visible = false;
-	private boolean nextPagina = false;
-	
-	private boolean finalize = false;
-	
-	private boolean statusEventoAnotacao = false;
+
+	//private boolean finalize = false;
+
+	//private boolean statusEventoAnotacao = false;
 	private boolean nextPaginaSelected = false;
-	private boolean exitSelected = false;
+	//private boolean exitSelected = false;
+	
+	private boolean status = false;
+	private boolean exit = false;
+	private boolean sinalizeExit = false;
+	private boolean lestPage = false;
 
 	private List<String>[] linha;
-	
+
 	private int currentPagina = 1;
 	private int paginas = 0;
-
-	private boolean eventIsOver = false;
 
 	public Anotacao(int x, int y, int width, int height, BufferedImage sprite, boolean visible, List<String>[] linha) {
 		super(x, y, width, height, sprite);
@@ -58,7 +59,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 			if (currentAnimacao >= maxAnimacao) {
 				currentAnimacao = 0;
 				animation = false;
-				setStatusEventoAnotacao(true);
+				status = true;
 			}
 		}
 	}
@@ -66,13 +67,13 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	public void render(Graphics g) {
 		if (visible) {
 			g.drawImage(sprites[currentAnimacao], this.getX() - Camera.x, this.getY() - Camera.y, null);
-			if (isStatusEventoAnotacao())
+			if (status)
 				eventoAnotacao(g);
 		}
 	}
-	
+
 	public void eventoAnotacao(Graphics g) {
-		if(isStatusEventoAnotacao()) {
+		if(status) {
 			TextBox.showDialog(g, null, null, null);
 			g.setFont(Game.boxFont);
 			g.setColor(Color.BLACK);
@@ -85,53 +86,38 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 			// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
 			if(nextPaginaSelected) {
 				//System.out.println("teste 1");
-				currentPagina++;
+				if(currentPagina != this.paginas)
+						currentPagina++;
 				nextPaginaSelected = false;
 			}
 			
 			if(currentPagina == this.paginas) {
-				System.out.println("teste 3");
-				setEventIsOver(true);
-			}
-			if(exitSelected) { // CLICOU ESC PARA SAIR DO EVENTO
-				System.out.println("teste 4");
-				animation = false;			
-				nextPagina = false;
-				finalize = false;				
-				statusEventoAnotacao = false;
-				nextPaginaSelected = false;
-				exitSelected = false;
-				return;
+				lestPage = true;
 			}			
-		}
+			if (exit){
+				System.out.println("teste 3");
+				animation = false;			
+				nextPaginaSelected = false;
+				sinalizeExit = true;
+				exit = false;
+				lestPage = false;
+				currentPagina = 1;
+				status = false;
+				return;
+			}	
+		}			
 	}
-	
+
 	protected void drawCentralizedString(Graphics g, String str, int y) {
 		g.drawString(str, Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth(str) / 2, y);
 	}
 
-	public boolean isNextPagina() {
-		return nextPagina;
-	}
-
-	public void setNextPagina(boolean nextPagina) {
-		this.nextPagina = nextPagina;
-	}
-	
 	public boolean isNextPaginaSelected() {
-		return nextPagina;
+		return nextPaginaSelected;
 	}
 
 	public void setNextPaginaSelected(boolean nextPaginaSelected) {
 		this.nextPaginaSelected = nextPaginaSelected;
-	}
-	
-	public boolean isExitSelected() {
-		return exitSelected;
-	}
-
-	public void setExitSelected(boolean exitSelected) {
-		this.exitSelected = exitSelected;
 	}
 
 	public int getPaginas() {
@@ -149,29 +135,37 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	public void setCurrentPagina(int currentPagina) {
 		this.currentPagina = currentPagina;
 	}
-	
-	public boolean isStatusEventoAnotacao() {
-		return statusEventoAnotacao;
+
+	public boolean isExit() {
+		return exit;
 	}
 
-	public void setStatusEventoAnotacao(boolean statusEventoAnotacao) {
-		this.statusEventoAnotacao = statusEventoAnotacao;
+	public void setExit(boolean exit) {
+		this.exit = exit;
 	}
 
-	public boolean isEventIsOver() {
-		return eventIsOver;
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setEventIsOver(boolean eventIsOver) {
-		this.eventIsOver = eventIsOver;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
-	public boolean isFinalize() {
-		return finalize;
+	public boolean isSinalizeExit() {
+		return sinalizeExit;
 	}
 
-	public void setFinalize(boolean finalize) {
-		this.finalize = finalize;
+	public void setSinalizeExit(boolean sinalizeExit) {
+		this.sinalizeExit = sinalizeExit;
+	}
+
+	public boolean isLestPage() {
+		return lestPage;
+	}
+
+	public void setLestPage(boolean lestPage) {
+		this.lestPage = lestPage;
 	}
 
 }

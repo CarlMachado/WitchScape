@@ -41,20 +41,25 @@ public class Livro extends Entity implements Renderable, Updateble {
 	}
 
 	public void update() {
-		if(!eventActiveLivro) {
-			Game.uiLivro = false;
-		}else {
-			anotacaoDialogue.setStatusEventoAnotacao(true);
+		//System.out.println("active: " + eventActiveLivro);
+		if (eventActiveLivro && !anotacaoDialogue.isSinalizeExit()) {		
+			Game.uiLivro = true;
+			anotacaoDialogue.setStatus(true);
 			setChoose(true);
-			if(anotacaoDialogue.isFinalize()) {
-				System.out.println("teste");
-				eventActiveLivro = false;
-				anotacaoDialogue.setFinalize(false);
-				anotacaoDialogue.setEventIsOver(false);
-				anotacaoDialogue.setExitSelected(false);
-			}
+			
 		}
-		
+		if (anotacaoDialogue.isSinalizeExit()) {
+			System.out.println("teste 300");			
+			tryEventActiveLivro = false;
+			anotacaoDialogue.setSinalizeExit(false);
+			anotacaoDialogue.setExit(false);
+			Game.uiLivro = false;
+			animation = false;
+			choose = false;
+			Player.inEvent = false;
+			eventActiveLivro = false;
+		}
+		//System.out.println("animation: " + animation);
 		if (animation) {
 			tryEventActiveLivro = false;
 			currentFrame++;
@@ -65,13 +70,14 @@ public class Livro extends Entity implements Renderable, Updateble {
 					sprite = sprites[currentAnimation];
 			}
 			if (currentAnimation <= 0) {
+				System.out.println("teste alado");
 				currentFrame = 0;
 				animation = false;
 				choose = false;
 				open = true;
 				currentAnimation = 0;
 				sprite = sprites[currentAnimation];
-				anotacaoDialogue.setStatusEventoAnotacao(true);
+				eventActiveLivro = true;
 				Game.uiLivro = true;
 			}
 		}
@@ -155,10 +161,6 @@ public class Livro extends Entity implements Renderable, Updateble {
 
 	public boolean isEventActiveLivro() {
 		return eventActiveLivro;
-	}
-
-	public void setEventActiveLivro(boolean eventActiveLivro) {
-		this.eventActiveLivro = eventActiveLivro;
 	}
 
 	public boolean isOpen() {

@@ -186,8 +186,9 @@ public class UserInterface implements Renderable, Updateble {
 						TextBox.showPopUp(g, 510, "Aperte ENTER para ler a placa.", null);
 					}
 				} else if (atual instanceof Livro && Game.uiLivro) {
-					//System.out.println("teste1");
+					
 					if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isChoose()) {
+						//System.out.println("teste1");
 						((Livro) atual).getAnotacaoDialogue().eventoAnotacao(g);
 						return;
 					}
