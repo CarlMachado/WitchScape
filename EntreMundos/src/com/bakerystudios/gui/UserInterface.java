@@ -6,10 +6,12 @@ import java.awt.Graphics;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
+import com.bakerystudios.entities.Livro;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
@@ -61,15 +63,16 @@ public class UserInterface implements Renderable, Updateble {
 			}
 		}
 
-		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca) {
+		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro) {
 			for (int j = 0; j < Game.entities.size(); j++) {
 				Entity atual = Game.entities.get(j);
 				if (atual instanceof Door && Game.uiDoor) {
-					//g.setColor(Color.white);
-					//g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
+					// g.setColor(Color.white);
+					// g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 					if (!((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA ABERTA
 						if (((Door) atual).isChave()) {
-							TextBox.showPopUp(g, 470, "Aperte ENTER para abrir a porta.", "Você irá precisar de uma chave.");
+							TextBox.showPopUp(g, 470, "Aperte ENTER para abrir a porta.",
+									"Você irá precisar de uma chave.");
 							return;
 						} else {
 							TextBox.showPopUp(g, 510, "Aperte ENTER para abrir a porta.", null);
@@ -82,11 +85,11 @@ public class UserInterface implements Renderable, Updateble {
 				}
 				if (atual instanceof Chest && Game.uiChest && !((Chest) atual).isOpenChest()
 						&& ((Chest) atual).isTryAnimation()) {
-					//g.setColor(Color.white);
-					//g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
+					// g.setColor(Color.white);
+					// g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 					TextBox.showPopUp(g, 510, "Aperte ENTER para abrir o baú.", null);
 				}
-				if (atual instanceof Chest) { 
+				if (atual instanceof Chest) {
 					Chest chest = (Chest) atual;
 					if (chest.isOpenChest()) {
 						for (int i = 0; i < chest.getNumSlots(); i++) {
@@ -102,6 +105,12 @@ public class UserInterface implements Renderable, Updateble {
 							g.drawString(Integer.toString(chest.getSlot(i).getAmount()),
 									chest.getinitialPosition() + i * chest.getwidthSlot() + chest.getwidthSlot() - 12,
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
+							if (((Chest) atual).getSlot(i).getIdentity() != "") {
+								g.drawImage(chest.getSlot(i).getImageSlot(),
+										chest.getinitialPosition() + i * chest.getwidthSlot() + 1,
+										chest.getHeightPosition() - 8, chest.getwidthSlot(), chest.getwidthSlot(),
+										null);
+							}
 						}
 						// ITEM SELECIONADO
 						if (chest.isFocus()) {
@@ -116,6 +125,12 @@ public class UserInterface implements Renderable, Updateble {
 									chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot()
 											+ chest.getwidthSlot() - 12,
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
+							if (((Chest) atual).getSlot(chest.getselectedItem()).getIdentity() != "") {
+								g.drawImage(chest.getSlot(chest.getselectedItem()).getImageSlot(),
+										chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot() + 1,
+										chest.getHeightPosition() - 8, chest.getwidthSlot(), chest.getwidthSlot(),
+										null);
+							}
 						}
 						if (Warehouse.exchangeChest) {
 							g.setColor(Color.GREEN);
@@ -129,37 +144,52 @@ public class UserInterface implements Renderable, Updateble {
 									chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot()
 											+ chest.getwidthSlot() - 12,
 									chest.getHeightPosition() + chest.getwidthSlot() - 4);
+							if (((Chest) atual).getSlot(chest.getselectedItem()).getIdentity() != "") {
+								g.drawImage(chest.getSlot(chest.getselectedItem()).getImageSlot(),
+										chest.getinitialPosition() + chest.getselectedItem() * chest.getwidthSlot() + 1,
+										chest.getHeightPosition() - 8, chest.getwidthSlot(), chest.getwidthSlot(),
+										null);
+							}
 						}
 					}
-				} else if ((Player.typeIsNpc(atual)) && (Game.uiNpc)) {							
-					if(atual instanceof Princesa) {						
-						if(((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
-							((Princesa) atual).getAnotacao().eventoAnotacao(g);
-						} else if(!((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
+				} else if ((Player.typeIsNpc(atual)) && (Game.uiNpc)) {
+					if (atual instanceof Princesa) {
+						if (((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
+							{
+								((Princesa) atual).getAnotacao().eventoAnotacao(g);
+							}
+						} else if (!((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
 							g.setColor(Color.white);
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 							TextBox.showPopUp(g, 510, "Aperte ENTER para conversar com o NPC.", null);
 						}
 					}
-					if(atual instanceof Esqueleto) {
-						if(((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
+					if (atual instanceof Esqueleto) {
+						if (((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
 							((Esqueleto) atual).getAnotacao().eventoAnotacao(g);
 							return;
-						} else if(!((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
+						} else if (!((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
 							g.setColor(Color.white);
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 							TextBox.showPopUp(g, 510, "Aperte ENTER para conversar com o NPC.", null);
 						}
-					} 
-				}else if(atual instanceof Placa && Game.uiPlaca) {
-					if(((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
+					}
+				} else if (atual instanceof Placa && Game.uiPlaca) {
+					if (((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()
+							&& ((Placa) atual).getAnotacao().isNextPaginaSelected()) {
 						((Placa) atual).getAnotacao().eventoAnotacao(g);
 						return;
 					}
-					if(!((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
+					if (!((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
 						g.setColor(Color.white);
 						g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 						TextBox.showPopUp(g, 510, "Aperte ENTER para ler a placa.", null);
+					}
+				} else if (atual instanceof Livro && Game.uiLivro) {
+					//System.out.println("teste1");
+					if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isChoose()) {
+						((Livro) atual).getAnotacaoDialogue().eventoAnotacao(g);
+						return;
 					}
 				}
 			}

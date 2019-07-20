@@ -22,13 +22,15 @@ public class Vaso extends Entity implements Renderable, Updateble  {
 	
 	private boolean drope = false;
 	private String idDrop;
+	private String shortNameDrop;
+	private BufferedImage imageDrop;
 	
 	private int currentAnimacao = 0;
 	private int maxAnimacao = 0;
 	private int currentFrame = 0;
 	private int maxFrame = 10;
 	
-	public Vaso(int x, int y, int width, int height, BufferedImage sprite, String idDrop) {
+	public Vaso(int x, int y, int width, int height, BufferedImage sprite, String idDrop, String shortNameDrop, BufferedImage imageDrop) {
 		super(x, y, width, height, sprite);
 		sprites = new BufferedImage[4];
 		for (int i = 0; i < sprites.length; i++) {
@@ -36,6 +38,8 @@ public class Vaso extends Entity implements Renderable, Updateble  {
 		}
 		this.maxAnimacao = sprites.length;
 		this.idDrop = idDrop;
+		this.shortNameDrop = shortNameDrop;
+		this.imageDrop = imageDrop;
 	}
 	
 	public void update() {
@@ -157,6 +161,22 @@ public class Vaso extends Entity implements Renderable, Updateble  {
 
 	public void setIdDrop(String idDrop) {
 		this.idDrop = idDrop;
+	}
+
+	public String getShortNameDrop() {
+		return shortNameDrop;
+	}
+
+	public void setShortNameDrop(String shortNameDrop) {
+		this.shortNameDrop = shortNameDrop;
+	}
+
+	public BufferedImage getImageDrop() {
+		return imageDrop;
+	}
+
+	public void setImageDrop(BufferedImage imageDrop) {
+		this.imageDrop = imageDrop;
 	}
 
 }

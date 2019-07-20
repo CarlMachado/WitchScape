@@ -1,11 +1,14 @@
 package com.bakerystudios.inventario;
 
+import java.awt.image.BufferedImage;
+
 public class Slot {
 	
 	private int amount = 0;
 	private String identity = "";
-	private String shortName = "Nome do Item";
-
+	private String shortName = "Vazio";
+	private BufferedImage imageSlot;	
+	
 	public int getAmount() {
 		return amount;
 	}
@@ -28,6 +31,14 @@ public class Slot {
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
+	}
+
+	public BufferedImage getImageSlot() {
+		return imageSlot;
+	}
+
+	public void setImageSlot(BufferedImage imageSlot) {
+		this.imageSlot = imageSlot;
 	}
 	
 }

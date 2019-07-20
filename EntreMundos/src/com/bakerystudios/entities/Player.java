@@ -53,8 +53,9 @@ public class Player extends Entity implements Renderable, Updateble {
 	private boolean nextisPlacaDown = false;
 	private boolean nextisPlacaLeft = false;
 	private boolean nextisPlacaRight = false;
-	
+
 	private boolean nextisVaso = false;
+	private boolean nextisLivro = false;
 
 	public static boolean inEvent = false;
 
@@ -81,7 +82,8 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (!inEvent && !moved)
 				dir = UP_DIR;
 			if (!nextisPlacaUp && !nextisNpcUp && !inEvent && !nextisChestUp && !nextisDoorUp
-					&& Game.world.get(Game.CUR_MAP).isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft && !movingRight) {
+					&& Game.world.get(Game.CUR_MAP).isFree(this.getX(), (int) (y - speed)) && !movingDown && !movingLeft
+					&& !movingRight) {
 				moved = true;
 				movingUp = true;
 				correctCollisionGeneral();
@@ -91,7 +93,8 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (!inEvent && !moved)
 				dir = DOWN_DIR;
 			if (!nextisPlacaDown && !nextisNpcDown && !inEvent && !nextisChestDown && !nextisDoorDown
-					&& Game.world.get(Game.CUR_MAP).isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft && !movingRight) {
+					&& Game.world.get(Game.CUR_MAP).isFree(this.getX(), (int) (y + speed)) && !movingUp && !movingLeft
+					&& !movingRight) {
 				moved = true;
 				movingDown = true;
 				correctCollisionGeneral();
@@ -100,8 +103,9 @@ public class Player extends Entity implements Renderable, Updateble {
 		} else if (right) {
 			if (!inEvent && !moved)
 				dir = RIGHT_DIR;
-			if (!nextisPlacaRight && !nextisNpcRight && !inEvent && !nextisChestRight 
-					&& Game.world.get(Game.CUR_MAP).isFree((int) (x + speed), this.getY()) && !movingDown && !movingLeft && !movingUp) {
+			if (!nextisPlacaRight && !nextisNpcRight && !inEvent && !nextisChestRight
+					&& Game.world.get(Game.CUR_MAP).isFree((int) (x + speed), this.getY()) && !movingDown && !movingLeft
+					&& !movingUp) {
 				moved = true;
 				movingRight = true;
 				correctCollisionGeneral();
@@ -111,7 +115,8 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (!inEvent && !moved)
 				dir = LEFT_DIR;
 			if (!nextisPlacaLeft && !nextisNpcLeft && !inEvent && !nextisChestLeft
-					&& Game.world.get(Game.CUR_MAP).isFree((int) (x - speed), this.getY()) && !movingDown && !movingUp && !movingRight) {
+					&& Game.world.get(Game.CUR_MAP).isFree((int) (x - speed), this.getY()) && !movingDown && !movingUp
+					&& !movingRight) {
 				moved = true;
 				movingLeft = true;
 				correctCollisionGeneral();
@@ -201,8 +206,10 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void updateCamera() {
-		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0, Game.world.get(Game.CUR_MAP).WIDTH * Tile.SIZE - Screen.WIDTH);
-		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0, Game.world.get(Game.CUR_MAP).HEIGHT * Tile.SIZE - Screen.HEIGHT);
+		Camera.x = Camera.clamp(this.getX() - (Screen.WIDTH / 2), 0,
+				Game.world.get(Game.CUR_MAP).WIDTH * Tile.SIZE - Screen.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Screen.HEIGHT / 2), 0,
+				Game.world.get(Game.CUR_MAP).HEIGHT * Tile.SIZE - Screen.HEIGHT);
 	}
 
 	public void checkCollisionAllObjects() {
@@ -240,8 +247,10 @@ public class Player extends Entity implements Renderable, Updateble {
 				collisionNpc(atual);
 			} else if (atual instanceof Placa) {
 				collisionPlaca(atual);
-			} else if(atual instanceof Vaso) {
+			} else if (atual instanceof Vaso) {
 				collisionVaso(atual);
+			} else if (atual instanceof Livro) {
+				collisionLivro(atual);
 			}
 		}
 	}
@@ -358,7 +367,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	public void collisionVaso(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (dir == UP_DIR) {
-				((Vaso) atual).setTryEventActiveVaso(true);	
+				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
 			}
 			nextisVaso = true;
@@ -366,7 +375,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		}
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
 			if (dir == DOWN_DIR) {
-				((Vaso) atual).setTryEventActiveVaso(true);	
+				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
 			}
 			nextisVaso = true;
@@ -374,7 +383,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		}
 		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
 			if (dir == RIGHT_DIR) {
-				((Vaso) atual).setTryEventActiveVaso(true);	
+				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
 			}
 			nextisVaso = true;
@@ -382,10 +391,45 @@ public class Player extends Entity implements Renderable, Updateble {
 		}
 		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
 			if (dir == LEFT_DIR) {
-				((Vaso) atual).setTryEventActiveVaso(true);	
+				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
 			}
 			nextisVaso = true;
+			return;
+		}
+	}
+
+	public void collisionLivro(Entity atual) {
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
+			if (dir == UP_DIR) {
+				((Livro) atual).setTryEventActiveLivro(true);
+				((Livro) atual).setChoose(true);
+			}
+			nextisLivro = true;
+			return;
+		}
+		else if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
+			if (dir == DOWN_DIR) {
+				((Livro) atual).setTryEventActiveLivro(true);
+				((Livro) atual).setChoose(true);
+			}
+			nextisLivro = true;
+			return;
+		}
+		else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
+			if (dir == RIGHT_DIR) {
+				((Livro) atual).setTryEventActiveLivro(true);
+				((Livro) atual).setChoose(true);
+			}
+			nextisLivro = true;
+			return;
+		}
+		else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
+			if (dir == LEFT_DIR) {
+				((Livro) atual).setTryEventActiveLivro(true);
+				((Livro) atual).setChoose(true);
+			}
+			nextisLivro = true;
 			return;
 		}
 	}
@@ -410,11 +454,12 @@ public class Player extends Entity implements Renderable, Updateble {
 		correctCollisionChest();
 		correctCollisionPlaca();
 		correctCollisionVaso();
+		correctCollisionLivro();
 	}
 
 	public boolean existTrueNext() {
 		if (nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight
-				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso)
+				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso || nextisLivro)
 			return true;
 		else
 			return false;
@@ -438,8 +483,12 @@ public class Player extends Entity implements Renderable, Updateble {
 					((Placa) atual).setTryEventActivePlaca(false);
 					((Placa) atual).setChoose(false);
 				}
-				if(atual instanceof Vaso) {
+				if (atual instanceof Vaso) {
 					((Vaso) atual).setTryEventActiveVaso(false);
+				}
+				if (atual instanceof Livro) {
+					((Livro) atual).setTryEventActiveLivro(false);
+					((Livro) atual).setChoose(false);
 				}
 			}
 		}
@@ -464,10 +513,16 @@ public class Player extends Entity implements Renderable, Updateble {
 			nextisDoorUp = false;
 		Game.uiDoor = false;
 	}
-	
+
 	public void correctCollisionVaso() {
-		if(nextisVaso)
+		if (nextisVaso)
 			nextisVaso = false;
+	}
+
+	public void correctCollisionLivro() {
+		if (nextisLivro)
+			nextisLivro = false;
+		Game.uiLivro = false;
 	}
 
 	public void correctCollisionNpc() {
@@ -612,6 +667,14 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void setDir(int dir) {
 		this.dir = dir;
+	}
+
+	public boolean isNextisLivro() {
+		return nextisLivro;
+	}
+
+	public void setNextisLivro(boolean nextisLivro) {
+		this.nextisLivro = nextisLivro;
 	}
 
 }

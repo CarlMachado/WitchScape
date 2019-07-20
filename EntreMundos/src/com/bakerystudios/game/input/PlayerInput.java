@@ -7,6 +7,7 @@ import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
+import com.bakerystudios.entities.Livro;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
@@ -46,7 +47,7 @@ public class PlayerInput extends Input {
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				for (Entity atual : Game.entities) { 
+				for (Entity atual : Game.entities) {
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
 							if (((Door) atual).isChave() && !((Door) atual).isNeedEquipament()) {
@@ -56,22 +57,22 @@ public class PlayerInput extends Input {
 										Game.uiDoor = false;
 									}
 								}
-							}else if(!((Door) atual).isChave() && ((Door) atual).isNeedEquipament()) {
+							} else if (!((Door) atual).isChave() && ((Door) atual).isNeedEquipament()) {
 								for (int i = 0; i < Inventario.slot.length; i++) {
 									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdEquipament()) {
 										((Door) atual).setAnimation(true);
 										Game.uiDoor = false;
 									}
 								}
-							}else if(((Door) atual).isChave() && ((Door) atual).isNeedEquipament()) {
+							} else if (((Door) atual).isChave() && ((Door) atual).isNeedEquipament()) {
 								boolean chave = false, equipament = false;
 								for (int i = 0; i < Inventario.slot.length; i++) {
-									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdEquipament()) 
+									if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdEquipament())
 										equipament = true;
-									else if(Inventario.slot[i].getIdentity() == ((Door) atual).getIdentify())
+									else if (Inventario.slot[i].getIdentity() == ((Door) atual).getIdentify())
 										chave = true;
 								}
-								if(chave && equipament) {
+								if (chave && equipament) {
 									((Door) atual).setAnimation(true);
 									Game.uiDoor = false;
 								}
@@ -109,6 +110,7 @@ public class PlayerInput extends Input {
 					} else if (atual instanceof Esqueleto) {
 						if (((Esqueleto) atual).getExistEventEsqueleto()
 								&& ((Esqueleto) atual).isEventActiveEsqueleto()) {
+							System.out.println("teste");
 							if (!((Esqueleto) atual).getAnotacao().isEventIsOver())
 								((Esqueleto) atual).getAnotacao().setNextPaginaSelected(true);
 							else {
@@ -141,24 +143,44 @@ public class PlayerInput extends Input {
 								Player.inEvent = false;
 							}
 						}
-					}else if(atual instanceof Vaso) {
+					} else if (atual instanceof Vaso) {
 						if (((Vaso) atual).isTryEventActiveVaso() && !((Vaso) atual).isEventActiveVaso()) {
 							((Vaso) atual).setEventActiveVaso(true);
 							((Vaso) atual).setTryEventActiveVaso(false);
 						}
-						if(((Vaso) atual).isEventActiveVaso()) {
-							if(((Vaso) atual).isBroken() && ((Vaso) atual).isChoose() && !((Vaso) atual).isDrope()) { // PEGA ITEM
-								for(int j = 0; j < Inventario.slot.length; j++) {
-									if(Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
+						if (((Vaso) atual).isEventActiveVaso()) {
+							if (((Vaso) atual).isBroken() && ((Vaso) atual).isChoose() && !((Vaso) atual).isDrope()) { // PEGA
+								for (int j = 0; j < Inventario.slot.length; j++) {
+									if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
 										Inventario.slot[j].setAmount(1);
 										Inventario.slot[j].setIdentity(((Vaso) atual).getIdDrop());
+										Inventario.slot[j].setShortName(((Vaso) atual).getShortNameDrop());
+										Inventario.slot[j].setImageSlot(((Vaso) atual).getImageDrop());
 										((Vaso) atual).setDrope(true);
 										break;
 									}
 								}
-							}else { // QUEBRA VASO
+							} else { // QUEBRA VASO
 								((Vaso) atual).setAnimation(true);
 								((Vaso) atual).setEventActiveVaso(false);
+							}
+						}
+					} else if (atual instanceof Livro) {
+						if (((Livro) atual).isTryEventActiveLivro() && !((Livro) atual).isEventActiveLivro()
+								&& ((Livro) atual).isChoose()) {
+							((Livro) atual).setAnimation(true);
+							((Livro) atual).setEventActiveLivro(true);
+							((Livro) atual).setTryEventActiveLivro(false);
+							Player.inEvent = true;
+						} else if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isChoose()) {
+							if (!((Livro) atual).getAnotacaoDialogue().isEventIsOver()
+									&& !((Livro) atual).getAnotacaoDialogue().isNextPaginaSelected()) {
+								((Livro) atual).getAnotacaoDialogue().setNextPaginaSelected(true);
+							}
+							if (((Livro) atual).getAnotacaoDialogue().isEventIsOver()) {
+								System.out.println("acaba");
+								((Livro) atual).getAnotacaoDialogue().setExitSelected(true);
+								Player.inEvent = false;								
 							}
 						}
 					}
@@ -191,6 +213,13 @@ public class PlayerInput extends Input {
 							if (((Placa) atual).isEventActivePlaca()) {
 								((Placa) atual).setEventActivePlaca(false);
 								((Placa) atual).getAnotacao().setExitSelected(true);
+								Player.inEvent = false;
+							}
+						} else if (atual instanceof Livro) {
+							if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isOpen()) {
+								((Livro) atual).setEventActiveLivro(false);
+								((Livro) atual).setTryEventActiveLivro(false);
+								Game.uiLivro = false;
 								Player.inEvent = false;
 							}
 						}

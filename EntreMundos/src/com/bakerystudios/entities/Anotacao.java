@@ -29,6 +29,8 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	private boolean visible = false;
 	private boolean nextPagina = false;
 	
+	private boolean finalize = false;
+	
 	private boolean statusEventoAnotacao = false;
 	private boolean nextPaginaSelected = false;
 	private boolean exitSelected = false;
@@ -71,7 +73,6 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 	
 	public void eventoAnotacao(Graphics g) {
 		if(isStatusEventoAnotacao()) {
-
 			TextBox.showDialog(g, null, null, null);
 			g.setFont(Game.boxFont);
 			g.setColor(Color.BLACK);
@@ -82,20 +83,24 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y + j * fontHeight);
 			}	
 			// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
-			if(!eventIsOver && nextPaginaSelected) {
+			if(nextPaginaSelected) {
+				//System.out.println("teste 1");
 				currentPagina++;
 				nextPaginaSelected = false;
 			}
 			
 			if(currentPagina == this.paginas) {
+				System.out.println("teste 3");
 				setEventIsOver(true);
 			}
-			
 			if(exitSelected) { // CLICOU ESC PARA SAIR DO EVENTO
-				setStatusEventoAnotacao(false);
+				System.out.println("teste 4");
+				animation = false;			
+				nextPagina = false;
+				finalize = false;				
+				statusEventoAnotacao = false;
+				nextPaginaSelected = false;
 				exitSelected = false;
-				currentPagina = 1;
-				eventIsOver = false;
 				return;
 			}			
 		}
@@ -159,6 +164,14 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 
 	public void setEventIsOver(boolean eventIsOver) {
 		this.eventIsOver = eventIsOver;
+	}
+
+	public boolean isFinalize() {
+		return finalize;
+	}
+
+	public void setFinalize(boolean finalize) {
+		this.finalize = finalize;
 	}
 
 }
