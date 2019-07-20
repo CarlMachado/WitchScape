@@ -48,6 +48,14 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 		this.visible = visible;
 		this.linha = linha;
 		this.setPaginas(linha.length);
+		
+		this.animation = false;
+		this.nextPaginaSelected = false;
+		this.status = false;
+		this.exit = false;
+		this.sinalizeExit = false;
+		this.lestPage = false;
+		this.currentPagina = 1;
 	}
 
 	public void update() {
@@ -90,12 +98,12 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 						currentPagina++;
 				nextPaginaSelected = false;
 			}
-			
+
 			if(currentPagina == this.paginas) {
 				lestPage = true;
-			}			
-			if (exit){
-				System.out.println("teste 3");
+			}	
+
+			if (exit && !sinalizeExit){			
 				animation = false;			
 				nextPaginaSelected = false;
 				sinalizeExit = true;

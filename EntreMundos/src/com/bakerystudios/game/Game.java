@@ -120,9 +120,9 @@ public class Game implements Runnable, Renderable, Updateble {
 		
 		// carregamento dos mapas
 		world = new ArrayList<>();
-		world.add(new World("/levels/map.png", "/levels/map_collision.png"));
-		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png"));
-		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png"));
+		world.add(new World("/levels/map.png", "/levels/map_collision.png", false));
+		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png", true));
+		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png", true));
 	}
 	
 	public void createTeleports() {

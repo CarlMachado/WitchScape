@@ -19,6 +19,7 @@ import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
 import com.bakerystudios.game.Game;
+import com.bakerystudios.inventario.Slot;
 
 public class World {
 
@@ -30,6 +31,7 @@ public class World {
 	private final int DOOR_THIRD = 0xFFD85300;
 	private final int DOOR_FORTY = 0xFFF95F00;
 	private final int CHEST = 0xFF0026FF;
+	private final int CHEST_SECOND = 0xFF001172;
 	private final int PRINCESA = 0xFFFF7F7F;
 	private final int ESQUELETO = 0xFF808080;
 	private final int PLACA = 0XFFFF6A00;
@@ -42,14 +44,20 @@ public class World {
 	private BufferedImage[] spritesLivro;
 	private List<String>[] placaDialogue_FIRST;
 	private List<String>[] placaDialogue_SECOND;
+	private Slot[] slot_FIRST;
+	private Slot[] slot_SECOND;
 
 	public BufferedImage map;
 	public Tile[] tiles;
-	public int WIDTH, HEIGHT;	
+	public int WIDTH, HEIGHT;
 
-	public World(String map_path, String colmap_path) {
+	private boolean load = false;
+
+	public World(String map_path, String colmap_path, boolean load) {
+		this.load = load;
 		try {
 			loadInfo();
+			loadEntities();
 			BufferedImage col_map = ImageIO.read(getClass().getResource(colmap_path));
 			map = ImageIO.read(getClass().getResource(map_path));
 			int[] pixels = new int[col_map.getWidth() * col_map.getHeight()];
@@ -89,7 +97,12 @@ public class World {
 								true, true, "Luva de Couro", spritesGrade, spritesGrade.length));
 					}
 					if (pixelAtual == CHEST) {
-						Game.entities.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null));
+						Game.entities
+								.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_FIRST));
+					}
+					if (pixelAtual == CHEST_SECOND) {
+						Game.entities.add(
+								new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
 					}
 					if (pixelAtual == PRINCESA) {
 						Game.entities.add(new Princesa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null,
@@ -136,23 +149,44 @@ public class World {
 				|| (tiles[x3 + (y3 * WIDTH)] instanceof WallTile) || (tiles[x4 + (y4 * WIDTH)] instanceof WallTile));
 	}
 
+	public void loadEntities() {
+		if (!load) {
+			load = true;
+
+			placaDialogue_SECOND = new ArrayList[2];
+			for (int i = 0; i < placaDialogue_SECOND.length; i++)
+				placaDialogue_SECOND[i] = new ArrayList<String>();
+			placaDialogue_SECOND[0].add("Livro que eu amo");
+			placaDialogue_SECOND[0].add("funcione plz");
+			placaDialogue_SECOND[1].add("piroca vai");
+			placaDialogue_SECOND[1].add("teste testante testador testmaster");
+			
+			// Já que não sei onde colocar
+			Game.entities
+					.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
+			Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
+					Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
+		}
+	}
+
 	public void loadInfo() {
+		
+		slot_FIRST = new Slot[9];
+		for (int i = 0; i < slot_FIRST.length; i++)
+			slot_FIRST[i] = new Slot();
+
+		slot_SECOND = new Slot[9];
+		for (int i = 0; i < slot_SECOND.length; i++)
+			slot_SECOND[i] = new Slot();
+
+		slot_SECOND[3].setAmount(1);
+		slot_SECOND[3].setIdentity("Luva de Couro");
+		slot_SECOND[3].setShortName("Luva de Couro");
+		slot_SECOND[3].setImageSlot(Game.doors.getSprite(0, 144, Tile.SIZE, Tile.SIZE));
+
 		spritesLivro = new BufferedImage[3];
-		for(int i = 0; i < spritesLivro.length; i++)
-			spritesLivro[i] = Game.doors.getSprite(16*i, 128, Tile.SIZE, Tile.SIZE);
-		
-		placaDialogue_SECOND = new ArrayList[2];
-		for (int i = 0; i < placaDialogue_SECOND.length; i++)
-			placaDialogue_SECOND[i] = new ArrayList<String>();
-		placaDialogue_SECOND[0].add("Livro que eu amo");
-		placaDialogue_SECOND[0].add("funcione plz");
-		placaDialogue_SECOND[1].add("piroca vai");
-		placaDialogue_SECOND[1].add("teste testante testador testmaster");
-		
-		// Já que não sei onde colocar
-		Game.entities.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
-		Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
-				Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
+		for (int i = 0; i < spritesLivro.length; i++)
+			spritesLivro[i] = Game.doors.getSprite(16 * i, 128, Tile.SIZE, Tile.SIZE);
 
 		spritesPrincesa = new BufferedImage[1];
 		for (int i = 0; i < spritesPrincesa.length; i++)
@@ -170,11 +204,12 @@ public class World {
 		for (int i = 0; i < spritesGrade.length; i++)
 			spritesGrade[i] = Game.doors.getSprite(64, 16 * i, Tile.SIZE, Tile.SIZE);
 
-		placaDialogue_FIRST = new ArrayList[2];
+		placaDialogue_FIRST = new ArrayList[1];
 		for (int i = 0; i < placaDialogue_FIRST.length; i++)
 			placaDialogue_FIRST[i] = new ArrayList<String>();
 		placaDialogue_FIRST[0].add("Plaquinha bonita, eu te amo por funcionar");
 		placaDialogue_FIRST[0].add("Testizin beautifil pa ver que funciona");
+
 	}
 
 	public void render(Graphics g) {
@@ -216,6 +251,26 @@ public class World {
 
 	public void setSpritesGrade(BufferedImage[] spritesGrade) {
 		this.spritesGrade = spritesGrade;
+	}
+
+	public int getCHEST_SECOND() {
+		return CHEST_SECOND;
+	}
+
+	public Slot[] getSlot_FIRST() {
+		return slot_FIRST;
+	}
+
+	public void setSlot_FIRST(Slot[] slot_FIRST) {
+		this.slot_FIRST = slot_FIRST;
+	}
+
+	public Slot[] getSlot_SECOND() {
+		return slot_SECOND;
+	}
+
+	public void setSlot_SECOND(Slot[] slot_SECOND) {
+		this.slot_SECOND = slot_SECOND;
 	}
 
 }

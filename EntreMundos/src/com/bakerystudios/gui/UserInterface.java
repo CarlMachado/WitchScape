@@ -175,8 +175,7 @@ public class UserInterface implements Renderable, Updateble {
 						}
 					}
 				} else if (atual instanceof Placa && Game.uiPlaca) {
-					if (((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()
-							&& ((Placa) atual).getAnotacao().isNextPaginaSelected()) {
+					if (((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {						
 						((Placa) atual).getAnotacao().eventoAnotacao(g);
 						return;
 					}

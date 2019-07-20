@@ -26,20 +26,17 @@ public class Placa extends Entity implements Renderable, Updateble {
 	}
 
 	public void update() {
-		if (eventActivePlaca) {
-			Game.uiPlaca = true;
-			anotacaoDialogue.setStatus(true);
-			setChoose(true);
-			if (anotacaoDialogue.isSinalizeExit()) {
-				System.out.println("teste");
-				eventActivePlaca = false;
-				tryEventActivePlaca = false;
-				anotacaoDialogue.setSinalizeExit(false);
-				anotacaoDialogue.setExit(false);
-				Game.uiPlaca = false;
-				Player.inEvent = false;
-			}
-		} 
+		if (anotacaoDialogue.isSinalizeExit()) {
+			tryEventActivePlaca = false;
+			anotacaoDialogue.setSinalizeExit(false);
+			anotacaoDialogue.setExit(false);
+			Game.uiPlaca = false;
+			choose = false;
+			Player.inEvent = false;
+			eventActivePlaca = false;
+			anotacaoDialogue.setExit(false);
+			this.anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, placaDialogue);
+		}
 	}
 
 	public void render(Graphics g) {
@@ -53,7 +50,7 @@ public class Placa extends Entity implements Renderable, Updateble {
 	public void setChoose(boolean choose) {
 		this.choose = choose;
 	}
-	
+
 	public boolean isEventActivePlaca() {
 		return eventActivePlaca;
 	}
@@ -61,7 +58,7 @@ public class Placa extends Entity implements Renderable, Updateble {
 	public void setEventActivePlaca(boolean eventActivePlaca) {
 		this.eventActivePlaca = eventActivePlaca;
 	}
-	
+
 	public boolean isTryEventActivePlaca() {
 		return tryEventActivePlaca;
 	}
@@ -69,7 +66,7 @@ public class Placa extends Entity implements Renderable, Updateble {
 	public void setTryEventActivePlaca(boolean tryEventActivePlaca) {
 		this.tryEventActivePlaca = tryEventActivePlaca;
 	}
-	
+
 	public Anotacao getAnotacao() {
 		return anotacaoDialogue;
 	}

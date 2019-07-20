@@ -64,6 +64,8 @@ public class Princesa extends Entity implements Renderable, Updateble {
 				anotacaoDialogue.setExit(false);
 				Game.uiNpc = false;
 				Player.inEvent = false;
+				
+				this.anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, princesaDialogue);
 			}
 		}
 	}

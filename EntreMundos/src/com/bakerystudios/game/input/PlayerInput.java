@@ -110,7 +110,6 @@ public class PlayerInput extends Input {
 					} else if (atual instanceof Esqueleto) {
 						if (((Esqueleto) atual).getExistEventEsqueleto()
 								&& ((Esqueleto) atual).isEventActiveEsqueleto()) {
-							System.out.println("teste");
 							if (!((Esqueleto) atual).getAnotacao().isLestPage())
 								((Esqueleto) atual).getAnotacao().setNextPaginaSelected(true);
 							else {
@@ -133,7 +132,10 @@ public class PlayerInput extends Input {
 							Player.inEvent = true;
 							((Placa) atual).setEventActivePlaca(true);
 							((Placa) atual).setTryEventActivePlaca(false);
-							Game.uiPlaca = false;
+							
+							Game.uiPlaca = true;
+							((Placa) atual).getAnotacao().setStatus(true);
+							((Placa) atual).setChoose(true);
 						} else if (((Placa) atual).isEventActivePlaca()) {
 							if (!((Placa) atual).getAnotacao().isLestPage())
 								((Placa) atual).getAnotacao().setNextPaginaSelected(true);
@@ -168,9 +170,13 @@ public class PlayerInput extends Input {
 					} else if (atual instanceof Livro) {
 						if (((Livro) atual).isTryEventActiveLivro() && !((Livro) atual).isEventActiveLivro()
 								&& ((Livro) atual).isChoose()) {
-							System.out.println("vai pro inferno");
+							//System.out.println("vai pro inferno");
 							((Livro) atual).setAnimation(true);
 							((Livro) atual).setTryEventActiveLivro(false);
+							
+							Game.uiLivro = true;
+							((Livro) atual).getAnotacaoDialogue().setStatus(true);
+							((Livro) atual).setChoose(true);
 							Player.inEvent = true;
 						} else if (((Livro) atual).isEventActiveLivro()) {
 							if (!((Livro) atual).getAnotacaoDialogue().isLestPage())
@@ -193,7 +199,7 @@ public class PlayerInput extends Input {
 					}
 				}
 			}
-			if (Player.inEvent) {
+			if (Player.inEvent) {				
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					for (Entity atual : Game.entities) {
 						if (atual instanceof Chest) {
@@ -219,21 +225,21 @@ public class PlayerInput extends Input {
 						} else if (atual instanceof Placa) {
 							if (((Placa) atual).isEventActivePlaca()) {
 								((Placa) atual).getAnotacao().setExit(true);
-								Player.inEvent = false;
 							}
 						} else if (atual instanceof Livro) {
 							if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isOpen()) {
-								System.out.println("input");
 								((Livro) atual).getAnotacaoDialogue().setExit(true);
 							}
 						}
 					}
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_2
+			} 
+			if (e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_2
 					|| e.getKeyCode() == KeyEvent.VK_3 || e.getKeyCode() == KeyEvent.VK_4
 					|| e.getKeyCode() == KeyEvent.VK_5 || e.getKeyCode() == KeyEvent.VK_6
 					|| e.getKeyCode() == KeyEvent.VK_7 || e.getKeyCode() == KeyEvent.VK_8
 					|| e.getKeyCode() == KeyEvent.VK_9) {
+				//System.out.println("key " + e.getKeyCode());
 				for (Entity atual : Game.entities)
 					if (atual instanceof Chest)
 						if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus()
@@ -245,7 +251,6 @@ public class PlayerInput extends Input {
 						if (((Chest) atual).isOpenChest()) {
 
 							if (e.getKeyCode() == KeyEvent.VK_Q && !Inventario.focus) { // Foca no inventario
-								System.out.println("cheguei");
 								Inventario.focus = true;
 								((Chest) atual).setFocus(false);
 							} else if (e.getKeyCode() == KeyEvent.VK_Q && !((Chest) atual).isFocus()) { // Bau

@@ -250,6 +250,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			} else if (atual instanceof Vaso) {
 				collisionVaso(atual);
 			} else if (atual instanceof Livro) {
+				//System.out.println("i: " + i);
 				collisionLivro(atual);
 			}
 		}
@@ -402,32 +403,41 @@ public class Player extends Entity implements Renderable, Updateble {
 	public void collisionLivro(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (dir == UP_DIR) {
-				((Livro) atual).setTryEventActiveLivro(true);
-				((Livro) atual).setChoose(true);
+				if (((Livro) atual).isExistEventLivro()) {
+					//System.out.println("aaa");
+					((Livro) atual).setTryEventActiveLivro(true);
+					((Livro) atual).setChoose(true);
+				}
 			}
 			nextisLivro = true;
 			return;
 		}
 		else if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
 			if (dir == DOWN_DIR) {
-				((Livro) atual).setTryEventActiveLivro(true);
-				((Livro) atual).setChoose(true);
+				if (((Livro) atual).isExistEventLivro()) {
+					((Livro) atual).setTryEventActiveLivro(true);
+					((Livro) atual).setChoose(true);
+				}			
 			}
 			nextisLivro = true;
 			return;
 		}
 		else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
 			if (dir == RIGHT_DIR) {
-				((Livro) atual).setTryEventActiveLivro(true);
-				((Livro) atual).setChoose(true);
+				if (((Livro) atual).isExistEventLivro()) {
+					((Livro) atual).setTryEventActiveLivro(true);
+					((Livro) atual).setChoose(true);
+				}
 			}
 			nextisLivro = true;
 			return;
 		}
 		else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
 			if (dir == LEFT_DIR) {
-				((Livro) atual).setTryEventActiveLivro(true);
-				((Livro) atual).setChoose(true);
+				if (((Livro) atual).isExistEventLivro()) {
+					((Livro) atual).setTryEventActiveLivro(true);
+					((Livro) atual).setChoose(true);
+				}
 			}
 			nextisLivro = true;
 			return;
@@ -489,6 +499,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (atual instanceof Livro) {
 					((Livro) atual).setTryEventActiveLivro(false);
 					((Livro) atual).setChoose(false);
+					((Livro) atual).getAnotacaoDialogue().setExit(false);
 				}
 			}
 		}

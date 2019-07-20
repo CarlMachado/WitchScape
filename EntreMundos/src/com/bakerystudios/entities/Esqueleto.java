@@ -54,13 +54,14 @@ public class Esqueleto extends Entity implements Renderable, Updateble {
 			anotacaoDialogue.setStatus(true);
 			setChoose(true);
 			if (anotacaoDialogue.isSinalizeExit()) {
-				System.out.println("teste");
 				eventActiveEsqueleto = false;
 				tryEventActiveEsqueleto = false;
 				anotacaoDialogue.setSinalizeExit(false);
 				anotacaoDialogue.setExit(false);
 				Game.uiNpc = false;
 				Player.inEvent = false;
+				
+				this.anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
 			}
 		}
 	}

@@ -41,7 +41,7 @@ public class Chest extends Entity implements Renderable, Updateble {
 	
 	private boolean focus = true;
 
-	public Chest(int x, int y, int width, int height, BufferedImage sprite) {
+	public Chest(int x, int y, int width, int height, BufferedImage sprite, Slot[] slotExterno) {
 		super(x, y, width, height, sprite);
 
 		sprites = new BufferedImage[4];
@@ -50,9 +50,10 @@ public class Chest extends Entity implements Renderable, Updateble {
 		}
 		this.maxAnimacao = sprites.length;
 
-		slot = new Slot[numSlots];
-		for (int i = 0; i < slot.length; i++)
-			slot[i] = new Slot();
+		this.slot = new Slot[numSlots];
+		for(int i = 0; i < this.slot.length; i++)
+			this.slot[i] = new Slot();
+		this.slot = slotExterno; 
 	}
 
 	public void update() {
