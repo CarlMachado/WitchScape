@@ -123,7 +123,7 @@ public class World {
 					}
 					if (pixelAtual == TILE_EVENT_FIRST) {
 						Game.entities.add(new eventBlock(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null,
-								true, "chave2", "Chave Por√£o", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
+								true, "chave2", "Chave Por„o", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
 					}
 				}
 			}
@@ -159,12 +159,28 @@ public class World {
 		placaDialogue_SECOND[0].add("funcione plz");
 		placaDialogue_SECOND[1].add("piroca vai");
 		placaDialogue_SECOND[1].add("teste testante testador testmaster");
-		
-		// J√° que n√£o sei onde colocar
-		Game.entities
-				.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
+
+		// Outros
+		Game.entities.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
 		Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
 				Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
+		// PORTAS
+		Game.entities.add(new Door(288, 464, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
+				spritesPorta.length));
+		Game.entities.add(new Door(368, 464, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
+				spritesPorta.length));
+		Game.entities.add(new Door(352, 576, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
+				spritesPorta.length));
+		Game.entities.add(new Door(1216, 256, Tile.SIZE, Tile.SIZE, null, "chave2", true, true, "Luva de Couro",
+				spritesGrade, spritesGrade.length));
+		Game.entities.add(
+				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, false, "", spritesPorta, spritesPorta.length));
+		// BAU
+		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
+		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
+		// TILE EVENT
+		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null,
+				true, "chave2", "Chave Por„o", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
 	}
 
 	public void loadInfo() {
