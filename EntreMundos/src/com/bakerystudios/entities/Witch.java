@@ -68,7 +68,6 @@ public class Witch extends Entity implements Updateble, Renderable {
 			right = false;
 			waitToWalk(LEFT_DIR);
 		}
-		Game.gameEvent = seeingPlayer == true? true : false;
 		
 		if(teleporting) {
 			boolean hasKey = false;
@@ -84,6 +83,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 				Game.player.setY(624);
 				Game.player.setDir(RIGHT_DIR);
 				teleporting = false;
+				Game.gameEvent = false;
 			} else {
 				for (Entity entity : Game.entities) {
 					if (entity instanceof Vaso) {
@@ -94,6 +94,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 						Game.player.setY(624);
 						Game.player.setDir(RIGHT_DIR);
 						teleporting = false;
+						Game.gameEvent = false;
 						break;
 					}
 				}
@@ -145,6 +146,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 				Game.player.getY() >= 208 && Game.player.getY() <= 336) {
 			
 			seeingPlayer = true;
+			Game.gameEvent = true;
 			//System.out.println("viu dir");
 		}
 		// visao andando para a direita e esquerda em baixo e em cima
@@ -156,6 +158,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 				Game.player.getY() >= 208 && Game.player.getY() <= 336) {
 			
 			seeingPlayer = true;
+			Game.gameEvent = true;
 			//System.out.println("viu esq");
 		}
 		// visao da esquerda
@@ -167,6 +170,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 				Game.player.getY() >= 256 && Game.player.getY() <= 288) {
 			
 			seeingPlayer = true;
+			Game.gameEvent = true;
 			//System.out.println("esq");
 		}
 		// visao da esquerda
@@ -178,6 +182,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 				Game.player.getY() >= 256 && Game.player.getY() <= 288) {
 			
 			seeingPlayer = true;
+			Game.gameEvent = true;
 			//System.out.println("dir");
 		}
 	}

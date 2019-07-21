@@ -29,6 +29,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	protected static boolean right, left, up, down;
 
 	public static boolean usedAlavanca = false;
+	public boolean florestEvent;
 
 	private double speed = 1.0;
 
@@ -193,12 +194,20 @@ public class Player extends Entity implements Renderable, Updateble {
 		animation();
 		updateCamera();
 		checkCollisionAllObjects();
+		
+		if(x == 896 && y == 624) {
+			florestEvent = true;
+			movingLeft = true;
+			moved = true;
+			dir = LEFT_DIR;
+			Game.gameEvent = true;
+		}
 	}
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
-
+		
 		if (dir == RIGHT_DIR) {
 			g.drawImage(rightSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 

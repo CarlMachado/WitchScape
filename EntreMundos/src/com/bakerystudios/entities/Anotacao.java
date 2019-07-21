@@ -89,7 +89,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
  
 			for(int j = 0; j < linhas; j++) {
 				int fontHeight = g.getFontMetrics().getHeight();
-				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y + j * fontHeight);
+				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y - 30 + j * fontHeight);
 			}	
 			// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
 			if(nextPaginaSelected) {

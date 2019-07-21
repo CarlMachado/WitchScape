@@ -13,8 +13,9 @@ public class Diario implements Updateble  {
 	public Anotacao anotacaoDialogue;
 	public List<String>[] listAnotacao;
 	
+	@SuppressWarnings("unchecked")
 	public Diario() {
-		listAnotacao = new ArrayList[3];
+		listAnotacao = new ArrayList[2];
 		for (int i = 0; i < listAnotacao.length; i++)
 			listAnotacao[i] = new ArrayList<String>();
 		listAnotacao[0].add("10 de Janeiro de 1629");
@@ -23,8 +24,6 @@ public class Diario implements Updateble  {
 		listAnotacao[1].add("12 de Janeiro de 1629");
 		listAnotacao[1].add("Ahahahah, ainda ouço o choro daquela");
 		listAnotacao[1].add("criança la fora! Ahahahahah");
-		listAnotacao[2].add("testes são topzes");
-		listAnotacao[2].add("baduuuuuuuuuuuuuuuuuunts");
 		
 		this.anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, listAnotacao);
 	}
