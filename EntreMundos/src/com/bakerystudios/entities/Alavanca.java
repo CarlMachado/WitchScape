@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
+import com.bakerystudios.game.Game;
 
 public class Alavanca extends Entity implements Renderable, Updateble {
 
@@ -18,7 +19,7 @@ public class Alavanca extends Entity implements Renderable, Updateble {
 	private String identify;
 	private boolean chave;
 
-	private int currentAnimacao = 0;
+	private int currentAnimacao = 1;
 	private int maxAnimacao = 0;
 	private int currentFrame = 0;
 	private int maxFrame = 10;
@@ -29,6 +30,7 @@ public class Alavanca extends Entity implements Renderable, Updateble {
 		this.chave = chave;
 		this.identify = identify;
 		this.sprites = sprites;
+		this.maxAnimacao = this.sprites.length;
 	}
 
 	public void update() {
@@ -37,16 +39,29 @@ public class Alavanca extends Entity implements Renderable, Updateble {
 			currentFrame++;
 			if (currentFrame >= maxFrame) {
 				currentFrame = 0;
-				currentAnimacao++;
+				currentAnimacao--;
 				if (currentAnimacao >= 0 && currentAnimacao < maxAnimacao)
 					sprite = sprites[currentAnimacao];
 			}
-			if (currentAnimacao >= maxAnimacao) {
+			if (currentAnimacao >= 0) {
 				currentFrame = 0;
 				animation = false;
 				active = true;
-				currentAnimacao = maxAnimacao - 1;
+				evento();
+				currentAnimacao = 0;
 				sprite = sprites[currentAnimacao];
+			}
+		}
+	}
+	
+	public void evento() {
+		for(int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Door) {
+				if(((Door) atual).getIdEquipament() == "switch") {
+					((Door) atual).setIdEquipament("");
+					((Door) atual).setNeedEquipament(false);
+				}
 			}
 		}
 	}

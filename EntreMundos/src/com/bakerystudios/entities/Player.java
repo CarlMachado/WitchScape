@@ -279,11 +279,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void collisionAlavanca(Entity atual) {
-		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == UP_DIR) {				
-				((Alavanca) atual).setTryAnimation(true);
-				tryActiveEvent = true;
-			}
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima			
 			nextisAlavancaUp = true;
 			return;
 		}
@@ -292,6 +288,10 @@ public class Player extends Entity implements Renderable, Updateble {
 			return;
 		}
 		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
+			if (dir == RIGHT_DIR) {				
+				((Alavanca) atual).setTryAnimation(true);
+				tryActiveEvent = true;
+			}
 			nextisAlavancaRight = true;
 			return;
 		}
@@ -342,8 +342,11 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionEventBlock(Entity atual) {
 		if (Entity.isColidding(this, atual)) {
-			((eventBlock) atual).setTryActive(true);
-			return;
+			if(!((eventBlock) atual).isUsed()) {
+				((eventBlock) atual).setTryActive(true);
+				((eventBlock) atual).setChoose(true);
+				return;
+			}		
 		}
 	}
 
@@ -605,6 +608,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (atual instanceof eventBlock) {
 					((eventBlock) atual).setActive(false);
 					((eventBlock) atual).setTryActive(false);
+					((eventBlock) atual).setChoose(false);
 				}
 				if (atual instanceof Poco) {
 					((Poco) atual).setChoose(false);

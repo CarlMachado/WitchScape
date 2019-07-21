@@ -169,8 +169,6 @@ public class World {
 				Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
 		Game.entities.add(new Poco(400, 368, Tile.SIZE, Tile.SIZE, null, "chave5", "Chave da Alavanca",
 				Game.doors.getSprite(48, 160, Tile.SIZE, Tile.SIZE)));
-		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null, true, "chave2", "Chave da Porta",
-				Game.doors.getSprite(64, 160, Tile.SIZE, Tile.SIZE)));
 		Game.entities.add(new Alavanca(480, 192, Tile.SIZE, Tile.SIZE, null, true, "chave5", spritesAlavanca));
 		// PORTAS
 		Game.entities.add(new Door(352, 576, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
@@ -182,7 +180,7 @@ public class World {
 		Game.entities.add(new Door(1216, 256, Tile.SIZE, Tile.SIZE, null, "chave4", true, true, "Luva de Couro",
 				spritesGrade, spritesGrade.length));
 		Game.entities.add(
-				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, false, "", spritesPorta, spritesPorta.length));
+				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, true, "switch", spritesPorta, spritesPorta.length));
 		// BAU
 		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
 		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
@@ -244,7 +242,7 @@ public class World {
 		
 		spritesAlavanca= new BufferedImage[2];
 		for (int i = 0; i < spritesAlavanca.length; i++)
-			spritesAlavanca[i] = Game.doors.getSprite(64 + i * 16, 64, Tile.SIZE, Tile.SIZE);
+			spritesAlavanca[i] = Game.doors.getSprite(48 + i * 16, 64, Tile.SIZE, Tile.SIZE);
 
 		placaDialogue_FIRST = new ArrayList[1];
 		for (int i = 0; i < placaDialogue_FIRST.length; i++)
