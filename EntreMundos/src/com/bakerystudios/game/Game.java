@@ -149,7 +149,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public void loadFonts() {
 		try {
 			boxFont = Font.createFont(Font.TRUETYPE_FONT, boxFontStream).deriveFont(Font.PLAIN, 20);
-			menuFont = Font.createFont(Font.TRUETYPE_FONT, menuFontStream).deriveFont(Font.PLAIN, 50);
+			menuFont = Font.createFont(Font.TRUETYPE_FONT, menuFontStream).deriveFont(Font.PLAIN, 40);
 			inventFont = Font.createFont(Font.TRUETYPE_FONT, inventFontStream).deriveFont(Font.PLAIN, 15);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
