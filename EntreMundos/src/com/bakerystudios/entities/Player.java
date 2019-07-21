@@ -280,7 +280,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionAlavanca(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == UP_DIR) {
+			if (dir == UP_DIR) {				
 				((Alavanca) atual).setTryAnimation(true);
 				tryActiveEvent = true;
 			}
