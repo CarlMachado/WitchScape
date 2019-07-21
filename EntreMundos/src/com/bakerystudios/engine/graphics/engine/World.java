@@ -166,6 +166,12 @@ public class World {
 		placaDialogue_SECOND[1].add("Nesse capítulo explica passo a passo como");
 		placaDialogue_SECOND[1].add("você pode energizar qualquer grade de metal");
 		placaDialogue_SECOND[1].add("com magia.");
+		
+		ArrayList[] placaDialogo = new ArrayList[2];
+		for (int i = 0; i < placaDialogo.length; i++)
+			placaDialogo[i] = new ArrayList<String>();
+		placaDialogo[0].add("Floresta Negra");
+		placaDialogo[1].add("Hum... Nem era tão negra assim.");
 
 		// Outros
 		Game.entities.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
@@ -185,6 +191,7 @@ public class World {
 				spritesGrade, spritesGrade.length));
 		Game.entities.add(
 				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, true, "switch", spritesPorta, spritesPorta.length));
+		Game.entities.add(new Placa(592, 608, Tile.SIZE, Tile.SIZE, null, placaDialogo));
 
 		// BAU
 		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
@@ -233,7 +240,7 @@ public class World {
 		slot_FORTY[6].setAmount(1);
 		slot_FORTY[6].setIdentity("Bola");
 		slot_FORTY[6].setShortName("Bola");
-		slot_FORTY[6].setImageSlot(Game.doors.getSprite(32, 128, Tile.SIZE, Tile.SIZE)); // COORDENADAS DA BOLA
+		slot_FORTY[6].setImageSlot(Game.characters.getSprite(80, 128, Tile.SIZE, Tile.SIZE)); // COORDENADAS DA BOLA
 		
 		spritesLivro = new BufferedImage[3];
 		for (int i = 0; i < spritesLivro.length; i++)
