@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.bakerystudios.entities.Chest;
-import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
@@ -13,6 +12,7 @@ import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
+import com.bakerystudios.events.eventBlock;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.inventario.Inventario;
@@ -53,11 +53,11 @@ public class PlayerInput extends Input {
 					Game.diario.eventActiveLivro = true;
 					Game.diario.anotacaoDialogue.setStatus(true);
 					Player.inEvent = true;
-				}else if(Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && Game.diario.eventActiveLivro
-						&& !Player.tryActiveEvent) {
+				} else if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario"
+						&& Game.diario.eventActiveLivro && !Player.tryActiveEvent) {
 					if (!Game.diario.getAnotacaoDialogue().isLestPage())
 						Game.diario.getAnotacaoDialogue().setNextPaginaSelected(true);
-					else 
+					else
 						Game.diario.getAnotacaoDialogue().setExit(true);
 				}
 
@@ -201,21 +201,32 @@ public class PlayerInput extends Input {
 								// Player.inEvent = false;
 							}
 						}
-						/*
-						 * else if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isChoose())
-						 * { if (!((Livro) atual).getAnotacaoDialogue().isEventIsOver() && !((Livro)
-						 * atual).getAnotacaoDialogue().isNextPaginaSelected()) { ((Livro)
-						 * atual).getAnotacaoDialogue().setNextPaginaSelected(true); } if (((Livro)
-						 * atual).getAnotacaoDialogue().isEventIsOver()) { System.out.println("acaba");
-						 * ((Livro) atual).getAnotacaoDialogue().setExitSelected(true); Player.inEvent =
-						 * false; } }
-						 */
+					} else if (atual instanceof eventBlock) {
+						if (((eventBlock) atual).isTryActive() && !((eventBlock) atual).isActive()
+								&& !((eventBlock) atual).isUsed()) {
+							((eventBlock) atual).setTryActive(false);
+							((eventBlock) atual).setActive(true);
+						}
+						if (((eventBlock) atual).isActive() && !((eventBlock) atual).isUsed()) {
+							((eventBlock) atual).setActive(false);
+							for (int j = 0; j < Inventario.slot.length; j++) {
+								if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
+									Inventario.slot[j].setAmount(1);
+									Inventario.slot[j].setIdentity(((eventBlock) atual).getIdDrop());
+									Inventario.slot[j].setShortName(((eventBlock) atual).getShortNameDrop());
+									Inventario.slot[j].setImageSlot(((eventBlock) atual).getImageDrop());
+									((eventBlock) atual).setUsed(true);
+									break;
+								}
+							}
+						}
 					}
 				}
 			}
 			if (Player.inEvent) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && Game.diario.eventActiveLivro) 
+					if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario"
+							&& Game.diario.eventActiveLivro)
 						Game.diario.getAnotacaoDialogue().setExit(true);
 
 					for (Entity atual : Game.entities) {

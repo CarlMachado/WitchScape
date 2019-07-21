@@ -1,7 +1,6 @@
 package com.bakerystudios.entities;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -9,7 +8,7 @@ import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.engine.Tile;
-import com.bakerystudios.engine.graphics.engine.World;
+import com.bakerystudios.events.eventBlock;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.inventario.Inventario;
@@ -251,8 +250,10 @@ public class Player extends Entity implements Renderable, Updateble {
 			} else if (atual instanceof Vaso) {
 				collisionVaso(atual);
 			} else if (atual instanceof Livro) {
-				//System.out.println("i: " + i);
+				// System.out.println("i: " + i);
 				collisionLivro(atual);
+			} else if (atual instanceof eventBlock) {
+				collisionEventBlock(atual);
 			}
 		}
 	}
@@ -264,6 +265,13 @@ public class Player extends Entity implements Renderable, Updateble {
 			return false;
 	}
 
+	public void collisionEventBlock(Entity atual) {
+		if (Entity.isColidding(this, atual)) {
+			((eventBlock) atual).setTryActive(true);
+			return;
+		}
+	}
+	
 	public void collisionNpc(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (atual instanceof Princesa) {
@@ -313,8 +321,8 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			((Door) atual).setChoose(true);
 			return;
-		} else 
-			((Door) atual).setTryAnimation(false);		
+		} else
+			((Door) atual).setTryAnimation(false);
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
 			if (dir == DOWN_DIR) {
 				((Door) atual).setTryAnimation(true);
@@ -330,7 +338,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			((Door) atual).setChoose(true);
 			return;
-		} else 
+		} else
 			((Door) atual).setTryAnimation(false);
 	}
 
@@ -346,7 +354,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				Inventario.visible = true;
 			nextisChestUp = true;
 			return;
-		} else 
+		} else
 			((Chest) atual).setTryAnimation(false);
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) // Baixo
 			nextisChestDown = true;
@@ -418,7 +426,7 @@ public class Player extends Entity implements Renderable, Updateble {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (dir == UP_DIR) {
 				if (((Livro) atual).isExistEventLivro()) {
-					//System.out.println("aaa");
+					// System.out.println("aaa");
 					((Livro) atual).setTryEventActiveLivro(true);
 					((Livro) atual).setChoose(true);
 					tryActiveEvent = true;
@@ -426,19 +434,17 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			nextisLivro = true;
 			return;
-		}
-		else if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
+		} else if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
 			if (dir == DOWN_DIR) {
 				if (((Livro) atual).isExistEventLivro()) {
 					((Livro) atual).setTryEventActiveLivro(true);
 					((Livro) atual).setChoose(true);
 					tryActiveEvent = true;
-				}			
+				}
 			}
 			nextisLivro = true;
 			return;
-		}
-		else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
+		} else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
 			if (dir == RIGHT_DIR) {
 				if (((Livro) atual).isExistEventLivro()) {
 					((Livro) atual).setTryEventActiveLivro(true);
@@ -448,8 +454,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			nextisLivro = true;
 			return;
-		}
-		else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
+		} else if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
 			if (dir == LEFT_DIR) {
 				if (((Livro) atual).isExistEventLivro()) {
 					((Livro) atual).setTryEventActiveLivro(true);
@@ -487,7 +492,8 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public boolean existTrueNext() {
 		if (nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight
-				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso || nextisLivro || tryActiveEvent)
+				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso || nextisLivro
+				|| tryActiveEvent)
 			return true;
 		else
 			return false;
@@ -519,6 +525,10 @@ public class Player extends Entity implements Renderable, Updateble {
 					((Livro) atual).setTryEventActiveLivro(false);
 					((Livro) atual).setChoose(false);
 					((Livro) atual).getAnotacaoDialogue().setExit(false);
+				}
+				if(atual instanceof eventBlock) {
+					((eventBlock) atual).setActive(false);
+					((eventBlock) atual).setTryActive(false);
 				}
 			}
 		}
