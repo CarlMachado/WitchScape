@@ -159,10 +159,13 @@ public class World {
 		placaDialogue_SECOND = new ArrayList[2];
 		for (int i = 0; i < placaDialogue_SECOND.length; i++)
 			placaDialogue_SECOND[i] = new ArrayList<String>();
-		placaDialogue_SECOND[0].add("Livro que eu amo");
-		placaDialogue_SECOND[0].add("funcione plz");
-		placaDialogue_SECOND[1].add("piroca vai");
-		placaDialogue_SECOND[1].add("teste testante testador testmaster");
+		placaDialogue_SECOND[0].add("Capitulo 1");
+		placaDialogue_SECOND[0].add("Esse capítulo fala sobre magias que conseguem");
+		placaDialogue_SECOND[0].add("deixar itens invisíveis. Mas só até algém tocar neles.");
+		placaDialogue_SECOND[1].add("Capítulo 2");
+		placaDialogue_SECOND[1].add("Nesse capítulo explica passo a passo como");
+		placaDialogue_SECOND[1].add("você pode energizar qualquer grade de metal");
+		placaDialogue_SECOND[1].add("com magia.");
 
 		// Outros
 		Game.entities.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));

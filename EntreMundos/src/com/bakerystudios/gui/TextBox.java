@@ -61,8 +61,6 @@ public class TextBox {
 		g.setColor(Color.BLACK);
 		if(enter) g.drawString("ENTER", 900, y + 190);
 		if(esc) g.drawString("ESC", 300, y + 190);
-		
-		System.out.println("desenhou");
 	}
 	
 }

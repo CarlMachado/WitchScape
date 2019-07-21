@@ -199,6 +199,9 @@ public class Game implements Runnable, Renderable, Updateble {
 					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
 				break;
 			}
+			if(player.florestEvent) {
+				TextBox.showDialog(g, boxFont, "Não quero voltar para a floresta,", "já andei muito hoje, vou procurar um local seguro.", null, false, true);
+			}
 		}
 		
 		g.setColor(Color.RED);
