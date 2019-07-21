@@ -17,16 +17,14 @@ import com.bakerystudios.gui.TextBox;
 
 public class MainMenu implements Updateble, Renderable {
 	
-	//private static boolean option1;
-	//private static boolean option2;
-	//private static boolean option3;
-	//private static boolean click;
 	public static boolean enter;
-	private BufferedImage background;
+	private BufferedImage background1;
+	private BufferedImage background2;
 	
 	public MainMenu() {
 		try {
-			background = ImageIO.read(getClass().getResource("/sprites/tittle.png"));
+			background1 = ImageIO.read(getClass().getResource("/sprites/tittle1.png"));
+			background2 = ImageIO.read(getClass().getResource("/sprites/tittle2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,26 +59,22 @@ public class MainMenu implements Updateble, Renderable {
 		fillCentralizedRect(g, y + 5, width - 10, height - 10);
 
 		g.setColor(Color.BLACK);
-		drawCentralizedString(g, "Aperte ENTER para jogar", y + 53);
+		drawCentralizedString(g, "Aperte ENTER para jogar", y + 45);
 	}
 
 	@Override
 	public void render(Graphics g) {
-		//int y = (int) (Screen.SCALE_WIDTH * 0.11);
 		int y = 100;
 		int width = 400;
 		int height = 200;
 		
 		g.setColor(Color.BLACK);
 		g.setFont(Game.menuFont);
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(background1, 0, 0, null);
 		
 		drawButton(g);
 		
-		g.setColor(new Color(111, 83, 39));
-		fillCentralizedRect(g, y, width, height);
-		g.setColor(new Color(190, 163, 115));
-		fillCentralizedRect(g, y + 5, width - 10, height - 10);
+
 		
 
 		

@@ -146,6 +146,7 @@ public class World {
 				|| (tiles[x3 + (y3 * WIDTH)] instanceof WallTile) || (tiles[x4 + (y4 * WIDTH)] instanceof WallTile));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loadEntities() {
 		placaDialogue_SECOND = new ArrayList[2];
 		for (int i = 0; i < placaDialogue_SECOND.length; i++)
