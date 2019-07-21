@@ -9,6 +9,8 @@ public class eventBlock extends Entity {
 	private boolean active = false;
 	private boolean tryActive = false;
 	
+	private boolean used = false;
+	
 	private boolean choose = false;
 	
 	public eventBlock(int x, int y, int width, int height, BufferedImage sprite) {
@@ -37,6 +39,14 @@ public class eventBlock extends Entity {
 
 	public void setChoose(boolean choose) {
 		this.choose = choose;
+	}
+
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
 	}
 
 }

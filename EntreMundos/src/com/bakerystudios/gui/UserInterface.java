@@ -8,6 +8,7 @@ import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.entities.Anotacao;
 import com.bakerystudios.entities.Chest;
+import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
@@ -63,7 +64,12 @@ public class UserInterface implements Renderable, Updateble {
 			}
 		}
 
-		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro) {
+		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro || Game.diario.eventActiveLivro) {
+			if(Game.diario.eventActiveLivro) {
+				Game.diario.anotacaoDialogue.eventoAnotacao(g);
+				return;
+			}
+			
 			for (int j = 0; j < Game.entities.size(); j++) {
 				Entity atual = Game.entities.get(j);
 				if (atual instanceof Door && Game.uiDoor) {

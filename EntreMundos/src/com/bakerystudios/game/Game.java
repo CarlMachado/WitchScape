@@ -18,6 +18,7 @@ import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.engine.Spritesheet;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
+import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.EventManager;
 import com.bakerystudios.entities.Player;
@@ -78,6 +79,8 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static boolean uiNpc = false;
 	public static boolean uiPlaca = false;
 	public static boolean uiLivro = false;
+	
+	public static Diario diario;
 
 	public Game() {
 		// Object instantiation
@@ -117,6 +120,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		entities = new ArrayList<Entity>();
 		entities.add(player);
 		entities.add(new Witch(272, 272, Tile.SIZE, Tile.SIZE, null));
+		diario = new Diario();
 		
 		// carregamento dos mapas
 		world = new ArrayList<>();
@@ -172,6 +176,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
+			diario.update();
 			for(Teleport t : teleport) {
 				t.update();
 			}

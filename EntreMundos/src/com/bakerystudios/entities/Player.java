@@ -58,6 +58,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	private boolean nextisLivro = false;
 
 	public static boolean inEvent = false;
+	public static boolean tryActiveEvent = false;
 
 	public static int controllerInventory = 1; // 1 para Inventario - 2 para Bau
 
@@ -269,6 +270,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (((Princesa) atual).isExistEventPrincesa()) {
 					if (UP_DIR == dir) {
 						((Princesa) atual).setTryEventActivePrincesa(true);
+						tryActiveEvent = true;
 						Game.uiNpc = true;
 					}
 				}
@@ -278,6 +280,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (((Esqueleto) atual).isExistEventEsqueleto()) {
 					if (UP_DIR == dir) {
 						((Esqueleto) atual).setTryEventActiveEsqueleto(true);
+						tryActiveEvent = true;
 						Game.uiNpc = true;
 					}
 				}
@@ -295,8 +298,10 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionDoor(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == UP_DIR)
+			if (dir == UP_DIR) {
 				((Door) atual).setTryAnimation(true);
+				tryActiveEvent = true;
+			}
 			if (!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
 			if (!((Door) atual).getOpenDoor()) {
@@ -308,11 +313,13 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			((Door) atual).setChoose(true);
 			return;
-		} else
-			((Door) atual).setTryAnimation(false);
+		} else 
+			((Door) atual).setTryAnimation(false);		
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
-			if (dir == DOWN_DIR)
+			if (dir == DOWN_DIR) {
 				((Door) atual).setTryAnimation(true);
+				tryActiveEvent = true;
+			}
 			if (!((Door) atual).getAnimation() && ((Door) atual).getTryAnimation())
 				Game.uiDoor = true;
 			if (!((Door) atual).getOpenDoor()) {
@@ -323,21 +330,23 @@ public class Player extends Entity implements Renderable, Updateble {
 			}
 			((Door) atual).setChoose(true);
 			return;
-		} else
+		} else 
 			((Door) atual).setTryAnimation(false);
 	}
 
 	public void collisionChest(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
-			if (dir == UP_DIR)
+			if (dir == UP_DIR) {
 				((Chest) atual).setTryAnimation(true);
+				tryActiveEvent = true;
+			}
 			if (!((Chest) atual).isAnimation() && ((Chest) atual).isTryAnimation())
 				Game.uiChest = true;
 			if (!((Chest) atual).isOpenChest())
 				Inventario.visible = true;
 			nextisChestUp = true;
 			return;
-		} else
+		} else 
 			((Chest) atual).setTryAnimation(false);
 		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) // Baixo
 			nextisChestDown = true;
@@ -352,6 +361,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (dir == UP_DIR) {
 				((Placa) atual).setTryEventActivePlaca(true);
 				Game.uiPlaca = true;
+				tryActiveEvent = true;
 			}
 			((Placa) atual).setChoose(true);
 			nextisPlacaUp = true;
@@ -370,6 +380,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (dir == UP_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
+				tryActiveEvent = true;
 			}
 			nextisVaso = true;
 			return;
@@ -378,6 +389,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (dir == DOWN_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
+				tryActiveEvent = true;
 			}
 			nextisVaso = true;
 			return;
@@ -386,6 +398,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (dir == RIGHT_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
+				tryActiveEvent = true;
 			}
 			nextisVaso = true;
 			return;
@@ -394,6 +407,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			if (dir == LEFT_DIR) {
 				((Vaso) atual).setTryEventActiveVaso(true);
 				((Vaso) atual).setChoose(true);
+				tryActiveEvent = true;
 			}
 			nextisVaso = true;
 			return;
@@ -407,6 +421,7 @@ public class Player extends Entity implements Renderable, Updateble {
 					//System.out.println("aaa");
 					((Livro) atual).setTryEventActiveLivro(true);
 					((Livro) atual).setChoose(true);
+					tryActiveEvent = true;
 				}
 			}
 			nextisLivro = true;
@@ -417,6 +432,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (((Livro) atual).isExistEventLivro()) {
 					((Livro) atual).setTryEventActiveLivro(true);
 					((Livro) atual).setChoose(true);
+					tryActiveEvent = true;
 				}			
 			}
 			nextisLivro = true;
@@ -427,6 +443,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (((Livro) atual).isExistEventLivro()) {
 					((Livro) atual).setTryEventActiveLivro(true);
 					((Livro) atual).setChoose(true);
+					tryActiveEvent = true;
 				}
 			}
 			nextisLivro = true;
@@ -437,6 +454,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				if (((Livro) atual).isExistEventLivro()) {
 					((Livro) atual).setTryEventActiveLivro(true);
 					((Livro) atual).setChoose(true);
+					tryActiveEvent = true;
 				}
 			}
 			nextisLivro = true;
@@ -469,7 +487,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public boolean existTrueNext() {
 		if (nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight
-				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso || nextisLivro)
+				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso || nextisLivro || tryActiveEvent)
 			return true;
 		else
 			return false;
@@ -477,6 +495,7 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void correctCollisionWithOthers() {
 		if (existTrueNext()) {
+			tryActiveEvent = false;
 			for (Entity atual : Game.entities) {
 				if (atual instanceof Door) {
 					((Door) atual).setChoose(false);

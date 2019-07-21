@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.bakerystudios.entities.Chest;
+import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.Esqueleto;
@@ -47,6 +48,19 @@ public class PlayerInput extends Input {
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && !Game.diario.eventActiveLivro
+						&& !Player.tryActiveEvent) {
+					Game.diario.eventActiveLivro = true;
+					Game.diario.anotacaoDialogue.setStatus(true);
+					Player.inEvent = true;
+				}else if(Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && Game.diario.eventActiveLivro
+						&& !Player.tryActiveEvent) {
+					if (!Game.diario.getAnotacaoDialogue().isLestPage())
+						Game.diario.getAnotacaoDialogue().setNextPaginaSelected(true);
+					else 
+						Game.diario.getAnotacaoDialogue().setExit(true);
+				}
+
 				for (Entity atual : Game.entities) {
 					if (atual instanceof Door) {
 						if (((Door) atual).getTryAnimation() && !((Door) atual).getAnimation()) {
@@ -132,7 +146,7 @@ public class PlayerInput extends Input {
 							Player.inEvent = true;
 							((Placa) atual).setEventActivePlaca(true);
 							((Placa) atual).setTryEventActivePlaca(false);
-							
+
 							Game.uiPlaca = true;
 							((Placa) atual).getAnotacao().setStatus(true);
 							((Placa) atual).setChoose(true);
@@ -142,7 +156,7 @@ public class PlayerInput extends Input {
 							else {
 								// ((Placa) atual).setEventActivePlaca(false);
 								((Placa) atual).getAnotacao().setExit(true);
-								//Player.inEvent = false;
+								// Player.inEvent = false;
 							}
 						}
 					} else if (atual instanceof Vaso) {
@@ -170,10 +184,10 @@ public class PlayerInput extends Input {
 					} else if (atual instanceof Livro) {
 						if (((Livro) atual).isTryEventActiveLivro() && !((Livro) atual).isEventActiveLivro()
 								&& ((Livro) atual).isChoose()) {
-							//System.out.println("vai pro inferno");
+							// System.out.println("vai pro inferno");
 							((Livro) atual).setAnimation(true);
 							((Livro) atual).setTryEventActiveLivro(false);
-							
+
 							Game.uiLivro = true;
 							((Livro) atual).getAnotacaoDialogue().setStatus(true);
 							((Livro) atual).setChoose(true);
@@ -184,23 +198,26 @@ public class PlayerInput extends Input {
 							else {
 								// ((Placa) atual).setEventActivePlaca(false);
 								((Livro) atual).getAnotacaoDialogue().setExit(true);
-								//Player.inEvent = false;
+								// Player.inEvent = false;
 							}
 						}
-							/*
-							 * else if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isChoose())
-							 * { if (!((Livro) atual).getAnotacaoDialogue().isEventIsOver() && !((Livro)
-							 * atual).getAnotacaoDialogue().isNextPaginaSelected()) { ((Livro)
-							 * atual).getAnotacaoDialogue().setNextPaginaSelected(true); } if (((Livro)
-							 * atual).getAnotacaoDialogue().isEventIsOver()) { System.out.println("acaba");
-							 * ((Livro) atual).getAnotacaoDialogue().setExitSelected(true); Player.inEvent =
-							 * false; } }
-							 */
+						/*
+						 * else if (((Livro) atual).isEventActiveLivro() && ((Livro) atual).isChoose())
+						 * { if (!((Livro) atual).getAnotacaoDialogue().isEventIsOver() && !((Livro)
+						 * atual).getAnotacaoDialogue().isNextPaginaSelected()) { ((Livro)
+						 * atual).getAnotacaoDialogue().setNextPaginaSelected(true); } if (((Livro)
+						 * atual).getAnotacaoDialogue().isEventIsOver()) { System.out.println("acaba");
+						 * ((Livro) atual).getAnotacaoDialogue().setExitSelected(true); Player.inEvent =
+						 * false; } }
+						 */
 					}
 				}
 			}
-			if (Player.inEvent) {				
+			if (Player.inEvent) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && Game.diario.eventActiveLivro) 
+						Game.diario.getAnotacaoDialogue().setExit(true);
+
 					for (Entity atual : Game.entities) {
 						if (atual instanceof Chest) {
 							if (((Chest) atual).isOpenChest()) {
@@ -233,13 +250,12 @@ public class PlayerInput extends Input {
 						}
 					}
 				}
-			} 
-			if (e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_2
-					|| e.getKeyCode() == KeyEvent.VK_3 || e.getKeyCode() == KeyEvent.VK_4
-					|| e.getKeyCode() == KeyEvent.VK_5 || e.getKeyCode() == KeyEvent.VK_6
-					|| e.getKeyCode() == KeyEvent.VK_7 || e.getKeyCode() == KeyEvent.VK_8
-					|| e.getKeyCode() == KeyEvent.VK_9) {
-				//System.out.println("key " + e.getKeyCode());
+			}
+			if (e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_2 || e.getKeyCode() == KeyEvent.VK_3
+					|| e.getKeyCode() == KeyEvent.VK_4 || e.getKeyCode() == KeyEvent.VK_5
+					|| e.getKeyCode() == KeyEvent.VK_6 || e.getKeyCode() == KeyEvent.VK_7
+					|| e.getKeyCode() == KeyEvent.VK_8 || e.getKeyCode() == KeyEvent.VK_9) {
+				// System.out.println("key " + e.getKeyCode());
 				for (Entity atual : Game.entities)
 					if (atual instanceof Chest)
 						if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus()
