@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import com.bakerystudios.game.input.MenuInput;
 import com.bakerystudios.game.input.PlayerInput;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.GraphicUserInterface;
+import com.bakerystudios.gui.TextBox;
 import com.bakerystudios.inventario.Inventario;
 import com.bakerystudios.sound.AudioManager;
 import com.bakerystudios.teleport.Teleport;
@@ -73,6 +75,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static List<Entity> entities;
 	public static Inventario inventario;
 
+	public static boolean gameEvent = false;
 	public static boolean uiDoor = false;
 	public static boolean uiChest = false;
 	public static boolean uiNpc = false;
@@ -110,35 +113,33 @@ public class Game implements Runnable, Renderable, Updateble {
 		wall = new Spritesheet("/sprites/wall.png");
 		
 		inventario = new Inventario(); // Precisou
-
-
-		// carregamento das entidades
 		player = new Player(0, 0, Tile.SIZE, Tile.SIZE, null);
 		entities = new ArrayList<Entity>();
-		entities.add(player);
-		entities.add(new Witch(272, 272, Tile.SIZE, Tile.SIZE, null));
-		
+
 		// carregamento dos mapas
 		world = new ArrayList<>();
-		world.add(new World("/levels/map.png", "/levels/map_collision.png", false));
-		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png", true));
-		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png", true));
+		world.add(new World("/levels/map.png", "/levels/map_collision.png"));
+		
+
+		// carregamento das entidades
+		entities.add(player);
+		entities.add(new Witch(272, 272, Tile.SIZE, Tile.SIZE, null));
 	}
 	
 	public void createTeleports() {
 		teleport = new ArrayList<>();
 		// casa > segundo andar
-		teleport.add(new Teleport(416, 544, Tile.SIZE, Tile.SIZE, 160, 224, MAP, SEC_FLOOR, Player.LEFT_DIR));
+		teleport.add(new Teleport(416, 544, Tile.SIZE, Tile.SIZE, 1344, 752, Player.LEFT_DIR));
 		// segundo andar > casa
-		teleport.add(new Teleport(176, 224, Tile.SIZE, Tile.SIZE, 400, 544, SEC_FLOOR, MAP, Player.LEFT_DIR));
+		teleport.add(new Teleport(1360, 752, Tile.SIZE, Tile.SIZE, 400, 544, Player.LEFT_DIR));
 		// baixo > cima
-		teleport.add(new Teleport(400, 320, Tile.SIZE, Tile.SIZE, 400, 208, MAP, MAP, Player.UP_DIR));
+		teleport.add(new Teleport(400, 320, Tile.SIZE, Tile.SIZE, 400, 208, Player.UP_DIR));
 		// cima > baixo
-		teleport.add(new Teleport(400, 224, Tile.SIZE, Tile.SIZE, 400, 336, MAP, MAP, Player.DOWN_DIR));
+		teleport.add(new Teleport(400, 224, Tile.SIZE, Tile.SIZE, 400, 336, Player.DOWN_DIR));
 		// casa > calabouço
-		teleport.add(new Teleport(416, 432, Tile.SIZE, Tile.SIZE, 256, 320, MAP, DUNGEON, Player.RIGHT_DIR));
+		teleport.add(new Teleport(416, 432, Tile.SIZE, Tile.SIZE, 1152, 288, Player.RIGHT_DIR));
 		// calabouço > casa
-		teleport.add(new Teleport(240, 320, Tile.SIZE, Tile.SIZE, 400, 432, DUNGEON, MAP, Player.LEFT_DIR));
+		teleport.add(new Teleport(1136, 288, Tile.SIZE, Tile.SIZE, 400, 432, Player.LEFT_DIR));
 	}
 	
 	public void loadFonts() {
@@ -187,6 +188,14 @@ public class Game implements Runnable, Renderable, Updateble {
 	private void nonPixelatedRender(Graphics g) {
 		gui.render(g);
 		inventario.render(g);
+		
+		for(Entity entity : entities) {
+			if(entity instanceof Witch) {
+				if(((Witch) entity).isSeeingPlayer())
+					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
+				break;
+			}
+		}
 		
 		g.setColor(Color.RED);
 		g.setFont(new Font("arial", Font.PLAIN, 15));

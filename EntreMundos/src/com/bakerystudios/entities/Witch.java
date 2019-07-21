@@ -1,17 +1,25 @@
 package com.bakerystudios.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.game.Game;
+import com.bakerystudios.game.screen.Screen;
+import com.bakerystudios.gui.TextBox;
 
 public class Witch extends Entity implements Updateble, Renderable {
 
+	private boolean enter;
+	
 	private boolean isHunting = true;
 	private boolean seeingPlayer = false;
+	private boolean teleporting = false;
 	
 	private boolean moved = true;
 	private int waitFrames = 0, maxWaitFrames = 60;
@@ -45,6 +53,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 	private void hunting() {
 		animation();
 		walk();
+		vision();
 		if(x == 160) {
 			moved = false;
 			left = false;
@@ -55,7 +64,15 @@ public class Witch extends Entity implements Updateble, Renderable {
 			right = false;
 			waitToWalk(LEFT_DIR);
 		}
-		hunt();
+		Game.gameEvent = seeingPlayer == true? true : false;
+		if(teleporting) {
+			// eixo x
+			Game.player.setX(480);
+			// eixo y
+			Game.player.setY(624);
+			Game.player.setDir(RIGHT_DIR);
+			teleporting = false;
+		}
 	}
 	
 	private void walk() {
@@ -92,24 +109,96 @@ public class Witch extends Entity implements Updateble, Renderable {
 		}
 	}
 	
-	
-	
-	private void hunt() {
-		//visao andando para a direita
+	private void vision() {
+		// visao andando para a direita e esquerda em baixo e em cima
+		// limitador da bruxa
 		if(x <= 256  && x >= 192 && right &&
-				Game.player.getX() <= 256 && Game.player.getX() >= 208 &&
-				Game.player.getY() <= 336 && Game.player.getY() >= 209) {
+				// eixo x
+				Game.player.getX() > 192 && Game.player.getX() < 256 &&
+				// eixo y
+				Game.player.getY() >= 208 && Game.player.getY() <= 336) {
+			
 			seeingPlayer = true;
-			System.out.println("viu");
+			//System.out.println("viu dir");
+		}
+		// visao andando para a direita e esquerda em baixo e em cima
+		// limitador da bruxa
+		if(x <= 256  && x >= 192 && left &&
+				// limitador player eixo x
+				Game.player.getX() > 192 && Game.player.getX() < 256 &&
+				// limitador player eixo y
+				Game.player.getY() >= 208 && Game.player.getY() <= 336) {
+			
+			seeingPlayer = true;
+			//System.out.println("viu esq");
+		}
+		// visao da esquerda
+		// limitador da bruxa
+		if(left &&
+				// limitador player eixo x
+				Game.player.getX() >= 128 && Game.player.getX() <= 272 &&
+				// limitador player eixo y
+				Game.player.getY() >= 256 && Game.player.getY() <= 288) {
+			
+			seeingPlayer = true;
+			//System.out.println("esq");
+		}
+		// visao da esquerda
+		// limitador da bruxa
+		if(right &&
+				// limitador player eixo x
+				Game.player.getX() >= 160 && Game.player.getX() <= 272 &&
+				// limitador player eixo y
+				Game.player.getY() >= 256 && Game.player.getY() <= 288) {
+			
+			seeingPlayer = true;
+			//System.out.println("dir");
 		}
 	}
 
 	@Override
 	public void update() {
-		if(isHunting) {
+		if(isHunting && !seeingPlayer) {
 			hunting();
 		}
 
+		if(enter) {
+			if(seeingPlayer) {
+				seeingPlayer = false;
+				teleporting = true;
+			}
+		}
+	}
+	
+	protected static void drawCentralizedString(Graphics g, String str, int y) {
+		g.drawString(str, Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth(str) / 2, y);
+	}
+	
+	protected static void fillCentralizedRect(Graphics g, int y, int width, int height) {
+		g.fillRect(Screen.SCALE_WIDTH / 2 - width / 2, y, width, height);
+	}
+	
+	public static void showDialog(Graphics g, String t1, String t2, String t3, boolean esc , boolean enter) {
+		int y = 500;
+		int width = 700;
+		int height = 200;
+		
+		g.setFont(Game.boxFont);
+		g.setColor(new Color(111, 83, 39));
+		fillCentralizedRect(g, y, width, height);
+		g.setColor(new Color(190, 163, 115));
+		fillCentralizedRect(g, y + 5, width - 10, height - 10);
+		
+		g.setColor(Color.BLACK);
+		if(t1 != null) drawCentralizedString(g, t1, 550);
+		if(t2 != null) drawCentralizedString(g, t2, 600);
+		if(t3 != null) drawCentralizedString(g, t3, 650);
+
+		g.setColor(Color.BLACK);
+		if(enter) g.drawString("ENTER", 900, y + 190);
+		if(esc) g.drawString("ESC", 300, y + 190);
+		
+		System.out.println("desenhou");
 	}
 
 	@Override
@@ -127,6 +216,22 @@ public class Witch extends Entity implements Updateble, Renderable {
 			g.drawImage(downSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 		}
+	}
+
+	public boolean isEnter() {
+		return enter;
+	}
+
+	public void setEnter(boolean enter) {
+		this.enter = enter;
+	}
+
+	public boolean isSeeingPlayer() {
+		return seeingPlayer;
+	}
+
+	public void setSeeingPlayer(boolean seeingPlayer) {
+		this.seeingPlayer = seeingPlayer;
 	}
 	
 }

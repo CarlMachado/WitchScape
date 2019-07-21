@@ -71,15 +71,15 @@ public class UserInterface implements Renderable, Updateble {
 					// g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
 					if (!((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA ABERTA
 						if (((Door) atual).isChave()) {
-							TextBox.showPopUp(g, 470, "Aperte ENTER para abrir a porta.",
+							TextBox.showPopUp(g, Game.boxFont, 470, "Aperte ENTER para abrir a porta.",
 									"Você irá precisar de uma chave.");
 							return;
 						} else {
-							TextBox.showPopUp(g, 510, "Aperte ENTER para abrir a porta.", null);
+							TextBox.showPopUp(g, Game.boxFont, 510, "Aperte ENTER para abrir a porta.", null);
 							return;
 						}
 					} else if (((Door) atual).getOpenDoor() && ((Door) atual).isChoose()) { // PORTA FECHADA
-						TextBox.showPopUp(g, 510, "Aperte ENTER para fechar a porta.", null);
+						TextBox.showPopUp(g, Game.boxFont, 510, "Aperte ENTER para fechar a porta.", null);
 						return;
 					}
 				}
@@ -87,7 +87,7 @@ public class UserInterface implements Renderable, Updateble {
 						&& ((Chest) atual).isTryAnimation()) {
 					// g.setColor(Color.white);
 					// g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-					TextBox.showPopUp(g, 510, "Aperte ENTER para abrir o baú.", null);
+					TextBox.showPopUp(g, Game.boxFont, 510, "Aperte ENTER para abrir o baú.", null);
 				}
 				if (atual instanceof Chest) {
 					Chest chest = (Chest) atual;
@@ -161,7 +161,7 @@ public class UserInterface implements Renderable, Updateble {
 						} else if (!((Princesa) atual).isEventActivePrincesa() && ((Princesa) atual).isChoose()) {
 							g.setColor(Color.white);
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-							TextBox.showPopUp(g, 510, "Aperte ENTER para conversar com o NPC.", null);
+							TextBox.showPopUp(g, Game.boxFont, 510, "Aperte ENTER para conversar com o NPC.", null);
 						}
 					}
 					if (atual instanceof Esqueleto) {
@@ -171,7 +171,7 @@ public class UserInterface implements Renderable, Updateble {
 						} else if (!((Esqueleto) atual).isEventActiveEsqueleto() && ((Esqueleto) atual).isChoose()) {
 							g.setColor(Color.white);
 							g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-							TextBox.showPopUp(g, 510, "Aperte ENTER para conversar com o NPC.", null);
+							TextBox.showPopUp(g, Game.boxFont, 510, "Aperte ENTER para conversar com o NPC.", null);
 						}
 					}
 				} else if (atual instanceof Placa && Game.uiPlaca) {
@@ -182,7 +182,7 @@ public class UserInterface implements Renderable, Updateble {
 					if (!((Placa) atual).isEventActivePlaca() && ((Placa) atual).isChoose()) {
 						g.setColor(Color.white);
 						g.setFont(new Font("arial", Font.BOLD, (int) (Screen.SCALE_WIDTH * 0.030)));
-						TextBox.showPopUp(g, 510, "Aperte ENTER para ler a placa.", null);
+						TextBox.showPopUp(g, Game.boxFont, 510, "Aperte ENTER para ler a placa.", null);
 					}
 				} else if (atual instanceof Livro && Game.uiLivro) {
 					

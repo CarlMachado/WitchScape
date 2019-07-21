@@ -10,6 +10,10 @@ import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 
 public class PauseMenu implements Updateble, Renderable {
+	
+	private static boolean option1;
+	private static boolean option2;
+	private static boolean click;
 
 	protected static void drawCentralizedString(Graphics g, String str, int y) {
 		g.drawString(str, Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth(str) / 2, y);
@@ -39,6 +43,18 @@ public class PauseMenu implements Updateble, Renderable {
 		fillCentralizedRect(g, width, height);
 		g.setColor(new Color(190, 163, 115));
 		fillCentralizedRect(g, width - 10, height - 10);
+		
+		if(option1) {
+			
+		} else {
+			
+		}
+		
+		if(option2) {
+			
+		} else {
+			
+		}
 	}
 	
 }
