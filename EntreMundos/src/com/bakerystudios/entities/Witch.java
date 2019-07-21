@@ -2,16 +2,20 @@ package com.bakerystudios.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bakerystudios.Main;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
+import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.screen.Screen;
 import com.bakerystudios.gui.TextBox;
+import com.bakerystudios.inventario.Inventario;
 
 public class Witch extends Entity implements Updateble, Renderable {
 
@@ -65,13 +69,35 @@ public class Witch extends Entity implements Updateble, Renderable {
 			waitToWalk(LEFT_DIR);
 		}
 		Game.gameEvent = seeingPlayer == true? true : false;
+		
 		if(teleporting) {
-			// eixo x
-			Game.player.setX(480);
-			// eixo y
-			Game.player.setY(624);
-			Game.player.setDir(RIGHT_DIR);
-			teleporting = false;
+			boolean hasKey = false;
+			for(int i = 0; i < Inventario.slot.length; i++) {
+				if(Inventario.slot[i].getIdentity() == "chave1") {
+					hasKey = true;
+				}
+			}
+			if(hasKey) {
+				// eixo x
+				Game.player.setX(480);
+				// eixo y
+				Game.player.setY(624);
+				Game.player.setDir(RIGHT_DIR);
+				teleporting = false;
+			} else {
+				for (Entity entity : Game.entities) {
+					if (entity instanceof Vaso) {
+						entity = new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta", Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE));
+						// eixo x
+						Game.player.setX(480);
+						// eixo y
+						Game.player.setY(624);
+						Game.player.setDir(RIGHT_DIR);
+						teleporting = false;
+						break;
+					}
+				}
+			}
 		}
 	}
 	
@@ -168,37 +194,6 @@ public class Witch extends Entity implements Updateble, Renderable {
 				teleporting = true;
 			}
 		}
-	}
-	
-	protected static void drawCentralizedString(Graphics g, String str, int y) {
-		g.drawString(str, Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth(str) / 2, y);
-	}
-	
-	protected static void fillCentralizedRect(Graphics g, int y, int width, int height) {
-		g.fillRect(Screen.SCALE_WIDTH / 2 - width / 2, y, width, height);
-	}
-	
-	public static void showDialog(Graphics g, String t1, String t2, String t3, boolean esc , boolean enter) {
-		int y = 500;
-		int width = 700;
-		int height = 200;
-		
-		g.setFont(Game.boxFont);
-		g.setColor(new Color(111, 83, 39));
-		fillCentralizedRect(g, y, width, height);
-		g.setColor(new Color(190, 163, 115));
-		fillCentralizedRect(g, y + 5, width - 10, height - 10);
-		
-		g.setColor(Color.BLACK);
-		if(t1 != null) drawCentralizedString(g, t1, 550);
-		if(t2 != null) drawCentralizedString(g, t2, 600);
-		if(t3 != null) drawCentralizedString(g, t3, 650);
-
-		g.setColor(Color.BLACK);
-		if(enter) g.drawString("ENTER", 900, y + 190);
-		if(esc) g.drawString("ESC", 300, y + 190);
-		
-		System.out.println("desenhou");
 	}
 
 	@Override
