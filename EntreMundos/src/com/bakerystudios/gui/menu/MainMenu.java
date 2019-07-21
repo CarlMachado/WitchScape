@@ -46,6 +46,23 @@ public class MainMenu implements Updateble, Renderable {
 	protected void fillCentralizedRect(Graphics g, int y, int width, int height) {
 		g.fillRect(Screen.SCALE_WIDTH / 2 - width / 2, y, width, height);
 	}
+	
+	private void drawButton(Graphics g) {
+		int y = 500;
+		int fontHeight = g.getFontMetrics().getHeight();
+		int fontWidth = g.getFontMetrics().stringWidth("Aperte ENTER para jogar");
+		
+		int width = fontWidth + 30;
+		int height = fontHeight + 20;
+		
+		g.setColor(new Color(111, 83, 39));
+		fillCentralizedRect(g, y, width, height);
+		g.setColor(new Color(190, 163, 115));
+		fillCentralizedRect(g, y + 5, width - 10, height - 10);
+
+		g.setColor(Color.BLACK);
+		drawCentralizedString(g, "Aperte ENTER para jogar", y + 53);
+	}
 
 	@Override
 	public void render(Graphics g) {
@@ -58,8 +75,7 @@ public class MainMenu implements Updateble, Renderable {
 		g.setFont(Game.menuFont);
 		g.drawImage(background, 0, 0, null);
 		
-		
-		TextBox.showPopUp(g, Game.menuFont, 550, "Aperte ENTER para jogar", null);
+		drawButton(g);
 		
 		g.setColor(new Color(111, 83, 39));
 		fillCentralizedRect(g, y, width, height);

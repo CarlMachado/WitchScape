@@ -18,9 +18,8 @@ public class TextBox {
 	}
 	
 	public static void showPopUp(Graphics g, Font font, int y, String t1, String t2) {
-		g.setFont(font);
-		
 		if(t1 == null) return;
+		g.setFont(font);
 		
 		int fontHeight = g.getFontMetrics().getHeight();
 		int fontWidth1 = g.getFontMetrics().stringWidth(t1);
@@ -30,7 +29,7 @@ public class TextBox {
 				fontWidth1 + 20 : fontWidth1 > fontWidth2 ? 
 						fontWidth1 + 20 : fontWidth2 + 20;
 		int height = (int) (t2 == null ?
-				fontHeight * 1.30 : fontHeight * 2.10);
+				fontHeight + 20 : fontHeight * 2 + 20);
 		
 		g.setColor(new Color(111, 83, 39));
 		fillCentralizedRect(g, y, width, height);
@@ -40,8 +39,6 @@ public class TextBox {
 		g.setColor(Color.BLACK);
 		if(t1 != null) drawCentralizedString(g, t1, y + 32);
 		if(t2 != null) drawCentralizedString(g, t2, y + 62);
-		
-		g.setColor(Color.BLACK);
 	}
 	
 	public static void showDialog(Graphics g, Font font, String t1, String t2, String t3, boolean esc , boolean enter) {
