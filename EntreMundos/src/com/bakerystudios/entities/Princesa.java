@@ -8,6 +8,7 @@ import java.util.List;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.camera.Camera;
+import com.bakerystudios.game.Game;
 
 public class Princesa extends Entity implements Renderable, Updateble {
 
@@ -52,11 +53,20 @@ public class Princesa extends Entity implements Renderable, Updateble {
 	public void update() {
 		animation();
 		if (eventActivePrincesa) {
-			anotacaoDialogue.setStatusEventoAnotacao(true);
+			Game.uiNpc = true;
+			anotacaoDialogue.setStatus(true);
 			choose = true;
-		}
-		else {
-			anotacaoDialogue.setStatusEventoAnotacao(false);
+			if (anotacaoDialogue.isSinalizeExit()) {
+				System.out.println("teste");
+				eventActivePrincesa = false;
+				tryEventActivePrincesa = false;
+				anotacaoDialogue.setSinalizeExit(false);
+				anotacaoDialogue.setExit(false);
+				Game.uiNpc = false;
+				Player.inEvent = false;
+				
+				this.anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, princesaDialogue);
+			}
 		}
 	}
 

@@ -77,6 +77,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static boolean uiChest = false;
 	public static boolean uiNpc = false;
 	public static boolean uiPlaca = false;
+	public static boolean uiLivro = false;
 
 	public Game() {
 		// Object instantiation
@@ -98,7 +99,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		rand = new Random();
 		frame = new BufferedImage(Screen.WIDTH, Screen.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		em = new EventManager();
-		inventario = new Inventario();
+		
 		gui = new GraphicUserInterface();
 		//audio = new AudioManager();
 		
@@ -107,6 +108,8 @@ public class Game implements Runnable, Renderable, Updateble {
 		characters = new Spritesheet("/sprites/characters.png");
 		doors = new Spritesheet("/sprites/doors.png");
 		wall = new Spritesheet("/sprites/wall.png");
+		
+		inventario = new Inventario(); // Precisou
 
 
 		// carregamento das entidades
@@ -117,9 +120,9 @@ public class Game implements Runnable, Renderable, Updateble {
 		
 		// carregamento dos mapas
 		world = new ArrayList<>();
-		world.add(new World("/levels/map.png", "/levels/map_collision.png"));
-		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png"));
-		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png"));
+		world.add(new World("/levels/map.png", "/levels/map_collision.png", false));
+		world.add(new World("/levels/second_floor.png", "/levels/second_floor_collision.png", true));
+		world.add(new World("/levels/dungeon.png", "/levels/dungeon_collision.png", true));
 	}
 	
 	public void createTeleports() {
