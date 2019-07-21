@@ -13,6 +13,7 @@ import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
 import com.bakerystudios.events.eventBlock;
+import com.bakerystudios.entities.Witch;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.inventario.Inventario;
@@ -224,6 +225,7 @@ public class PlayerInput extends Input {
 						}
 					}
 				}
+				
 			}
 			if (Player.inEvent) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -307,7 +309,17 @@ public class PlayerInput extends Input {
 				}
 			}
 		}
+		
 
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			for(Entity entity : Game.entities) {
+				if(entity instanceof Witch) {
+					((Witch) entity).setEnter(true);
+					//System.out.println("pressed");
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -335,6 +347,17 @@ public class PlayerInput extends Input {
 						if (((Chest) atual).isTryAnimation() && !((Chest) atual).isAnimation())
 							((Chest) atual).setAnimation(false);
 					}
+				}
+			}
+		}
+		
+
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			for(Entity entity : Game.entities) {
+				if(entity instanceof Witch) {
+					((Witch) entity).setEnter(false);
+					//System.out.println("relesead");
+					break;
 				}
 			}
 		}

@@ -67,7 +67,7 @@ public class Inventario implements Renderable, Updateble {
 			// fillCentralizedRect(g, 575, 490, 120);
 
 			g.setColor(Color.BLACK);
-			TextBox.showPopUp(g, 570, slot[selectedItem].getShortName(), null);
+			TextBox.showPopUp(g, Game.boxFont, 570, slot[selectedItem].getShortName(), null);
 			// drawCentralizedString(g, "Exemplo de nome de item.", 605);
 
 			g.setFont(Game.inventFont);

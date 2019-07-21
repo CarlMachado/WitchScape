@@ -1,6 +1,7 @@
 package com.bakerystudios.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import com.bakerystudios.game.Game;
@@ -16,20 +17,19 @@ public class TextBox {
 		g.fillRect(Screen.SCALE_WIDTH / 2 - width / 2, y, width, height);
 	}
 	
-	public static void showPopUp(Graphics g, int y, String t1, String t2) {
-		//int y = 470;
-		
-		g.setFont(Game.boxFont);
-		
+	public static void showPopUp(Graphics g, Font font, int y, String t1, String t2) {
 		if(t1 == null) return;
+		g.setFont(font);
+		
+		int fontHeight = g.getFontMetrics().getHeight();
+		int fontWidth1 = g.getFontMetrics().stringWidth(t1);
+		int fontWidth2 = t2 == null ? 0 : g.getFontMetrics().stringWidth(t2);
 		
 		int width = t2 == null ? 
-				g.getFontMetrics().stringWidth(t1) + 20 : g.getFontMetrics().stringWidth(t1) > g.getFontMetrics().stringWidth(t2) ? 
-							g.getFontMetrics().stringWidth(t1) + 20 : g.getFontMetrics().stringWidth(t2) + 20;
-		int height = t2 == null ?
-				g.getFontMetrics().getHeight() + 20 : g.getFontMetrics().getHeight() * 2 + 25;
-
-		g.setFont(Game.boxFont);
+				fontWidth1 + 20 : fontWidth1 > fontWidth2 ? 
+						fontWidth1 + 20 : fontWidth2 + 20;
+		int height = (int) (t2 == null ?
+				fontHeight + 20 : fontHeight * 2 + 20);
 		
 		g.setColor(new Color(111, 83, 39));
 		fillCentralizedRect(g, y, width, height);
@@ -39,29 +39,30 @@ public class TextBox {
 		g.setColor(Color.BLACK);
 		if(t1 != null) drawCentralizedString(g, t1, y + 32);
 		if(t2 != null) drawCentralizedString(g, t2, y + 62);
-		
-		g.setColor(Color.BLACK);
 	}
 	
-	public static void showDialog(Graphics g, String t1, String t2, String t3) {
+	public static void showDialog(Graphics g, Font font, String t1, String t2, String t3, boolean esc , boolean enter) {
+		g.setFont(font);
+		
 		int y = 500;
 		int width = 700;
 		int height = 200;
 		
-		g.setFont(Game.boxFont);
 		g.setColor(new Color(111, 83, 39));
 		fillCentralizedRect(g, y, width, height);
 		g.setColor(new Color(190, 163, 115));
 		fillCentralizedRect(g, y + 5, width - 10, height - 10);
+		
+		g.setColor(Color.BLACK);
+		if(t1 != null) drawCentralizedString(g, t1, 580);
+		if(t2 != null) drawCentralizedString(g, t2, 610);
+		if(t3 != null) drawCentralizedString(g, t3, 640);
 
 		g.setColor(Color.BLACK);
-		if(t1 != null) drawCentralizedString(g, t1, 550);
-		if(t2 != null) drawCentralizedString(g, t2, 600);
-		if(t3 != null) drawCentralizedString(g, t3, 650);
-
-		g.setColor(Color.BLACK);
-		g.drawString("ENTER", 900, y + 190);
-		g.drawString("ESC", 300, y + 190);
+		if(enter) g.drawString("ENTER", 900, y + 190);
+		if(esc) g.drawString("ESC", 300, y + 190);
+		
+		System.out.println("desenhou");
 	}
 	
 }

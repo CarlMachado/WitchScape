@@ -97,8 +97,10 @@ public class MenuInput extends Input {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		if(e.getX() >= 10 && e.getX() <= 10 &&
+				e.getY() >= 10 && e.getY() <= 10) {
+			
+		}
 	}
 
 	@Override

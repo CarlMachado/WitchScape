@@ -55,10 +55,7 @@ public class World {
 	public Tile[] tiles;
 	public int WIDTH, HEIGHT;
 
-	private boolean load = false;
-
-	public World(String map_path, String colmap_path, boolean load) {
-		this.load = load;
+	public World(String map_path, String colmap_path) {
 		try {
 			loadInfo();
 			loadEntities();
@@ -126,7 +123,7 @@ public class World {
 					}
 					if (pixelAtual == TILE_EVENT_FIRST) {
 						Game.entities.add(new eventBlock(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null,
-								true, "chave2", "Chave Por„o", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
+								true, "chave2", "Chave Por√£o", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
 					}
 				}
 			}
@@ -154,23 +151,19 @@ public class World {
 	}
 
 	public void loadEntities() {
-		if (!load) {
-			load = true;
-
-			placaDialogue_SECOND = new ArrayList[2];
-			for (int i = 0; i < placaDialogue_SECOND.length; i++)
-				placaDialogue_SECOND[i] = new ArrayList<String>();
-			placaDialogue_SECOND[0].add("Livro que eu amo");
-			placaDialogue_SECOND[0].add("funcione plz");
-			placaDialogue_SECOND[1].add("piroca vai");
-			placaDialogue_SECOND[1].add("teste testante testador testmaster");
-
-			// J· que n„o sei onde colocar
-			Game.entities
-					.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
-			Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
-					Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
-		}
+		placaDialogue_SECOND = new ArrayList[2];
+		for (int i = 0; i < placaDialogue_SECOND.length; i++)
+			placaDialogue_SECOND[i] = new ArrayList<String>();
+		placaDialogue_SECOND[0].add("Livro que eu amo");
+		placaDialogue_SECOND[0].add("funcione plz");
+		placaDialogue_SECOND[1].add("piroca vai");
+		placaDialogue_SECOND[1].add("teste testante testador testmaster");
+		
+		// J√° que n√£o sei onde colocar
+		Game.entities
+				.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
+		Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
+				Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
 	}
 
 	public void loadInfo() {

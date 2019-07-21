@@ -78,7 +78,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void movmentChecker() {
-		if (up) {
+		if (up && !Game.gameEvent) {
 			if (!inEvent && !moved)
 				dir = UP_DIR;
 			if (!nextisPlacaUp && !nextisNpcUp && !inEvent && !nextisChestUp && !nextisDoorUp
@@ -89,7 +89,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				correctCollisionGeneral();
 			}
 			// y -= speed;
-		} else if (down) {
+		} else if (down && !Game.gameEvent) {
 			if (!inEvent && !moved)
 				dir = DOWN_DIR;
 			if (!nextisPlacaDown && !nextisNpcDown && !inEvent && !nextisChestDown && !nextisDoorDown
@@ -100,7 +100,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				correctCollisionGeneral();
 			}
 			// y += speed;
-		} else if (right) {
+		} else if (right && !Game.gameEvent) {
 			if (!inEvent && !moved)
 				dir = RIGHT_DIR;
 			if (!nextisPlacaRight && !nextisNpcRight && !inEvent && !nextisChestRight
@@ -111,7 +111,7 @@ public class Player extends Entity implements Renderable, Updateble {
 				correctCollisionGeneral();
 			}
 			// x += speed;
-		} else if (left) {
+		} else if (left && !Game.gameEvent) {
 			if (!inEvent && !moved)
 				dir = LEFT_DIR;
 			if (!nextisPlacaLeft && !nextisNpcLeft && !inEvent && !nextisChestLeft
