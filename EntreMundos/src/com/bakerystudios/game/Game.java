@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.Random;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
-import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.engine.Spritesheet;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
@@ -82,6 +80,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static boolean uiNpc = false;
 	public static boolean uiPlaca = false;
 	public static boolean uiLivro = false;
+	public static boolean uiAlavanca = false;
 	
 	public static Diario diario;
 
@@ -98,7 +97,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		// carregamento das fontes
 		loadFonts();
 		
-		// criaÃ§Ã£o dos teleports
+		// criação dos teleports
 		createTeleports();
 		
 		// outros carregamentos
@@ -140,9 +139,9 @@ public class Game implements Runnable, Renderable, Updateble {
 		teleport.add(new Teleport(400, 320, Tile.SIZE, Tile.SIZE, 400, 208, Player.UP_DIR));
 		// cima > baixo
 		teleport.add(new Teleport(400, 224, Tile.SIZE, Tile.SIZE, 400, 336, Player.DOWN_DIR));
-		// casa > calabouÃ§o
+		// casa > calabouço
 		teleport.add(new Teleport(416, 432, Tile.SIZE, Tile.SIZE, 1152, 288, Player.RIGHT_DIR));
-		// calabouÃ§o > casa
+		// calabouço > casa
 		teleport.add(new Teleport(1136, 288, Tile.SIZE, Tile.SIZE, 400, 432, Player.LEFT_DIR));
 	}
 	
@@ -197,7 +196,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		for(Entity entity : entities) {
 			if(entity instanceof Witch) {
 				if(((Witch) entity).isSeeingPlayer())
-					TextBox.showDialog(g, boxFont, "Ei! O que vocÃª estÃ¡ fazendo aqui?", null, null, false, true);
+					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
 				break;
 			}
 		}

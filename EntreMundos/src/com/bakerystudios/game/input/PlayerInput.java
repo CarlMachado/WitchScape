@@ -3,6 +3,7 @@ package com.bakerystudios.game.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import com.bakerystudios.entities.Alavanca;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
@@ -10,10 +11,11 @@ import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Livro;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
+import com.bakerystudios.entities.Poco;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
-import com.bakerystudios.events.eventBlock;
 import com.bakerystudios.entities.Witch;
+import com.bakerystudios.events.eventBlock;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.inventario.Inventario;
@@ -223,9 +225,39 @@ public class PlayerInput extends Input {
 								}
 							}
 						}
+					} else if (atual instanceof Poco) {
+						if (((Poco) atual).isTryEventActivePoco() && !((Poco) atual).isEventActivePoco()
+								&& !((Poco) atual).isUsed() && Game.diario.read >= 2) {
+							((Poco) atual).setTryEventActivePoco(false);
+							((Poco) atual).setEventActivePoco(true);
+						}
+						if (((Poco) atual).isEventActivePoco() && !((Poco) atual).isUsed()) {
+							((Poco) atual).setEventActivePoco(false);
+							for (int j = 0; j < Inventario.slot.length; j++) {
+								if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
+									Inventario.slot[j].setAmount(1);
+									Inventario.slot[j].setIdentity(((Poco) atual).getIdDrop());
+									Inventario.slot[j].setShortName(((Poco) atual).getShortNameDrop());
+									Inventario.slot[j].setImageSlot(((Poco) atual).getImageDrop());
+									((Poco) atual).setUsed(true);
+									break;
+								}
+							}
+						}
+					} else if (atual instanceof Alavanca) {
+						if (((Alavanca) atual).isTryAnimation() && !Player.usedAlavanca
+								&& !((Alavanca) atual).isActive()) {
+							for (int j = 0; j < Inventario.slot.length; j++) {
+								if (Inventario.slot[j].getIdentity() == ((Alavanca) atual).getIdentify()) { // Usa alavanca
+									((Alavanca) atual).setAnimation(true);
+									Player.usedAlavanca = true;
+									break;
+								}
+							}
+						}
 					}
 				}
-				
+
 			}
 			if (Player.inEvent) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -309,13 +341,12 @@ public class PlayerInput extends Input {
 				}
 			}
 		}
-		
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			for(Entity entity : Game.entities) {
-				if(entity instanceof Witch) {
+			for (Entity entity : Game.entities) {
+				if (entity instanceof Witch) {
 					((Witch) entity).setEnter(true);
-					//System.out.println("pressed");
+					// System.out.println("pressed");
 					break;
 				}
 			}
@@ -350,13 +381,12 @@ public class PlayerInput extends Input {
 				}
 			}
 		}
-		
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			for(Entity entity : Game.entities) {
-				if(entity instanceof Witch) {
+			for (Entity entity : Game.entities) {
+				if (entity instanceof Witch) {
 					((Witch) entity).setEnter(false);
-					//System.out.println("relesead");
+					// System.out.println("relesead");
 					break;
 				}
 			}

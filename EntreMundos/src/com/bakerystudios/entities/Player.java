@@ -28,6 +28,8 @@ public class Player extends Entity implements Renderable, Updateble {
 	private int dir = LEFT_DIR;
 	protected static boolean right, left, up, down;
 
+	public static boolean usedAlavanca = false;
+
 	private double speed = 1.0;
 
 	private BufferedImage[] rightSprite;
@@ -42,6 +44,13 @@ public class Player extends Entity implements Renderable, Updateble {
 	private boolean nextisChestDown = false;
 	private boolean nextisChestLeft = false;
 	private boolean nextisChestRight = false;
+
+	private boolean nextisAlavancaUp = false;
+	private boolean nextisAlavancaDown = false;
+	private boolean nextisAlavancaLeft = false;
+	private boolean nextisAlavancaRight = false;
+
+	private boolean nextisPoco = false;
 
 	private boolean nextisNpcUp = false;
 	private boolean nextisNpcDown = false;
@@ -254,6 +263,10 @@ public class Player extends Entity implements Renderable, Updateble {
 				collisionLivro(atual);
 			} else if (atual instanceof eventBlock) {
 				collisionEventBlock(atual);
+			} else if (atual instanceof Poco) {
+				collisionPoco(atual);
+			} else if (atual instanceof Alavanca) {
+				collisionAlavanca(atual);
 			}
 		}
 	}
@@ -265,13 +278,75 @@ public class Player extends Entity implements Renderable, Updateble {
 			return false;
 	}
 
+	public void collisionAlavanca(Entity atual) {
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
+			if (dir == UP_DIR) {
+				((Alavanca) atual).setTryAnimation(true);
+				tryActiveEvent = true;
+			}
+			nextisAlavancaUp = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
+			nextisAlavancaDown = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
+			nextisAlavancaRight = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
+			nextisAlavancaLeft = true;
+			return;
+		}
+	}
+
+	public void collisionPoco(Entity atual) {
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
+			if (dir == UP_DIR) {
+				((Poco) atual).setTryEventActivePoco(true);
+				((Poco) atual).setChoose(true);
+				tryActiveEvent = true;
+			}
+			nextisPoco = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == Tile.SIZE && atual.getX() - this.getX() == 0) { // Baixo
+			if (dir == DOWN_DIR) {
+				((Poco) atual).setTryEventActivePoco(true);
+				((Poco) atual).setChoose(true);
+				tryActiveEvent = true;
+			}
+			nextisPoco = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
+			if (dir == RIGHT_DIR) {
+				((Poco) atual).setTryEventActivePoco(true);
+				((Poco) atual).setChoose(true);
+				tryActiveEvent = true;
+			}
+			nextisPoco = true;
+			return;
+		}
+		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == -Tile.SIZE) { // Esquerda
+			if (dir == LEFT_DIR) {
+				((Poco) atual).setTryEventActivePoco(true);
+				((Poco) atual).setChoose(true);
+				tryActiveEvent = true;
+			}
+			nextisPoco = true;
+			return;
+		}
+	}
+
 	public void collisionEventBlock(Entity atual) {
 		if (Entity.isColidding(this, atual)) {
 			((eventBlock) atual).setTryActive(true);
 			return;
 		}
 	}
-	
+
 	public void collisionNpc(Entity atual) {
 		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			if (atual instanceof Princesa) {
@@ -493,7 +568,8 @@ public class Player extends Entity implements Renderable, Updateble {
 	public boolean existTrueNext() {
 		if (nextisDoorDown || nextisDoorUp || nextisNpcUp || nextisNpcDown || nextisNpcLeft || nextisNpcRight
 				|| nextisPlacaRight || nextisPlacaLeft || nextisPlacaUp || nextisPlacaDown || nextisVaso || nextisLivro
-				|| tryActiveEvent)
+				|| tryActiveEvent || nextisPoco || nextisAlavancaDown || nextisAlavancaUp || nextisAlavancaLeft
+				|| nextisAlavancaRight)
 			return true;
 		else
 			return false;
@@ -526,9 +602,18 @@ public class Player extends Entity implements Renderable, Updateble {
 					((Livro) atual).setChoose(false);
 					((Livro) atual).getAnotacaoDialogue().setExit(false);
 				}
-				if(atual instanceof eventBlock) {
+				if (atual instanceof eventBlock) {
 					((eventBlock) atual).setActive(false);
 					((eventBlock) atual).setTryActive(false);
+				}
+				if (atual instanceof Poco) {
+					((Poco) atual).setChoose(false);
+					((Poco) atual).setEventActivePoco(false);
+					((Poco) atual).setTryEventActivePoco(false);
+				}
+				if(atual instanceof Alavanca) {
+					((Alavanca) atual).setTryAnimation(false);
+					((Alavanca) atual).setAnimation(false);
 				}
 			}
 		}
@@ -553,10 +638,27 @@ public class Player extends Entity implements Renderable, Updateble {
 			nextisDoorUp = false;
 		Game.uiDoor = false;
 	}
+	
+	public void correctCollisionAlavanca() {
+		if (nextisAlavancaDown)
+			nextisAlavancaDown = false;
+		if (nextisAlavancaUp)
+			nextisAlavancaUp = false;
+		if(nextisAlavancaLeft)
+			nextisAlavancaLeft = false;
+		if(nextisAlavancaRight)
+			nextisAlavancaRight = false;
+		Game.uiAlavanca = false;
+	}
 
 	public void correctCollisionVaso() {
 		if (nextisVaso)
 			nextisVaso = false;
+	}
+
+	public void correctCollisionPoco() {
+		if (nextisPoco)
+			nextisPoco = false;
 	}
 
 	public void correctCollisionLivro() {
@@ -715,6 +817,38 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void setNextisLivro(boolean nextisLivro) {
 		this.nextisLivro = nextisLivro;
+	}
+
+	public boolean isNextisAlavancaUp() {
+		return nextisAlavancaUp;
+	}
+
+	public void setNextisAlavancaUp(boolean nextisAlavancaUp) {
+		this.nextisAlavancaUp = nextisAlavancaUp;
+	}
+
+	public boolean isNextisAlavancaLeft() {
+		return nextisAlavancaLeft;
+	}
+
+	public void setNextisAlavancaLeft(boolean nextisAlavancaLeft) {
+		this.nextisAlavancaLeft = nextisAlavancaLeft;
+	}
+
+	public boolean isNextisAlavancaDown() {
+		return nextisAlavancaDown;
+	}
+
+	public void setNextisAlavancaDown(boolean nextisAlavancaDown) {
+		this.nextisAlavancaDown = nextisAlavancaDown;
+	}
+
+	public boolean isNextisAlavancaRight() {
+		return nextisAlavancaRight;
+	}
+
+	public void setNextisAlavancaRight(boolean nextisAlavancaRight) {
+		this.nextisAlavancaRight = nextisAlavancaRight;
 	}
 
 }

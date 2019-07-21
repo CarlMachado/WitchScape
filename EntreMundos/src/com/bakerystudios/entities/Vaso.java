@@ -8,29 +8,30 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.game.Game;
 
-public class Vaso extends Entity implements Renderable, Updateble  {
-	
+public class Vaso extends Entity implements Renderable, Updateble {
+
 	private BufferedImage[] sprites;
 
 	private boolean animation = false;
-	
+
 	private boolean tryEventActiveVaso = false;
 	private boolean eventActiveVaso = false;
 	private boolean broken = false;
 
 	private boolean choose = false;
-	
+
 	private boolean drope = false;
 	private String idDrop;
 	private String shortNameDrop;
 	private BufferedImage imageDrop;
-	
+
 	private int currentAnimacao = 0;
 	private int maxAnimacao = 0;
 	private int currentFrame = 0;
 	private int maxFrame = 10;
-	
-	public Vaso(int x, int y, int width, int height, BufferedImage sprite, String idDrop, String shortNameDrop, BufferedImage imageDrop) {
+
+	public Vaso(int x, int y, int width, int height, BufferedImage sprite, String idDrop, String shortNameDrop,
+			BufferedImage imageDrop) {
 		super(x, y, width, height, sprite);
 		sprites = new BufferedImage[4];
 		for (int i = 0; i < sprites.length; i++) {
@@ -41,15 +42,15 @@ public class Vaso extends Entity implements Renderable, Updateble  {
 		this.shortNameDrop = shortNameDrop;
 		this.imageDrop = imageDrop;
 	}
-	
+
 	public void update() {
 		if (animation) {
 			tryEventActiveVaso = false;
 			currentFrame++;
-			if (currentFrame >= maxFrame) {				
+			if (currentFrame >= maxFrame) {
 				currentFrame = 0;
 				currentAnimacao++;
-				if(currentAnimacao >= 0 && currentAnimacao < maxAnimacao)
+				if (currentAnimacao >= 0 && currentAnimacao < maxAnimacao)
 					sprite = sprites[currentAnimacao];
 			}
 			if (currentAnimacao >= maxAnimacao) {
@@ -62,8 +63,8 @@ public class Vaso extends Entity implements Renderable, Updateble  {
 			}
 		}
 	}
-	
-	public void render (Graphics g) {
+
+	public void render(Graphics g) {
 		super.render(g);
 	}
 
