@@ -19,6 +19,7 @@ import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.engine.Spritesheet;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
+import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.EventManager;
 import com.bakerystudios.entities.Player;
@@ -81,6 +82,8 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static boolean uiNpc = false;
 	public static boolean uiPlaca = false;
 	public static boolean uiLivro = false;
+	
+	public static Diario diario;
 
 	public Game() {
 		// Object instantiation
@@ -95,7 +98,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		// carregamento das fontes
 		loadFonts();
 		
-		// criação dos teleports
+		// criaÃ§Ã£o dos teleports
 		createTeleports();
 		
 		// outros carregamentos
@@ -124,6 +127,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		// carregamento das entidades
 		entities.add(player);
 		entities.add(new Witch(272, 272, Tile.SIZE, Tile.SIZE, null));
+		diario = new Diario();
 	}
 	
 	public void createTeleports() {
@@ -136,9 +140,9 @@ public class Game implements Runnable, Renderable, Updateble {
 		teleport.add(new Teleport(400, 320, Tile.SIZE, Tile.SIZE, 400, 208, Player.UP_DIR));
 		// cima > baixo
 		teleport.add(new Teleport(400, 224, Tile.SIZE, Tile.SIZE, 400, 336, Player.DOWN_DIR));
-		// casa > calabouço
+		// casa > calabouÃ§o
 		teleport.add(new Teleport(416, 432, Tile.SIZE, Tile.SIZE, 1152, 288, Player.RIGHT_DIR));
-		// calabouço > casa
+		// calabouÃ§o > casa
 		teleport.add(new Teleport(1136, 288, Tile.SIZE, Tile.SIZE, 400, 432, Player.LEFT_DIR));
 	}
 	
@@ -173,6 +177,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		//audio.update();
 
 		if (GameState.state == GameState.PLAYING) {
+			diario.update();
 			for(Teleport t : teleport) {
 				t.update();
 			}
@@ -192,7 +197,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		for(Entity entity : entities) {
 			if(entity instanceof Witch) {
 				if(((Witch) entity).isSeeingPlayer())
-					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
+					TextBox.showDialog(g, boxFont, "Ei! O que vocÃª estÃ¡ fazendo aqui?", null, null, false, true);
 				break;
 			}
 		}

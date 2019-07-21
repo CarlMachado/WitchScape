@@ -18,6 +18,7 @@ import com.bakerystudios.entities.Livro;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
+import com.bakerystudios.events.eventBlock;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.inventario.Slot;
 
@@ -32,10 +33,12 @@ public class World {
 	private final int DOOR_FORTY = 0xFFF95F00;
 	private final int CHEST = 0xFF0026FF;
 	private final int CHEST_SECOND = 0xFF001172;
+	private final int CHEST_THIRD = 0xFF000628;
 	private final int PRINCESA = 0xFFFF7F7F;
 	private final int ESQUELETO = 0xFF808080;
 	private final int PLACA = 0XFFFF6A00;
 	private final int VASO = 0XFF441B00;
+	private final int TILE_EVENT_FIRST = 0XFFFF006E;
 
 	private BufferedImage[] spritesPrincesa;
 	private BufferedImage[] spritesEsqueleto;
@@ -46,6 +49,7 @@ public class World {
 	private List<String>[] placaDialogue_SECOND;
 	private Slot[] slot_FIRST;
 	private Slot[] slot_SECOND;
+	private Slot[] slot_THIRD;
 
 	public BufferedImage map;
 	public Tile[] tiles;
@@ -82,8 +86,8 @@ public class World {
 								true, false, "", spritesPorta, spritesPorta.length));
 					}
 					if (pixelAtual == DOOR_SECOND) {
-						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "chave2",
-								true, true, "ala", spritesPorta, spritesPorta.length));
+						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "", true,
+								false, "", spritesPorta, spritesPorta.length));
 					}
 					if (pixelAtual == DOOR_THIRD) {
 						Game.entities.add(new Door(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, "",
@@ -101,6 +105,10 @@ public class World {
 						Game.entities.add(
 								new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
 					}
+					if (pixelAtual == CHEST_THIRD) {
+						Game.entities
+								.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
+					}
 					if (pixelAtual == PRINCESA) {
 						Game.entities.add(new Princesa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null,
 								spritesPrincesa, true));
@@ -113,13 +121,9 @@ public class World {
 						Game.entities.add(new Placa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE,
 								Game.wall.getSprite(48, 128, Tile.SIZE, Tile.SIZE), placaDialogue_FIRST));
 					}
-					if (pixelAtual == VASO) {
-						// System.out.println("xx " + xx * Tile.SIZE);
-						// System.out.println("yy " + yy * Tile.SIZE);
-						// tiles[xx + (yy * WIDTH)] = new WallTile(xx * Tile.SIZE, yy * Tile.SIZE,
-						// Tile.TILE_WALL);
-						// Game.entities.add(new Vaso(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE,
-						// Tile.SIZE, null, "chave1"));
+					if (pixelAtual == TILE_EVENT_FIRST) {
+						Game.entities.add(new eventBlock(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null,
+								true, "chave2", "Chave Por√£o", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
 					}
 				}
 			}
@@ -155,7 +159,7 @@ public class World {
 		placaDialogue_SECOND[1].add("piroca vai");
 		placaDialogue_SECOND[1].add("teste testante testador testmaster");
 		
-		// J· que n„o sei onde colocar
+		// J√° que n√£o sei onde colocar
 		Game.entities
 				.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
 		Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
@@ -163,7 +167,7 @@ public class World {
 	}
 
 	public void loadInfo() {
-		
+
 		slot_FIRST = new Slot[9];
 		for (int i = 0; i < slot_FIRST.length; i++)
 			slot_FIRST[i] = new Slot();
@@ -176,6 +180,15 @@ public class World {
 		slot_SECOND[3].setIdentity("Luva de Couro");
 		slot_SECOND[3].setShortName("Luva de Couro");
 		slot_SECOND[3].setImageSlot(Game.doors.getSprite(0, 144, Tile.SIZE, Tile.SIZE));
+
+		slot_THIRD = new Slot[9];
+		for (int i = 0; i < slot_THIRD.length; i++)
+			slot_THIRD[i] = new Slot();
+
+		slot_THIRD[5].setAmount(1);
+		slot_THIRD[5].setIdentity("Diario");
+		slot_THIRD[5].setShortName("Diario");
+		slot_THIRD[5].setImageSlot(Game.doors.getSprite(32, 128, Tile.SIZE, Tile.SIZE));
 
 		spritesLivro = new BufferedImage[3];
 		for (int i = 0; i < spritesLivro.length; i++)
@@ -264,6 +277,22 @@ public class World {
 
 	public void setSlot_SECOND(Slot[] slot_SECOND) {
 		this.slot_SECOND = slot_SECOND;
+	}
+
+	public int getCHEST_THIRD() {
+		return CHEST_THIRD;
+	}
+
+	public Slot[] getSlot_THIRD() {
+		return slot_THIRD;
+	}
+
+	public void setSlot_THIRD(Slot[] slot_THIRD) {
+		this.slot_THIRD = slot_THIRD;
+	}
+
+	public int getTILE_EVENT() {
+		return TILE_EVENT_FIRST;
 	}
 
 }
