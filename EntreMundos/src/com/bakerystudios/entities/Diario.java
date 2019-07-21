@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bakerystudios.engine.Updateble;
-import com.bakerystudios.game.Game;
 
 public class Diario implements Updateble  {
 
 	public boolean eventActiveLivro = false;
+	public int read = 0;
 	
 	public Anotacao anotacaoDialogue;
 	public List<String>[] listAnotacao;

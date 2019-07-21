@@ -50,8 +50,10 @@ public class PlayerInput extends Input {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && !Game.diario.eventActiveLivro
 						&& !Player.tryActiveEvent) {
+					System.out.println("num read: " + Game.diario.read);
 					Game.diario.eventActiveLivro = true;
 					Game.diario.anotacaoDialogue.setStatus(true);
+					Game.diario.read++;
 					Player.inEvent = true;
 				} else if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario"
 						&& Game.diario.eventActiveLivro && !Player.tryActiveEvent) {
