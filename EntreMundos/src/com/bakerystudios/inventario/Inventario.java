@@ -118,6 +118,18 @@ public class Inventario implements Renderable, Updateble {
 		}
 
 	}
+	
+	public int getSelectedItem() {
+		return selectedItem;
+	}
+
+	public void setSelectedItem(int value) {
+		selectedItem = value;
+	}
+	
+	public int getNumSlots() {
+		return numSlots;
+	}
 
 	public int getWidthImageSlot() {
 		return widthImageSlot;
