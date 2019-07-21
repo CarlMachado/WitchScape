@@ -18,13 +18,14 @@ import com.bakerystudios.gui.TextBox;
 public class MainMenu implements Updateble, Renderable {
 	
 	public static boolean enter;
-	private BufferedImage background1;
-	private BufferedImage background2;
+	private BufferedImage[] background;
+	private int frames = 0, maxFrames = 55, index = 0, maxIndex = 1;
 	
 	public MainMenu() {
 		try {
-			background1 = ImageIO.read(getClass().getResource("/sprites/tittle1.png"));
-			background2 = ImageIO.read(getClass().getResource("/sprites/tittle2.png"));
+			background = new BufferedImage[2];
+			background[0] = ImageIO.read(getClass().getResource("/sprites/tittle1.png"));
+			background[1] = ImageIO.read(getClass().getResource("/sprites/tittle2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,23 +62,31 @@ public class MainMenu implements Updateble, Renderable {
 		g.setColor(Color.BLACK);
 		drawCentralizedString(g, "Aperte ENTER para jogar", y + 45);
 	}
+	
+	public void animation() {
+		frames++;
+		if (frames == maxFrames) {
+			frames = 0;
+			index++;
+			if (index > maxIndex)
+				index = 0;
+		}
+	}
 
 	@Override
 	public void render(Graphics g) {
 		int y = 100;
-		int width = 400;
-		int height = 200;
 		
 		g.setColor(Color.BLACK);
 		g.setFont(Game.menuFont);
-		g.drawImage(background1, 0, 0, null);
+		g.drawImage(background[index], 0, 0, null);
 		
 		drawButton(g);
+		animation();
 		
-
-		
-
-		
+		g.setColor(Color.WHITE);
+		g.setFont(Game.boxFont);
+		drawCentralizedString(g, "CRIADO POR: CARLOS E HERICK", 690);
 	}
 
 }

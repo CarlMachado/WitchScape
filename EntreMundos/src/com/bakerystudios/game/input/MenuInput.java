@@ -8,6 +8,7 @@ import com.bakerystudios.entities.Player;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.gui.menu.MainMenu;
 import com.bakerystudios.gui.menu.MenuState;
+import com.bakerystudios.gui.menu.PauseMenu;
 
 public class MenuInput extends Input {
 
@@ -96,33 +97,38 @@ public class MenuInput extends Input {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if(e.getX() >= 10 && e.getX() <= 10 &&
-				e.getY() >= 10 && e.getY() <= 10) {
-			
-		}
-	}
-
-	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		if(e.getX() >= 470 && e.getX() <= 620 &&
+				e.getY() >= 400 && e.getY() <= 440) {
+			if (GameState.state == GameState.PLAYING && !Player.inEvent) {
+				GameState.state = GameState.MENU;
+				MenuState.state = MenuState.PAUSE;
+			} else if (GameState.state == GameState.MENU && MenuState.state == MenuState.PAUSE) {
+				GameState.state = GameState.PLAYING;
+			}
+		}
+		if(e.getX() >= 660 && e.getX() <= 810 &&
+				e.getY() >= 400 && e.getY() <= 440) {
+			if (GameState.state == GameState.MENU && MenuState.state == MenuState.PAUSE) {
+				System.exit(0);
+			}
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
