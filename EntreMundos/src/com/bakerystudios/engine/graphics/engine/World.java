@@ -185,6 +185,7 @@ public class World {
 				spritesGrade, spritesGrade.length));
 		Game.entities.add(
 				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, true, "switch", spritesPorta, spritesPorta.length));
+
 		// BAU
 		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
 		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
