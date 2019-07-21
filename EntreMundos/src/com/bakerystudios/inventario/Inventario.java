@@ -35,10 +35,6 @@ public class Inventario implements Renderable, Updateble {
 		slot[0].setShortName("Chave Alavanca");
 		slot[0].setAmount(1);
 		slot[0].setImageSlot(Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE));
-		/*slot[1].setIdentity("Luva de Couro");
-		slot[1].setShortName("Luva de Couro");
-		slot[1].setAmount(1);
-		slot[1].setImageSlot(Game.doors.getSprite(0, 144, Tile.SIZE, Tile.SIZE));*/
 	}
 
 	public void update() {
