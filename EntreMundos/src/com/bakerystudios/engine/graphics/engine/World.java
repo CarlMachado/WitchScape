@@ -11,11 +11,13 @@ import javax.imageio.ImageIO;
 import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.tiles.FloorTile;
 import com.bakerystudios.engine.graphics.tiles.WallTile;
+import com.bakerystudios.entities.Alavanca;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Esqueleto;
 import com.bakerystudios.entities.Livro;
 import com.bakerystudios.entities.Placa;
+import com.bakerystudios.entities.Poco;
 import com.bakerystudios.entities.Princesa;
 import com.bakerystudios.entities.Vaso;
 import com.bakerystudios.events.eventBlock;
@@ -45,6 +47,7 @@ public class World {
 	private BufferedImage[] spritesPorta;
 	private BufferedImage[] spritesGrade;
 	private BufferedImage[] spritesLivro;
+	private BufferedImage[] spritesAlavanca;
 	private List<String>[] placaDialogue_FIRST;
 	private List<String>[] placaDialogue_SECOND;
 	private Slot[] slot_FIRST;
@@ -164,14 +167,19 @@ public class World {
 		Game.entities.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
 		Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
 				Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
+		Game.entities.add(new Poco(400, 368, Tile.SIZE, Tile.SIZE, null, "chave5", "Chave da Alavanca",
+				Game.doors.getSprite(48, 160, Tile.SIZE, Tile.SIZE)));
+		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null, true, "chave2", "Chave da Porta",
+				Game.doors.getSprite(64, 160, Tile.SIZE, Tile.SIZE)));
+		Game.entities.add(new Alavanca(480, 192, Tile.SIZE, Tile.SIZE, null, true, "chave5", spritesAlavanca));
 		// PORTAS
-		Game.entities.add(new Door(288, 464, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
-				spritesPorta.length));
-		Game.entities.add(new Door(368, 464, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
-				spritesPorta.length));
 		Game.entities.add(new Door(352, 576, Tile.SIZE, Tile.SIZE, null, "chave1", true, false, "", spritesPorta,
+				spritesPorta.length));		
+		Game.entities.add(new Door(368, 464, Tile.SIZE, Tile.SIZE, null, "chave2", true, false, "", spritesPorta,
 				spritesPorta.length));
-		Game.entities.add(new Door(1216, 256, Tile.SIZE, Tile.SIZE, null, "chave2", true, true, "Luva de Couro",
+		Game.entities.add(new Door(288, 464, Tile.SIZE, Tile.SIZE, null, "chave3", true, false, "", spritesPorta,
+				spritesPorta.length));
+		Game.entities.add(new Door(1216, 256, Tile.SIZE, Tile.SIZE, null, "chave4", true, true, "Luva de Couro",
 				spritesGrade, spritesGrade.length));
 		Game.entities.add(
 				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, false, "", spritesPorta, spritesPorta.length));
@@ -179,8 +187,10 @@ public class World {
 		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
 		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
 		// TILE EVENT
-		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null,
-				true, "chave2", "Chave Porão", Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
+		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null, true, "chave2", "Chave da Porta",
+				Game.doors.getSprite(64, 160, Tile.SIZE, Tile.SIZE)));
+		Game.entities.add(new eventBlock(272, 480, Tile.SIZE, Tile.SIZE, null, true, "chave4", "Chave do Porão",
+				Game.doors.getSprite(16, 160, Tile.SIZE, Tile.SIZE)));
 	}
 
 	public void loadInfo() {
@@ -206,6 +216,11 @@ public class World {
 		slot_THIRD[5].setIdentity("Diario");
 		slot_THIRD[5].setShortName("Diario");
 		slot_THIRD[5].setImageSlot(Game.doors.getSprite(32, 128, Tile.SIZE, Tile.SIZE));
+		
+		slot_THIRD[1].setAmount(1);
+		slot_THIRD[1].setIdentity("chave3");
+		slot_THIRD[1].setShortName("Chave da Porta");
+		slot_THIRD[1].setImageSlot(Game.doors.getSprite(32, 160, Tile.SIZE, Tile.SIZE));
 
 		spritesLivro = new BufferedImage[3];
 		for (int i = 0; i < spritesLivro.length; i++)
@@ -226,6 +241,10 @@ public class World {
 		spritesGrade = new BufferedImage[4];
 		for (int i = 0; i < spritesGrade.length; i++)
 			spritesGrade[i] = Game.doors.getSprite(64, 16 * i, Tile.SIZE, Tile.SIZE);
+		
+		spritesAlavanca= new BufferedImage[2];
+		for (int i = 0; i < spritesAlavanca.length; i++)
+			spritesAlavanca[i] = Game.doors.getSprite(64 + i * 16, 64, Tile.SIZE, Tile.SIZE);
 
 		placaDialogue_FIRST = new ArrayList[1];
 		for (int i = 0; i < placaDialogue_FIRST.length; i++)
@@ -310,6 +329,14 @@ public class World {
 
 	public int getTILE_EVENT() {
 		return TILE_EVENT_FIRST;
+	}
+
+	public BufferedImage[] getSpritesAlavanca() {
+		return spritesAlavanca;
+	}
+
+	public void setSpritesAlavanca(BufferedImage[] spritesAlavanca) {
+		this.spritesAlavanca = spritesAlavanca;
 	}
 
 }
