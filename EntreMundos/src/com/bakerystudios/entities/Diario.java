@@ -17,11 +17,12 @@ public class Diario implements Updateble  {
 		listAnotacao = new ArrayList[3];
 		for (int i = 0; i < listAnotacao.length; i++)
 			listAnotacao[i] = new ArrayList<String>();
-		listAnotacao[0].add("diario que eu amo cagar");
-		listAnotacao[0].add("funcione plz nunca pedi nada");
-		listAnotacao[1].add("piroca tuts pao");
-		listAnotacao[1].add("teste testante testador testmaster god tester");
-		listAnotacao[2].add("nada pa falar tuts pao");
+		listAnotacao[0].add("10 de Janeiro de 1629");
+		listAnotacao[0].add("Hoje aconteceu novamente, um daqules moleques");
+		listAnotacao[0].add("deixou cair sua bola aqui dentro!");
+		listAnotacao[1].add("12 de Janeiro de 1629");
+		listAnotacao[1].add("Ahahahah, ainda ouço o choro daquela");
+		listAnotacao[1].add("criança la fora! Ahahahahah");
 		listAnotacao[2].add("testes são topzes");
 		listAnotacao[2].add("baduuuuuuuuuuuuuuuuuunts");
 		
