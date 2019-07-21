@@ -208,14 +208,15 @@ public class PlayerInput extends Input {
 						}
 					} else if (atual instanceof eventBlock) {
 						if (((eventBlock) atual).isTryActive() && !((eventBlock) atual).isActive()
-								&& !((eventBlock) atual).isUsed()) {
+								&& !((eventBlock) atual).isUsed() && ((eventBlock) atual).isChoose()) {
 							((eventBlock) atual).setTryActive(false);
 							((eventBlock) atual).setActive(true);
 						}
-						if (((eventBlock) atual).isActive() && !((eventBlock) atual).isUsed()) {
+						if (((eventBlock) atual).isActive() && !((eventBlock) atual).isUsed()
+								&& ((eventBlock) atual).isChoose()) {
 							((eventBlock) atual).setActive(false);
 							for (int j = 0; j < Inventario.slot.length; j++) {
-								if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
+								if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio								
 									Inventario.slot[j].setAmount(1);
 									Inventario.slot[j].setIdentity(((eventBlock) atual).getIdDrop());
 									Inventario.slot[j].setShortName(((eventBlock) atual).getShortNameDrop());
@@ -248,7 +249,8 @@ public class PlayerInput extends Input {
 						if (((Alavanca) atual).isTryAnimation() && !Player.usedAlavanca
 								&& !((Alavanca) atual).isActive()) {
 							for (int j = 0; j < Inventario.slot.length; j++) {
-								if (Inventario.slot[j].getIdentity() == ((Alavanca) atual).getIdentify()) { // Usa alavanca
+								if (Inventario.slot[j].getIdentity() == ((Alavanca) atual).getIdentify()) { // Usa
+																											// alavanca
 									((Alavanca) atual).setAnimation(true);
 									Player.usedAlavanca = true;
 									break;
