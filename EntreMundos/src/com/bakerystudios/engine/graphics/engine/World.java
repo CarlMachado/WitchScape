@@ -53,6 +53,7 @@ public class World {
 	private Slot[] slot_FIRST;
 	private Slot[] slot_SECOND;
 	private Slot[] slot_THIRD;
+	private Slot[] slot_FORTY;
 
 	public BufferedImage map;
 	public Tile[] tiles;
@@ -184,6 +185,7 @@ public class World {
 		// BAU
 		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
 		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
+		Game.entities.add(new Chest(528, 96, Tile.SIZE, Tile.SIZE, null, slot_FORTY));
 		// TILE EVENT
 		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null, true, "chave2", "Chave da Porta",
 				Game.doors.getSprite(64, 160, Tile.SIZE, Tile.SIZE)));
@@ -220,6 +222,15 @@ public class World {
 		slot_THIRD[1].setShortName("Chave da Porta");
 		slot_THIRD[1].setImageSlot(Game.doors.getSprite(32, 160, Tile.SIZE, Tile.SIZE));
 
+		slot_FORTY = new Slot[9];
+		for (int i = 0; i < slot_FORTY.length; i++)
+			slot_FORTY[i] = new Slot();
+		
+		slot_FORTY[6].setAmount(1);
+		slot_FORTY[6].setIdentity("Bola");
+		slot_FORTY[6].setShortName("Bola");
+		slot_FORTY[6].setImageSlot(Game.doors.getSprite(32, 128, Tile.SIZE, Tile.SIZE)); // COORDENADAS DA BOLA
+		
 		spritesLivro = new BufferedImage[3];
 		for (int i = 0; i < spritesLivro.length; i++)
 			spritesLivro[i] = Game.doors.getSprite(16 * i, 128, Tile.SIZE, Tile.SIZE);

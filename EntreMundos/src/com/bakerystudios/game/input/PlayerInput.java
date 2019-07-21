@@ -47,13 +47,12 @@ public class PlayerInput extends Input {
 				} else if (e.getKeyCode() == KeyEvent.VK_3
 						&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 					Inventario.selectedItem = 2;
-				}
+				}			
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario" && !Game.diario.eventActiveLivro
 						&& !Player.tryActiveEvent) {
-					System.out.println("num read: " + Game.diario.read);
 					Game.diario.eventActiveLivro = true;
 					Game.diario.anotacaoDialogue.setStatus(true);
 					Game.diario.read++;
@@ -216,7 +215,7 @@ public class PlayerInput extends Input {
 								&& ((eventBlock) atual).isChoose()) {
 							((eventBlock) atual).setActive(false);
 							for (int j = 0; j < Inventario.slot.length; j++) {
-								if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio								
+								if (Inventario.slot[j].getIdentity() == "") { // Achou slot vazio
 									Inventario.slot[j].setAmount(1);
 									Inventario.slot[j].setIdentity(((eventBlock) atual).getIdDrop());
 									Inventario.slot[j].setShortName(((eventBlock) atual).getShortNameDrop());
@@ -262,6 +261,18 @@ public class PlayerInput extends Input {
 
 			}
 			if (Player.inEvent) {
+				if (Inventario.status && Inventario.focus) {
+					if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+						if (Game.inventario.getSelectedItem() + 1 < Game.inventario.getNumSlots())
+							Game.inventario.setSelectedItem(Game.inventario.getSelectedItem() + 1);
+					}
+
+					if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+						if (Game.inventario.getSelectedItem() - 1 >= 0)
+							Game.inventario.setSelectedItem(Game.inventario.getSelectedItem() - 1);
+					}
+				}
+				
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario"
 							&& Game.diario.eventActiveLivro)
@@ -310,6 +321,26 @@ public class PlayerInput extends Input {
 						if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus()
 								&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest))
 							((Chest) atual).setselectedItem(Character.getNumericValue(e.getKeyCode()) - 1);
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT) {
+				for (Entity atual : Game.entities) {
+					if (atual instanceof Chest) {
+						if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus()
+								&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)
+								&& e.getKeyCode() == KeyEvent.VK_RIGHT) {
+							if (((Chest) atual).getselectedItem() + 1 < ((Chest) atual).getNumSlots())
+								((Chest) atual).setselectedItem(((Chest) atual).getselectedItem() + 1);
+							else
+								((Chest) atual).setselectedItem(((Chest) atual).getNumSlots() - 1);
+						} else if (((Chest) atual).isOpenChest() && ((Chest) atual).isFocus()
+								&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)
+								&& e.getKeyCode() == KeyEvent.VK_LEFT) {
+							if (((Chest) atual).getselectedItem() - 1 > 0)
+								((Chest) atual).setselectedItem(((Chest) atual).getselectedItem() - 1);
+							else
+								((Chest) atual).setselectedItem(0);
+						}
+					}
+				}
 			} else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_ENTER) {
 				for (Entity atual : Game.entities) {
 					if (atual instanceof Chest) {
