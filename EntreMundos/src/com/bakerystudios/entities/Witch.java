@@ -209,7 +209,7 @@ public class Witch extends Entity implements Updateble, Renderable {
 			hunting();
 		}
 		
-		if(Game.player.getX() == 528 && Game.player.getY() == 128) {
+		if(Game.player.getX() == 528 && Game.player.getX() == 608 && Game.player.getY() >= 128) {
 			for(int i = 0; i < Inventario.slot.length; i++) {
 				if(Inventario.slot[i].getIdentity() == "Bola") {
 					dialogo = true;
