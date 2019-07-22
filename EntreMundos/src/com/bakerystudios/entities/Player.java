@@ -194,8 +194,8 @@ public class Player extends Entity implements Renderable, Updateble {
 		animation();
 		updateCamera();
 		checkCollisionAllObjects();
-		
-		if(x == 896 && y == 624) {
+
+		if (x == 896 && y == 624) {
 			florestEvent = true;
 			movingLeft = true;
 			moved = true;
@@ -207,7 +207,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	public void render(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
-		
+
 		if (dir == RIGHT_DIR) {
 			g.drawImage(rightSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
@@ -288,7 +288,7 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void collisionAlavanca(Entity atual) {
-		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima			
+		if (atual.getY() - this.getY() == -Tile.SIZE && atual.getX() - this.getX() == 0) { // Cima
 			nextisAlavancaUp = true;
 			return;
 		}
@@ -297,7 +297,7 @@ public class Player extends Entity implements Renderable, Updateble {
 			return;
 		}
 		if (atual.getY() - this.getY() == 0 && atual.getX() - this.getX() == Tile.SIZE) { // Direita
-			if (dir == RIGHT_DIR) {				
+			if (dir == RIGHT_DIR) {
 				((Alavanca) atual).setTryAnimation(true);
 				tryActiveEvent = true;
 			}
@@ -351,11 +351,11 @@ public class Player extends Entity implements Renderable, Updateble {
 
 	public void collisionEventBlock(Entity atual) {
 		if (Entity.isColidding(this, atual)) {
-			if(!((eventBlock) atual).isUsed()) {
+			if (!((eventBlock) atual).isUsed()) {
 				((eventBlock) atual).setTryActive(true);
 				((eventBlock) atual).setChoose(true);
 				return;
-			}		
+			}
 		}
 	}
 
@@ -624,7 +624,7 @@ public class Player extends Entity implements Renderable, Updateble {
 					((Poco) atual).setEventActivePoco(false);
 					((Poco) atual).setTryEventActivePoco(false);
 				}
-				if(atual instanceof Alavanca) {
+				if (atual instanceof Alavanca) {
 					((Alavanca) atual).setTryAnimation(false);
 					((Alavanca) atual).setAnimation(false);
 				}
@@ -651,15 +651,15 @@ public class Player extends Entity implements Renderable, Updateble {
 			nextisDoorUp = false;
 		Game.uiDoor = false;
 	}
-	
+
 	public void correctCollisionAlavanca() {
 		if (nextisAlavancaDown)
 			nextisAlavancaDown = false;
 		if (nextisAlavancaUp)
 			nextisAlavancaUp = false;
-		if(nextisAlavancaLeft)
+		if (nextisAlavancaLeft)
 			nextisAlavancaLeft = false;
-		if(nextisAlavancaRight)
+		if (nextisAlavancaRight)
 			nextisAlavancaRight = false;
 		Game.uiAlavanca = false;
 	}

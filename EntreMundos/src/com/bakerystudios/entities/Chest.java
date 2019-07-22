@@ -38,10 +38,10 @@ public class Chest extends Entity implements Renderable, Updateble {
 	private Slot[] slot;
 
 	private int selectedItem = 0;
-	
+
 	private boolean focus = true;
 
-	public Chest(int x, int y, int width, int height, BufferedImage sprite, Slot[] slotExterno) {
+	public Chest(int x, int y, int width, int height, BufferedImage sprite, Slot[] slotExterno, int numSlots) {
 		super(x, y, width, height, sprite);
 
 		sprites = new BufferedImage[4];
@@ -49,11 +49,11 @@ public class Chest extends Entity implements Renderable, Updateble {
 			sprites[i] = Game.doors.getSprite(96, 16 * i, Tile.SIZE, Tile.SIZE);
 		}
 		this.maxAnimacao = sprites.length;
-
+		this.numSlots = numSlots;
 		this.slot = new Slot[numSlots];
-		for(int i = 0; i < this.slot.length; i++)
+		for (int i = 0; i < this.slot.length; i++)
 			this.slot[i] = new Slot();
-		this.slot = slotExterno; 
+		this.slot = slotExterno;
 	}
 
 	public void update() {
@@ -100,9 +100,6 @@ public class Chest extends Entity implements Renderable, Updateble {
 
 	public void render(Graphics g) {
 		g.drawImage(sprites[currentAnimacao], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		if (openChest) {
-
-		}
 	}
 
 	public boolean isAnimation() {
