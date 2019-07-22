@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.bakerystudios.entities.Alavanca;
+import com.bakerystudios.entities.Boy;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Door;
 import com.bakerystudios.entities.Entity;
@@ -383,6 +384,15 @@ public class PlayerInput extends Input {
 				if (entity instanceof Witch) {
 					((Witch) entity).setEnter(true);
 					// System.out.println("pressed");
+					break;
+				}
+			}
+		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			for (Entity entity : Game.entities) {
+				if (entity instanceof Boy) {
+					((Boy) entity).setEnter(true);
 					break;
 				}
 			}
