@@ -34,7 +34,7 @@ public class MainMenu implements Updateble, Renderable {
 	@Override
 	public void update() {
 		if(enter) {
-			GameState.state = GameState.PLAYING;
+			GameState.state = GameState.INTRO;
 		}
 	}
 	
