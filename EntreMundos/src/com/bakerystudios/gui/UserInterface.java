@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.entities.Anotacao;
+import com.bakerystudios.entities.Boy;
 import com.bakerystudios.entities.Chest;
 import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Door;
@@ -64,7 +65,12 @@ public class UserInterface implements Renderable, Updateble {
 			}
 		}
 
-		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro || Game.diario.eventActiveLivro) {
+		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro || Game.diario.eventActiveLivro || Boy.event) {
+			if(Boy.event) {
+				Boy.anotacaoDialogue.eventoAnotacao(g);
+				return;
+			}
+			
 			if(Game.diario.eventActiveLivro) {
 				Game.diario.anotacaoDialogue.eventoAnotacao(g);
 				return;

@@ -392,6 +392,7 @@ public class PlayerInput extends Input {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			for (Entity entity : Game.entities) {
 				if (entity instanceof Boy) {
+					System.out.println("atua");
 					((Boy) entity).setEnter(true);
 					break;
 				}
