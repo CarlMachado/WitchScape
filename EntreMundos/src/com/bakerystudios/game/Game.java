@@ -127,6 +127,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		// carregamento das entidades
 		entities.add(player);
 		entities.add(new Witch(272, 272, Tile.SIZE, Tile.SIZE, null));
+		entities.add(new Boy(432, 608, 16, 16, characters.getSprite(48, 128, 16, 16)));
 		diario = new Diario();
 	}
 	
