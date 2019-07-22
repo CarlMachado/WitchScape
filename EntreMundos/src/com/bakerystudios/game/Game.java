@@ -17,6 +17,7 @@ import com.bakerystudios.engine.Updateble;
 import com.bakerystudios.engine.graphics.engine.Spritesheet;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.engine.graphics.engine.World;
+import com.bakerystudios.entities.Boy;
 import com.bakerystudios.entities.Diario;
 import com.bakerystudios.entities.Entity;
 import com.bakerystudios.entities.EventManager;
@@ -199,9 +200,18 @@ public class Game implements Runnable, Renderable, Updateble {
 					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
 				break;
 			}
-			if(player.florestEvent) {
-				TextBox.showDialog(g, boxFont, "Não quero voltar para a floresta,", "já andei muito hoje, vou procurar um local seguro.", null, false, true);
+		}
+		
+		for(Entity entity : entities) {
+			if(entity instanceof Boy) {
+				if(((Boy) entity).isEvent())
+					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
+				break;
 			}
+		}
+
+		if(player.florestEvent) {
+			TextBox.showDialog(g, boxFont, "Não quero voltar para a floresta,", "já andei muito hoje, vou procurar um local seguro.", null, false, true);
 		}
 		
 		g.setColor(Color.RED);
