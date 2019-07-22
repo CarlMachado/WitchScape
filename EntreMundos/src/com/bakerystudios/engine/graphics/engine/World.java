@@ -103,15 +103,15 @@ public class World {
 					}
 					if (pixelAtual == CHEST) {
 						Game.entities
-								.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_FIRST));
+								.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_FIRST, 9));
 					}
 					if (pixelAtual == CHEST_SECOND) {
 						Game.entities.add(
-								new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
+								new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_SECOND, 9));
 					}
 					if (pixelAtual == CHEST_THIRD) {
 						Game.entities
-								.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
+								.add(new Chest(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null, slot_THIRD, 9));
 					}
 					if (pixelAtual == PRINCESA) {
 						Game.entities.add(new Princesa(xx * Tile.SIZE, yy * Tile.SIZE, Tile.SIZE, Tile.SIZE, null,
@@ -175,7 +175,7 @@ public class World {
 
 		// Outros
 		Game.entities.add(new Livro(368, 432, Tile.SIZE, Tile.SIZE, null, spritesLivro, true, placaDialogue_SECOND));
-		Game.entities.add(new Vaso(368, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
+		Game.entities.add(new Vaso(384, 592, Tile.SIZE, Tile.SIZE, null, "chave1", "Chave da Porta",
 				Game.doors.getSprite(0, 160, Tile.SIZE, Tile.SIZE)));
 		Game.entities.add(new Poco(400, 368, Tile.SIZE, Tile.SIZE, null, "chave5", "Chave da Alavanca",
 				Game.doors.getSprite(48, 160, Tile.SIZE, Tile.SIZE)));
@@ -194,9 +194,9 @@ public class World {
 		Game.entities.add(new Placa(592, 608, Tile.SIZE, Tile.SIZE, null, placaDialogo));
 
 		// BAU
-		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND));
-		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD));
-		Game.entities.add(new Chest(528, 96, Tile.SIZE, Tile.SIZE, null, slot_FORTY));
+		Game.entities.add(new Chest(1168, 272, Tile.SIZE, Tile.SIZE, null, slot_SECOND, 9));
+		Game.entities.add(new Chest(1232, 208, Tile.SIZE, Tile.SIZE, null, slot_THIRD, 9));
+		Game.entities.add(new Chest(528, 96, Tile.SIZE, Tile.SIZE, null, slot_FORTY, 9));
 		// TILE EVENT
 		Game.entities.add(new eventBlock(1360, 624, Tile.SIZE, Tile.SIZE, null, true, "chave2", "Chave da Porta",
 				Game.doors.getSprite(64, 160, Tile.SIZE, Tile.SIZE)));
