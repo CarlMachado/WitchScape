@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.bakerystudios.engine.Renderable;
 import com.bakerystudios.engine.Updateble;
+import com.bakerystudios.engine.camera.Camera;
 import com.bakerystudios.engine.graphics.engine.Tile;
 import com.bakerystudios.game.Game;
 
@@ -41,6 +42,7 @@ public class Vaso extends Entity implements Renderable, Updateble {
 		this.idDrop = idDrop;
 		this.shortNameDrop = shortNameDrop;
 		this.imageDrop = imageDrop;
+		sprite = sprites[currentAnimacao];
 	}
 
 	public void update() {
@@ -65,7 +67,7 @@ public class Vaso extends Entity implements Renderable, Updateble {
 	}
 
 	public void render(Graphics g) {
-		super.render(g);
+		g.drawImage(sprites[currentAnimacao], this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 
 	public boolean isChoose() {
