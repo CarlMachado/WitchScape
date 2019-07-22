@@ -189,8 +189,8 @@ public class World {
 				spritesPorta.length));
 		Game.entities.add(new Door(1216, 256, Tile.SIZE, Tile.SIZE, null, "chave4", true, true, "Luva de Couro",
 				spritesGrade, spritesGrade.length));
-		Game.entities.add(
-				new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, true, "switch", spritesPorta, spritesPorta.length));
+		//Game.entities.add(
+		//		new Door(528, 176, Tile.SIZE, Tile.SIZE, null, "", true, true, "switch", spritesPorta, spritesPorta.length));
 		Game.entities.add(new Placa(592, 608, Tile.SIZE, Tile.SIZE, null, placaDialogo));
 
 		// BAU
