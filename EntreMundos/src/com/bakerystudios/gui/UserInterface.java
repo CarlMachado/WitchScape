@@ -28,19 +28,19 @@ import com.bakerystudios.inventario.Warehouse;
 
 public class UserInterface implements Renderable, Updateble {
 
-	private FramesPerSecond fps;
+	//private FramesPerSecond fps;
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
 
 	public UserInterface() {
-		fps = new FramesPerSecond();
+		//fps = new FramesPerSecond();
 		mainMenu = new MainMenu();
 		pauseMenu = new PauseMenu();
 	}
 
 	@Override
 	public void update() {
-		fps.update();
+		//fps.update();
 
 		if (GameState.state == GameState.MENU) {
 			if (MenuState.state == MenuState.MAIN) {
@@ -54,7 +54,7 @@ public class UserInterface implements Renderable, Updateble {
 
 	@Override
 	public void render(Graphics g) {
-		fps.render(g);
+		//fps.render(g);
 
 		if (GameState.state == GameState.MENU) {
 			if (MenuState.state == MenuState.MAIN) {
