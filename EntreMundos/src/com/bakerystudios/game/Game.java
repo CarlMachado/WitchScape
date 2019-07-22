@@ -41,6 +41,8 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static final int DUNGEON = 2;
 	public static int CUR_MAP = MAP;
 	
+	public static int stateIntro = 0;
+	public static boolean enter;
 	
 	private boolean isRunning;
 
@@ -177,6 +179,11 @@ public class Game implements Runnable, Renderable, Updateble {
 		em.update();
 		//audio.update();
 
+		if(enter) {
+			stateIntro++;
+			enter = false;
+		}
+		
 		if (GameState.state == GameState.PLAYING) {
 			diario.update();
 			for(Teleport t : teleport) {
@@ -186,8 +193,12 @@ public class Game implements Runnable, Renderable, Updateble {
 				e.update();
 			}
 			inventario.update();
+		} else if (GameState.state == GameState.INTRO) {
+			if(stateIntro >= 3) {
+				GameState.state = GameState.PLAYING;
+			}
 		} else if (GameState.state == GameState.OVER) {
-
+			
 		}
 	}
 
@@ -195,17 +206,33 @@ public class Game implements Runnable, Renderable, Updateble {
 		gui.render(g);
 		inventario.render(g);
 		
-		for(Entity entity : entities) {
-			if(entity instanceof Witch) {
-				if(((Witch) entity).isSeeingPlayer())
-					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
-				break;
+		if(GameState.state == GameState.INTRO) {
+			if(stateIntro == 0) {
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, 1280, 720);
+				g.setColor(Color.WHITE);
+				g.setFont(boxFont);
+				g.drawString("Em um certo dia eu estava explorando a floresta negra,", Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth("Em um certo dia eu estava explorando a floresta negra,") / 2, 300);
+				g.drawString("Até que eu me deparei um um garoto.", Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth("Até que eu me deparei um um garoto.") / 2, 350);
+			} else if(stateIntro == 1) {
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, 1280, 720);
+				g.setColor(Color.WHITE);
+				g.setFont(boxFont);
+				g.drawString("Ele parecendo muito triste me pediu um favor,", Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth("Ele parecendo muito triste me pediu um favor,") / 2, 300);
+				g.drawString("Para que eu pegasse sua bola dentro da casa de uma senhora.", Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth("Para que eu pegasse sua bola dentro da casa de uma senhora.") / 2, 350);
+			} else if(stateIntro == 2) {
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, 1280, 720);
+				g.setColor(Color.WHITE);
+				g.setFont(boxFont);
+				g.drawString("Eu nem imaginava o que estava por vir...", Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth("Eu nem imaginava o que estava por vir...") / 2, 325);
 			}
 		}
 		
 		for(Entity entity : entities) {
-			if(entity instanceof Boy) {
-				if(((Boy) entity).isEvent())
+			if(entity instanceof Witch) {
+				if(((Witch) entity).isSeeingPlayer())
 					TextBox.showDialog(g, boxFont, "Ei! O que você está fazendo aqui?", null, null, false, true);
 				break;
 			}

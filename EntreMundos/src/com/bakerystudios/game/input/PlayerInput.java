@@ -404,10 +404,23 @@ public class PlayerInput extends Input {
 				Game.gameEvent = false;
 			}
 		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(GameState.state == GameState.INTRO) {
+				Game.enter = true;
+			}
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(GameState.state == GameState.INTRO) {
+				Game.enter = false;
+			}
+		}
+		
 		if (GameState.state == GameState.PLAYING) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 				Player.setRight(false);

@@ -37,7 +37,6 @@ public class Boy extends Entity implements Updateble {
 		if(x == Game.player.getX() && y + 16 == Game.player.getY() && Game.player.getDir() == Game.player.UP_DIR) {
 			if(enter) {
 				event = true;
-				Game.gameEvent = true;
 			}
 		}
 		
