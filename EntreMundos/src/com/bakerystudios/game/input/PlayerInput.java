@@ -204,9 +204,7 @@ public class PlayerInput extends Input {
 							if (!((Livro) atual).getAnotacaoDialogue().isLestPage())
 								((Livro) atual).getAnotacaoDialogue().setNextPaginaSelected(true);
 							else {
-								// ((Placa) atual).setEventActivePlaca(false);
 								((Livro) atual).getAnotacaoDialogue().setExit(true);
-								// Player.inEvent = false;
 							}
 						}
 					} else if (atual instanceof eventBlock) {
@@ -389,10 +387,18 @@ public class PlayerInput extends Input {
 			}
 		}
 		
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			for (Entity entity : Game.entities) {
+				if (entity instanceof Boy) {
+					Boy.esc = true;
+					break;
+				}
+			}
+		}
+		
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			for (Entity entity : Game.entities) {
 				if (entity instanceof Boy) {
-					System.out.println("atua");
 					((Boy) entity).setEnter(true);
 					break;
 				}
