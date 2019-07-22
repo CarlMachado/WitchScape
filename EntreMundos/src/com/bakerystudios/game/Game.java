@@ -242,9 +242,9 @@ public class Game implements Runnable, Renderable, Updateble {
 			TextBox.showDialog(g, boxFont, "Não quero voltar para a floresta,", "já andei muito hoje, vou procurar um local seguro.", null, false, true);
 		}
 		
-		g.setColor(Color.RED);
-		g.setFont(new Font("arial", Font.PLAIN, 15));
-		g.drawString("x: " + player.getX() + " y: " + player.getY(), 1100, 23);
+//		g.setColor(Color.RED);
+//		g.setFont(new Font("arial", Font.PLAIN, 15));
+//		g.drawString("x: " + player.getX() + " y: " + player.getY(), 1100, 23);
 	}
 
 	private void pixelatedRender(Graphics g) {

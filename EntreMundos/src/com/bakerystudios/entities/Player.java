@@ -205,8 +205,8 @@ public class Player extends Entity implements Renderable, Updateble {
 	}
 
 	public void render(Graphics g) {
-		g.setColor(Color.red);
-		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
+//		g.setColor(Color.red);
+//		g.fillRect((int) x - Camera.x, (int) y - Camera.y, 16, 16);
 
 		if (dir == RIGHT_DIR) {
 			g.drawImage(rightSprite[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
