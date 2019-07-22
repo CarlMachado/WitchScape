@@ -9,11 +9,11 @@ import com.bakerystudios.game.Game;
 
 public class Boy extends Entity implements Updateble {
 	
-	public boolean enter;
-	public boolean event;
+	public static boolean enter;
+	public static boolean event;
 	
-	private ArrayList[] esqueletoDialogue;
-	private Anotacao anotacaoDialogue;
+	public static ArrayList[] esqueletoDialogue;
+	public static Anotacao anotacaoDialogue;
 
 	@SuppressWarnings("unchecked")
 	public Boy(int x, int y, int width, int height, BufferedImage sprite) {
@@ -29,7 +29,7 @@ public class Boy extends Entity implements Updateble {
 		esqueletoDialogue[1].add("dessa senhora, e ela não quer me devolver...");
 		esqueletoDialogue[2].add("Nossa, você é muito gentil!!!");
 		esqueletoDialogue[2].add("Vou ficar esperando aqui.");
-		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
+		setAnotacaoDialogue(new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue));
 	}
 
 	@Override
@@ -57,6 +57,22 @@ public class Boy extends Entity implements Updateble {
 
 	public void setEvent(boolean event) {
 		this.event = event;
+	}
+
+	public ArrayList[] getEsqueletoDialogue() {
+		return esqueletoDialogue;
+	}
+
+	public void setEsqueletoDialogue(ArrayList[] esqueletoDialogue) {
+		this.esqueletoDialogue = esqueletoDialogue;
+	}
+
+	public Anotacao getAnotacaoDialogue() {
+		return anotacaoDialogue;
+	}
+
+	public void setAnotacaoDialogue(Anotacao anotacaoDialogue) {
+		this.anotacaoDialogue = anotacaoDialogue;
 	}
 	
 }
