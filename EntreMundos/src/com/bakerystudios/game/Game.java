@@ -86,6 +86,8 @@ public class Game implements Runnable, Renderable, Updateble {
 	public static boolean uiAlavanca = false;
 	
 	public static Diario diario;
+	
+	public static boolean EXIT = false;
 
 	public Game() {
 		// Object instantiation
@@ -109,7 +111,7 @@ public class Game implements Runnable, Renderable, Updateble {
 		em = new EventManager();
 		
 		gui = new GraphicUserInterface();
-		//audio = new AudioManager();
+		audio = new AudioManager();
 		
 		// carregamento das sprites
 		spritesheet = new Spritesheet("/sprites/spritesheet.png");
@@ -177,7 +179,7 @@ public class Game implements Runnable, Renderable, Updateble {
 	public void update() {
 		gui.update();
 		em.update();
-		//audio.update();
+		audio.update();
 
 		if(enter) {
 			stateIntro++;
@@ -200,11 +202,22 @@ public class Game implements Runnable, Renderable, Updateble {
 		} else if (GameState.state == GameState.OVER) {
 			
 		}
+		
+		if(EXIT)
+			System.exit(0);
 	}
 
 	private void nonPixelatedRender(Graphics g) {
 		gui.render(g);
 		inventario.render(g);
+		
+		if(Witch.end) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, 1280, 720);
+			g.setColor(Color.WHITE);
+			g.setFont(Game.boxFont);
+			g.drawString("E o massacre das crianças continua...", Screen.SCALE_WIDTH / 2 - g.getFontMetrics().stringWidth("E o massacre das crianças continua...") / 2, 300);
+		}
 		
 		if(GameState.state == GameState.INTRO) {
 			if(stateIntro == 0) {

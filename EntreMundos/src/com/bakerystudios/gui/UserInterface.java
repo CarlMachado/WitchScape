@@ -17,6 +17,7 @@ import com.bakerystudios.entities.Livro;
 import com.bakerystudios.entities.Placa;
 import com.bakerystudios.entities.Player;
 import com.bakerystudios.entities.Princesa;
+import com.bakerystudios.entities.Witch;
 import com.bakerystudios.game.Game;
 import com.bakerystudios.game.GameState;
 import com.bakerystudios.game.screen.Screen;
@@ -65,9 +66,14 @@ public class UserInterface implements Renderable, Updateble {
 			}
 		}
 
-		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro || Game.diario.eventActiveLivro || Boy.event) {
+		if (Game.uiDoor || Game.uiChest || Game.uiNpc || Game.uiPlaca || Game.uiLivro || Game.diario.eventActiveLivro || Boy.event || Witch.event) {
 			if(Boy.event) {
 				Boy.anotacaoDialogue.eventoAnotacao(g);
+				return;
+			}
+			
+			if(Witch.event) {
+				Witch.anotacaoDialogue.eventoAnotacao(g);
 				return;
 			}
 			

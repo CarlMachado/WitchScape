@@ -31,7 +31,7 @@ public class Screen extends Canvas {
 		}
 		//initScreenSize();
 		setPreferredSize(new Dimension(SCALE_WIDTH, SCALE_HEIGHT));
-		frame = new JFrame("Entre Mundos");
+		frame = new JFrame("Witch Scape");
 		frame.add(this);
 		frame.setResizable(false);
 		//frame.setResizable(true);

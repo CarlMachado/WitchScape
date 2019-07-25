@@ -86,7 +86,7 @@ public class MainMenu implements Updateble, Renderable {
 		
 		g.setColor(Color.WHITE);
 		g.setFont(Game.boxFont);
-		drawCentralizedString(g, "CRIADO POR: CARLOS E HERICK", 690);
+		drawCentralizedString(g, "CRIADO POR: CARLOS E HERIKC", 690);
 	}
 
 }
