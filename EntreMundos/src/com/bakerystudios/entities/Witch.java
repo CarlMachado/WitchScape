@@ -38,10 +38,6 @@ public class Witch extends Entity implements Updateble, Renderable {
 	private BufferedImage[] downSprite;
 	private BufferedImage[] upSprite;
 
-	public static ArrayList[] esqueletoDialogue;
-	public static Anotacao anotacaoDialogue;
-	public static boolean dialogo;
-
 	public Witch(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 
@@ -56,18 +52,6 @@ public class Witch extends Entity implements Updateble, Renderable {
 			rightSprite[i] = Game.characters.getSprite(i * 16, 160, 16, 16);
 			upSprite[i] = Game.characters.getSprite(i * 16, 176, 16, 16);
 		}
-		
-
-		ArrayList[] esqueletoDialogue = new ArrayList[3];
-		for (int i = 0; i < esqueletoDialogue.length; i++)
-			esqueletoDialogue[i] = new ArrayList<String>();
-		esqueletoDialogue[0].add("Ahahahahah!");
-		esqueletoDialogue[0].add("Você caiu direitinho na minha armadilha!");
-		esqueletoDialogue[1].add("Minha despensa ja estava ficando vazia,");
-		esqueletoDialogue[1].add("você chegou na hora certa!");
-		esqueletoDialogue[2].add("Bom... Se não se importa,");
-		esqueletoDialogue[2].add("agora é hora do jantar. Muahahahah!");
-		anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
 	}
 	
 	private void hunting() {
@@ -254,11 +238,11 @@ public class Witch extends Entity implements Updateble, Renderable {
 				for (int i = 0; i < esqueletoDialogue.length; i++)
 					esqueletoDialogue[i] = new ArrayList<String>();
 				esqueletoDialogue[0].add("Ahahahahah!");
-				esqueletoDialogue[0].add("Você caiu direitinho na minha armadilha!");
+				esqueletoDialogue[0].add("VocÃª caiu direitinho na minha armadilha!");
 				esqueletoDialogue[1].add("Minha despensa ja estava ficando vazia,");
-				esqueletoDialogue[1].add("você chegou na hora certa!");
-				esqueletoDialogue[2].add("Bom... Se não se importa,");
-				esqueletoDialogue[2].add("agora é hora do jantar. Muahahahah!");
+				esqueletoDialogue[1].add("vocÃª chegou na hora certa!");
+				esqueletoDialogue[2].add("Bom... Se nÃ£o se importa,");
+				esqueletoDialogue[2].add("agora Ã© hora do jantar. Muahahahah!");
 				anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
 				
 				end = true;
