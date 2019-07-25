@@ -27,11 +27,7 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 
 	private boolean visible = false;
 
-	//private boolean finalize = false;
-
-	//private boolean statusEventoAnotacao = false;
 	private boolean nextPaginaSelected = false;
-	//private boolean exitSelected = false;
 	
 	private boolean status = false;
 	private boolean exit = false;
@@ -91,9 +87,8 @@ public class Anotacao extends Entity implements Renderable, Updateble {
 				int fontHeight = g.getFontMetrics().getHeight();
 				drawCentralizedString(g, linha[currentPagina - 1].get(j), (int) y - 30 + j * fontHeight);
 			}	
-			// EXISTE PRÓXIMA PAGINA, EXIBE BOTÃO DE PRÓXIMA PAGINA - CARLOS
+			
 			if(nextPaginaSelected) {
-				//System.out.println("teste 1");
 				if(currentPagina != this.paginas)
 						currentPagina++;
 				nextPaginaSelected = false;

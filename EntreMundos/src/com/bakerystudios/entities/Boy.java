@@ -44,8 +44,7 @@ public class Boy extends Entity implements Updateble {
 				Player.inEvent = true;
 			}
 			if(enter && event) {
-				enter = false;
-				
+				enter = false;			
 				if (!anotacaoDialogue.isLestPage()) 
 					anotacaoDialogue.setNextPaginaSelected(true);
 				else 

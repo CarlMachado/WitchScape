@@ -27,20 +27,20 @@ public class PlayerInput extends Input {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (GameState.state == GameState.PLAYING) {
-			if(!Game.gameEvent) {
-				
+			if (!Game.gameEvent) {
+
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 					Player.setRight(true);
 				} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 					Player.setLeft(true);
 				}
-	
+
 				if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 					Player.setUp(true);
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 					Player.setDown(true);
 				}
-				
+
 			}
 			if (Inventario.status && Inventario.focus) {
 				if (e.getKeyCode() == KeyEvent.VK_1 && (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
@@ -51,7 +51,7 @@ public class PlayerInput extends Input {
 				} else if (e.getKeyCode() == KeyEvent.VK_3
 						&& (!Warehouse.exchangeInventory || !Warehouse.exchangeChest)) {
 					Inventario.selectedItem = 2;
-				}			
+				}
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -274,7 +274,7 @@ public class PlayerInput extends Input {
 							Game.inventario.setSelectedItem(Game.inventario.getSelectedItem() - 1);
 					}
 				}
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					if (Inventario.slot[Inventario.selectedItem].getIdentity() == "Diario"
 							&& Game.diario.eventActiveLivro)
@@ -376,17 +376,34 @@ public class PlayerInput extends Input {
 				}
 			}
 		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(Witch.end) {
+				Game.EXIT = true;
+			}
+		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			for (Entity entity : Game.entities) {
 				if (entity instanceof Witch) {
-					((Witch) entity).setEnter(true);
-					// System.out.println("pressed");
-					break;
+						((Witch) entity).setEnter(true);
+						// System.out.println("pressed");
+						break;
 				}
 			}
 		}
-		
+
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			for (Entity entity : Game.entities) {
+				if (entity instanceof Witch) {
+					if (Witch.event) {
+						Witch.esc = true;
+						break;
+					}
+				}
+			}
+		}
+
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			for (Entity entity : Game.entities) {
 				if (entity instanceof Boy) {
@@ -395,7 +412,7 @@ public class PlayerInput extends Input {
 				}
 			}
 		}
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			for (Entity entity : Game.entities) {
 				if (entity instanceof Boy) {
@@ -404,16 +421,16 @@ public class PlayerInput extends Input {
 				}
 			}
 		}
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(Game.player.florestEvent) {
+			if (Game.player.florestEvent) {
 				Game.player.florestEvent = false;
 				Game.gameEvent = false;
 			}
 		}
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(GameState.state == GameState.INTRO) {
+			if (GameState.state == GameState.INTRO) {
 				Game.enter = true;
 			}
 		}
@@ -423,11 +440,11 @@ public class PlayerInput extends Input {
 	public void keyReleased(KeyEvent e) {
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(GameState.state == GameState.INTRO) {
+			if (GameState.state == GameState.INTRO) {
 				Game.enter = false;
 			}
 		}
-		
+
 		if (GameState.state == GameState.PLAYING) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 				Player.setRight(false);
@@ -459,6 +476,15 @@ public class PlayerInput extends Input {
 			for (Entity entity : Game.entities) {
 				if (entity instanceof Witch) {
 					((Witch) entity).setEnter(false);
+					// System.out.println("relesead");
+					break;
+				}
+			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			for (Entity entity : Game.entities) {
+				if (entity instanceof Witch) {
+					Witch.esc = false;
 					// System.out.println("relesead");
 					break;
 				}

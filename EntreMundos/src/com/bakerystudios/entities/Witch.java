@@ -19,7 +19,7 @@ import com.bakerystudios.inventario.Inventario;
 
 public class Witch extends Entity implements Updateble, Renderable {
 
-	private boolean enter;
+	public static boolean enter = false, esc = false, event = false, tryEevent = false, activeOne = false, end = false;
 	
 	private boolean isHunting = true;
 	private boolean seeingPlayer = false;
@@ -191,6 +191,62 @@ public class Witch extends Entity implements Updateble, Renderable {
 	public void update() {
 		if(isHunting && !seeingPlayer) {
 			hunting();
+		}
+		
+		if(Game.player.getX() >= 528 && Game.player.getX() <= 608 && Game.player.getY() >= 128) {
+			for(int i = 0; i < Inventario.slot.length; i++) {
+				if(Inventario.slot[i].getIdentity() == "Bola") {
+					//System.out.println("teste");
+					dialogo = true;
+					isHunting = false;
+					tryEevent = true;
+					dir = UP_DIR;
+					x = 528;
+					y = 160;
+				}
+			}
+			if(!event && tryEevent) {
+				activeOne = true;
+				enter = false;
+				event = true;
+				Game.gameEvent = true;
+				anotacaoDialogue.setStatus(true);
+				Player.inEvent = true;
+			}
+			if(enter && event && tryEevent) {
+				enter = false;
+				
+				if (!anotacaoDialogue.isLestPage()) 
+					anotacaoDialogue.setNextPaginaSelected(true);
+				else 
+					anotacaoDialogue.setExit(true);		
+			}
+			if(esc && tryEevent) {
+				esc = false;
+				anotacaoDialogue.setExit(true);
+			}
+			if (anotacaoDialogue.isSinalizeExit() && tryEevent) {
+				event = false;
+				esc = false;
+				enter = false;
+				anotacaoDialogue.setSinalizeExit(false);
+				anotacaoDialogue.setExit(false);
+				Player.inEvent = false;
+				Game.gameEvent = false;
+				
+				ArrayList[] esqueletoDialogue = new ArrayList[3];
+				for (int i = 0; i < esqueletoDialogue.length; i++)
+					esqueletoDialogue[i] = new ArrayList<String>();
+				esqueletoDialogue[0].add("Ahahahahah!");
+				esqueletoDialogue[0].add("Você caiu direitinho na minha armadilha!");
+				esqueletoDialogue[1].add("Minha despensa ja estava ficando vazia,");
+				esqueletoDialogue[1].add("você chegou na hora certa!");
+				esqueletoDialogue[2].add("Bom... Se não se importa,");
+				esqueletoDialogue[2].add("agora é hora do jantar. Muahahahah!");
+				anotacaoDialogue = new Anotacao(0, 600, 0, 0, null, true, esqueletoDialogue);
+				
+				end = true;
+			}
 		}
 
 		if(enter) {
