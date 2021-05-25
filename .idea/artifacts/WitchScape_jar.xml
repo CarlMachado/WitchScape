@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WitchScape:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/WitchScape_jar</output-path>
+    <root id="archive" name="WitchScape.jar">
+      <element id="module-output" name="WitchScape" />
+    </root>
+  </artifact>
+</component>

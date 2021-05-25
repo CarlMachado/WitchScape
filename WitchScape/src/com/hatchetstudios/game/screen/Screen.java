@@ -40,7 +40,7 @@ public class Screen extends Canvas {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-		frame.setResizable(true);
+		//frame.setResizable(true);
 	}
 
 	// pega a resolu��o do monitor para inicializar
